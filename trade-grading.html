@@ -1,0 +1,728 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d14">
+<title>AXIOM ULTIMATE — Trade Grading</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+:root {
+  color-scheme:dark;
+  --background-color:#080d14;
+  --color:#eaf7f4;
+  --primary:#44f2b5;
+  --form-element-background-color:#0a1822;
+  --form-element-border-color:#304653;
+  --form-element-color:#eefaf7;
+  --card-background-color:#14212b;
+  --muted-color:#91a8b6;
+}
+* {box-sizing:border-box}
+body {
+  margin:0;
+  background:
+    radial-gradient(circle at 85% 0%,#13463888,transparent 34%),
+    #080d14;
+  color:#eaf7f4;
+  font:14px/1.6 Inter,system-ui,sans-serif;
+}
+nav.container-fluid {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 4%;
+  background:#0b151e;
+  border-bottom:1px solid #29454a;
+  max-width:none;
+}
+nav ul {margin:0;align-items:center;gap:12px}
+nav a {font-size:12px;text-decoration:none}
+nav a[role=button],button.primary {
+  background:#44f2b5;
+  color:#062b1c;
+  border-color:#44f2b5;
+  font-weight:800;
+}
+.brand {font-size:19px;letter-spacing:2px;color:#fff}
+.brand span {color:#44f2b5}
+main.container {max-width:1220px;padding:28px 17px 60px}
+.hero {
+  padding:32px;
+  border:1px solid #37705b;
+  border-radius:20px;
+  background:linear-gradient(115deg,#17382f,#102031 80%);
+  margin-bottom:20px;
+}
+.eyebrow {
+  font-size:10px;
+  letter-spacing:2px;
+  font-weight:800;
+  color:#44f2b5;
+}
+.hero h2 {
+  font-size:clamp(29px,4vw,46px);
+  letter-spacing:-1.3px;
+  margin:10px 0;
+}
+.hero h2 em {color:#44f2b5;font-style:normal}
+.hero h3 {font-size:13px;color:#a3c0c4}
+.hero p {max-width:700px;color:#a7c7c4}
+.hero figure {margin:14px 0 0}
+.hero svg {width:100%;height:58px}
+.hero figcaption a {font-size:11px;color:#b0d8cb}
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);
+  gap:18px;
+  align-items:start;
+}
+.panel {
+  padding:23px;
+  background:linear-gradient(145deg,#15242e,#101923);
+  border:1px solid #2a4350;
+  border-radius:17px;
+  margin-bottom:17px;
+}
+.panel h3 {font-size:17px;margin-bottom:15px}
+.fields {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:13px;
+}
+.fields label {font-size:12px;color:#b3cad0}
+.fields input,.fields select,textarea {
+  background:#0a1822!important;
+  color:#eefaf7!important;
+  border:1px solid #34505b!important;
+  border-radius:10px;
+  margin-top:6px;
+}
+.wide {grid-column:1/-1}
+.rule {
+  display:flex;
+  gap:12px;
+  padding:14px;
+  border:1px solid #2c4650;
+  border-radius:11px;
+  background:#0e1c27;
+  margin:9px 0;
+  cursor:pointer;
+  align-items:flex-start;
+}
+.rule:has(input:checked) {
+  background:#10382c;
+  border-color:#34785c;
+}
+.rule input {
+  margin-top:4px;
+  flex-shrink:0;
+  accent-color:#44f2b5;
+}
+.rule strong {display:block;font-size:12px}
+.rule small {display:block;font-size:11px;color:#91aeb4}
+.rule b {
+  margin-left:auto;
+  color:#44f2b5;
+  font-size:12px;
+  white-space:nowrap;
+}
+.grade {
+  background:#0d2927;
+  border:1px solid #306950;
+  border-radius:16px;
+  text-align:center;
+  padding:24px;
+}
+.grade .letter {
+  display:block;
+  color:#44f2b5;
+  font-size:clamp(58px,7vw,92px);
+  font-weight:900;
+  line-height:1.1;
+}
+.grade small {color:#b2d1c9;letter-spacing:1px}
+.score-line {
+  display:flex;
+  justify-content:space-between;
+  margin-top:17px;
+  font-size:12px;
+}
+.meter {
+  height:10px;
+  background:#28434a;
+  border-radius:20px;
+  overflow:hidden;
+  margin:10px 0;
+}
+.meter div {
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#148d68,#44f2b5);
+  transition:width .2s;
+}
+.notice {
+  padding:14px;
+  border:1px solid #3b6959;
+  border-radius:11px;
+  background:#10352b;
+  color:#c3ecdc;
+  font-size:12px;
+  margin-top:14px;
+  white-space:pre-line;
+}
+.notice.warning {
+  background:#3a2529;
+  border-color:#91505e;
+  color:#ffd3dc;
+}
+button {
+  border-radius:9px;
+  font-size:12px;
+  font-weight:750;
+}
+.actions {display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+.actions button {flex:1}
+.secondary-btn {
+  background:#1b303b;
+  border:1px solid #36515c;
+  color:#eaf5f7;
+}
+.history-entry {
+  padding:13px;
+  border-bottom:1px solid #2b4350;
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+}
+.history-entry strong {font-size:13px}
+.history-entry small {display:block;color:#94acb6;font-size:11px}
+.history-entry .result {color:#44f2b5;font-size:20px;font-weight:900}
+.history-entry button {padding:6px 10px}
+.hint {font-size:11px;color:#96abb6;line-height:1.8}
+.subscribe article {
+  border:1px solid #304950;
+  border-radius:15px;
+  background:#13232c;
+}
+.subscribe h2 {font-size:18px}
+.subscribe h3 {font-size:12px;color:#9cb2bd}
+.subscribe form {display:grid;grid-template-columns:1fr 1fr auto;gap:10px}
+.subscribe input {margin:0}
+footer.container {margin-top:25px;border-top:1px solid #2b404a;padding-top:18px}
+footer a {color:#b5d5ca}
+@media(max-width:850px){
+  .layout {grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  main.container {padding:18px 11px}
+  .hero,.panel {padding:18px}
+  .fields,.subscribe form {grid-template-columns:1fr}
+  nav.container-fluid {padding:12px}
+  nav ul {gap:7px}
+  nav a {font-size:10px}
+}
+</style>
+</head>
+
+<body>
+<nav class="container-fluid">
+  <ul>
+    <li>
+      <strong class="brand">AXIOM<span>.</span> PRO</strong>
+    </li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="./risk-lab.html">Risk Lab</a></li>
+    <li><a href="#grading" role="button">Trade Grading</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+      <div class="hero">
+        <span class="eyebrow">
+          AXIOM ULTIMATE · PERFORMANCE ENGINE 03
+        </span>
+        <hgroup>
+          <h2>Grade the process.<br>
+            <em>Not just the profit.</em>
+          </h2>
+          <h3>Professional Trade Review & Grading</h3>
+        </hgroup>
+        <p>
+          Đánh giá chất lượng quyết định, quản trị rủi ro
+          và tâm lý. Lợi nhuận không quyết định điểm số.
+        </p>
+        <figure>
+          <svg viewBox="0 0 700 60"
+               role="img" aria-label="Minh họa đường tăng trưởng">
+            <path d="M5 51L110 45L185 49L260 28L335 33L420 17L510 25L610 8L690 12"
+                  fill="none" stroke="#44f2b5"
+                  stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <figcaption>
+            <a href="#grading" target="_blank">
+              Better decisions. Better trading habits.
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="layout" id="grading">
+        <div>
+          <article class="panel">
+            <h3>◎ Trade Information</h3>
+            <div class="fields">
+              <label>Date
+                <input id="date" type="date" required>
+              </label>
+              <label>Symbol
+                <input id="symbol" placeholder="BTCUSDT"
+                       maxlength="32" required>
+              </label>
+              <label>Direction
+                <select id="side">
+                  <option>LONG</option>
+                  <option>SHORT</option>
+                </select>
+              </label>
+              <label>Realized PNL ($) — optional
+                <input id="pnl" type="number" step="any"
+                       placeholder="-200">
+              </label>
+              <label class="wide">Trade Psychology
+                <select id="mood">
+                  <option>Bình tĩnh</option>
+                  <option>Tự tin</option>
+                  <option>FOMO</option>
+                  <option>Sợ hãi</option>
+                  <option>Revenge trade</option>
+                </select>
+              </label>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>☑ Quality Assessment</h3>
+            <p class="hint">
+              Chỉ tích một tiêu chí khi em thực sự hoàn thành.
+              Đây là đánh giá tự khai báo.
+            </p>
+
+            <label class="rule">
+              <input class="criterion" type="checkbox"
+                     data-points="20" data-name="Trading plan">
+              <span><strong>Tuân thủ Trading Plan</strong>
+                <small>Đúng setup và điều kiện xác nhận.</small>
+              </span><b>20</b>
+            </label>
+
+            <label class="rule">
+              <input class="criterion critical" type="checkbox"
+                     data-points="20" data-name="Risk discipline">
+              <span><strong>Quản trị rủi ro đúng kế hoạch</strong>
+                <small>Không tăng size, không dời SL tùy tiện.</small>
+              </span><b>20</b>
+            </label>
+
+            <label class="rule">
+              <input class="criterion" type="checkbox"
+                     data-points="15" data-name="Entry quality">
+              <span><strong>Entry có xác nhận</strong>
+                <small>Vào lệnh theo tín hiệu hợp lệ.</small>
+              </span><b>15</b>
+            </label>
+
+            <label class="rule">
+              <input class="criterion" type="checkbox"
+                     data-points="15" data-name="Execution">
+              <span><strong>Thực hiện đúng kế hoạch</strong>
+                <small>Không thay đổi quyết định vì cảm xúc.</small>
+              </span><b>15</b>
+            </label>
+
+            <label class="rule">
+              <input class="criterion" type="checkbox"
+                     data-points="15" data-name="Psychology">
+              <span><strong>Tâm lý ổn định</strong>
+                <small>Không FOMO hoặc revenge trade.</small>
+              </span><b>15</b>
+            </label>
+
+            <label class="rule">
+              <input class="criterion" type="checkbox"
+                     data-points="10" data-name="Exit discipline">
+              <span><strong>Exit đúng nguyên tắc</strong>
+                <small>Không chốt non hoặc giữ lỗ ngoài kế hoạch.</small>
+              </span><b>10</b>
+            </label>
+
+            <label class="rule">
+              <input class="criterion" type="checkbox"
+                     data-points="5" data-name="Review quality">
+              <span><strong>Đã review giao dịch</strong>
+                <small>Ghi lại bài học sau khi đóng lệnh.</small>
+              </span><b>5</b>
+            </label>
+
+            <label style="margin-top:16px">
+              Trade Review Notes
+              <textarea id="notes" rows="4"
+                placeholder="Mình làm tốt điều gì? Cần cải thiện điều gì?"></textarea>
+            </label>
+
+            <div class="actions">
+              <button id="saveReview" type="button" class="primary">
+                Save Trade Review
+              </button>
+              <button id="resetForm" type="button" class="secondary-btn">
+                Reset
+              </button>
+            </div>
+            <p id="saveStatus" class="hint" role="status"></p>
+          </article>
+        </div>
+
+        <div>
+          <article class="panel">
+            <h3>✦ Quality Grade</h3>
+            <div class="grade">
+              <small>PROCESS QUALITY</small>
+              <strong id="grade" class="letter">F</strong>
+              <small id="gradeLabel">Needs improvement</small>
+            </div>
+
+            <div class="score-line">
+              <span>DISCIPLINE SCORE</span>
+              <strong id="score">0 / 100</strong>
+            </div>
+            <div class="meter"><div id="scoreBar"></div></div>
+
+            <div id="gradeMessage" class="notice warning"
+                 role="status"></div>
+
+            <p class="hint" style="margin-top:15px">
+              A+ ≥95 · A ≥85 · B ≥75 · C ≥60 ·
+              D ≥40 · F dưới 40.
+            </p>
+            <p class="hint">
+              Nếu vi phạm quy tắc quản trị rủi ro,
+              điểm tối đa bị giới hạn ở 59.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h3>☷ Saved Trade Reviews</h3>
+            <p class="hint">
+              Đánh giá được lưu riêng trong trình duyệt,
+              không thay đổi nhật ký PNL.
+            </p>
+            <div id="history"></div>
+            <div class="actions">
+              <button id="exportReviews" type="button"
+                      class="secondary-btn">
+                ⇩ Backup Reviews JSON
+              </button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>◎ Important</h3>
+            <p class="hint">
+              Trade Grading đánh giá mức độ tuân thủ quy trình,
+              không bảo đảm chất lượng thực tế của setup.
+            </p>
+            <p class="hint">
+              PNL được ghi lại để tham khảo, không cộng hoặc
+              trừ điểm grade. Không dùng grade làm tín hiệu vào lệnh.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <h3>Why Process Quality Matters</h3>
+      <p class="hint">
+        Một giao dịch lỗ nhưng hoàn toàn đúng kế hoạch
+        vẫn có thể đạt A+. Ngược lại, một giao dịch thắng
+        do FOMO hoặc phá vỡ giới hạn rủi ro có thể bị điểm thấp.
+      </p>
+
+      <h3>Keep Your Trading Data Safe</h3>
+      <p class="hint">
+        Bản này không sửa localStorage key axiom_trades_v1.
+        Trade Review được lưu dưới khóa độc lập. Hãy sao lưu
+        đánh giá thường xuyên nếu muốn giữ lại dài hạn.
+      </p>
+    </section>
+  </div>
+
+  <section aria-label="Subscribe example" class="subscribe">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Review every trade.</h2>
+          <h3>Lời nhắc đánh giá giao dịch sau mỗi phiên.</h3>
+        </hgroup>
+        <form class="grid" id="reminderForm">
+          <input id="firstname" type="text"
+                 placeholder="Tên trader"
+                 aria-label="Tên trader" required>
+          <input id="email" type="email"
+                 placeholder="Email"
+                 aria-label="Email" required>
+          <button type="submit" class="primary">Xác nhận</button>
+        </form>
+        <small class="hint" id="reminderStatus"></small>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container">
+    <small>
+      <a href="./index.html">AXIOM Dashboard</a> •
+      <a href="./risk-lab.html">Risk Lab</a> •
+      <a href="./pre-trade-checklist.html">Checklist</a>
+    </small>
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = 'axiom_ultimate_trade_grades_v1';
+const criteria = [...document.querySelectorAll('.criterion')];
+let reviews = [];
+
+function readReviews() {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    return [];
+  }
+}
+
+function getGrade(score) {
+  if (score >= 95) return 'A+';
+  if (score >= 85) return 'A';
+  if (score >= 75) return 'B';
+  if (score >= 60) return 'C';
+  if (score >= 40) return 'D';
+  return 'F';
+}
+
+function assess() {
+  const checked = criteria.filter(c => c.checked);
+  const rawScore = checked.reduce(
+    (sum, c) => sum + Number(c.dataset.points), 0
+  );
+
+  const riskOK = document.querySelector('.critical').checked;
+  const score = riskOK ? rawScore : Math.min(rawScore, 59);
+  const grade = getGrade(score);
+
+  $('score').textContent = score + ' / 100';
+  $('scoreBar').style.width = score + '%';
+  $('grade').textContent = grade;
+
+  const labels = {
+    'A+': 'Excellent discipline',
+    'A': 'Strong execution',
+    'B': 'Good process',
+    'C': 'Needs consistency',
+    'D': 'Significant issues',
+    'F': 'Review required'
+  };
+
+  $('gradeLabel').textContent = labels[grade];
+
+  const message = riskOK
+    ? score >= 85
+      ? '✓ Chất lượng quy trình tự đánh giá ở mức cao.'
+      : 'Cần cải thiện những tiêu chí chưa đạt.'
+    : '⚠ Risk Discipline chưa đạt. Điểm bị giới hạn ở 59.';
+
+  $('gradeMessage').textContent =
+    message + '\nPNL không ảnh hưởng điểm đánh giá.';
+
+  $('gradeMessage').className =
+    'notice' + (!riskOK || score < 60 ? ' warning' : '');
+
+  return {score, grade, riskOK};
+}
+
+function persistReviews() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(reviews));
+    return true;
+  } catch (error) {
+    $('saveStatus').textContent =
+      'Không thể lưu. Hãy kiểm tra quyền và dung lượng trình duyệt.';
+    return false;
+  }
+}
+
+function renderHistory() {
+  const root = $('history');
+  root.replaceChildren();
+
+  if (!reviews.length) {
+    const empty = document.createElement('p');
+    empty.className = 'hint';
+    empty.textContent = 'Chưa có Trade Review nào.';
+    root.appendChild(empty);
+    return;
+  }
+
+  reviews.slice().reverse().forEach(review => {
+    const row = document.createElement('div');
+    row.className = 'history-entry';
+
+    const info = document.createElement('div');
+    const title = document.createElement('strong');
+    title.textContent = review.symbol + ' · ' + review.side;
+
+    const detail = document.createElement('small');
+    detail.textContent =
+      review.date + ' · ' + review.score + '/100' +
+      (review.pnl === null ? '' : ' · PNL $' + review.pnl);
+
+    info.append(title, detail);
+
+    const grade = document.createElement('span');
+    grade.className = 'result';
+    grade.textContent = review.grade;
+
+    const del = document.createElement('button');
+    del.className = 'secondary-btn';
+    del.type = 'button';
+    del.textContent = '×';
+    del.setAttribute('aria-label', 'Xóa review');
+    del.addEventListener('click', () => {
+      if (!confirm('Xóa đánh giá này?')) return;
+      const previous = reviews;
+      reviews = reviews.filter(x => x.id !== review.id);
+      if (!persistReviews()) {
+        reviews = previous;
+      }
+      renderHistory();
+    });
+
+    row.append(info, grade, del);
+    root.appendChild(row);
+  });
+}
+
+function saveReview() {
+  const symbol = $('symbol').value.trim().toUpperCase();
+  const date = $('date').value;
+  const pnlText = $('pnl').value.trim();
+  const pnl = pnlText === '' ? null : Number(pnlText);
+
+  if (!symbol || !date ||
+      (pnl !== null && !Number.isFinite(pnl))) {
+    $('saveStatus').textContent =
+      'Nhập ngày, symbol và PNL hợp lệ nếu có.';
+    return;
+  }
+
+  const result = assess();
+
+  const review = {
+    id: Date.now() + Math.random(),
+    date,
+    symbol,
+    side: $('side').value,
+    pnl,
+    mood: $('mood').value,
+    score: result.score,
+    grade: result.grade,
+    riskOK: result.riskOK,
+    checks: criteria.map(c => ({
+      name: c.dataset.name,
+      points: Number(c.dataset.points),
+      checked: c.checked
+    })),
+    notes: $('notes').value,
+    reviewedAt: new Date().toISOString()
+  };
+
+  const previous = reviews;
+  reviews = [...reviews, review];
+
+  if (persistReviews()) {
+    $('saveStatus').textContent =
+      '✓ Đã lưu Trade Review riêng biệt.';
+  } else {
+    reviews = previous;
+  }
+
+  renderHistory();
+}
+
+function downloadReviews() {
+  const payload = {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    reviews
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(payload, null, 2)],
+    {type: 'application/json'}
+  );
+
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'axiom-ultimate-trade-reviews.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function todayLocal() {
+  const date = new Date();
+  return date.getFullYear() + '-' +
+    String(date.getMonth() + 1).padStart(2, '0') + '-' +
+    String(date.getDate()).padStart(2, '0');
+}
+
+function resetForm() {
+  criteria.forEach(c => c.checked = false);
+  $('symbol').value = '';
+  $('side').value = 'LONG';
+  $('pnl').value = '';
+  $('mood').value = 'Bình tĩnh';
+  $('notes').value = '';
+  $('date').value = todayLocal();
+  $('saveStatus').textContent = '';
+  assess();
+}
+
+criteria.forEach(c => c.addEventListener('change', assess));
+$('saveReview').addEventListener('click', saveReview);
+$('resetForm').addEventListener('click', resetForm);
+$('exportReviews').addEventListener('click', downloadReviews);
+
+$('reminderForm').addEventListener('submit', event => {
+  event.preventDefault();
+  $('reminderStatus').textContent =
+    'Lời nhắc đã được xác nhận trên trang; không gửi email.';
+});
+
+reviews = readReviews();
+$('date').value = todayLocal();
+assess();
+renderHistory();
+</script>
+</body>
+</html>
