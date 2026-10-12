@@ -360,3 +360,86 @@
     transition: none !important;
   }
 }
+
+/* ==========================================
+   AXIOM V4 — INTERACTIVE WORKFLOW CARDS
+   ========================================== */
+
+.axv4-command-tiles a.axv4-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  text-decoration: none !important;
+  color: #eaf8ff !important;
+
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  min-height: 190px;
+}
+
+.axv4-command-tiles a.axv4-tile h3 {
+  color: #f2fbff !important;
+}
+
+.axv4-command-tiles a.axv4-tile p {
+  color: #a9c7d6 !important;
+}
+
+.axv4-tile-action {
+  display: inline-block;
+  margin-top: auto;
+  padding-top: 18px;
+
+  color: #72f6d0;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .7px;
+
+  transition:
+    transform .2s ease,
+    color .2s ease;
+}
+
+.axv4-command-tiles
+a.axv4-tile:nth-child(2)
+.axv4-tile-action {
+  color: #88cfff;
+}
+
+.axv4-command-tiles
+a.axv4-tile:nth-child(3)
+.axv4-tile-action {
+  color: #c6aaff;
+}
+
+.axv4-command-tiles a.axv4-tile:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(99, 255, 211, .65);
+
+  box-shadow:
+    0 14px 35px rgba(0, 0, 0, .28),
+    0 0 26px rgba(72, 235, 196, .12);
+}
+
+.axv4-command-tiles
+a.axv4-tile:hover
+.axv4-tile-action {
+  transform: translateX(5px);
+  color: #ffffff;
+}
+
+.axv4-command-tiles a.axv4-tile:focus-visible {
+  outline: 2px solid #76ffd7;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .axv4-command-tiles a.axv4-tile,
+  .axv4-tile-action {
+    transition: none !important;
+  }
+}
