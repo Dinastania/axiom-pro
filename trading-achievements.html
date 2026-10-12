@@ -1,0 +1,933 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d14">
+<title>AXIOM ULTIMATE — Trading Achievements</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+:root{
+  color-scheme:dark;
+  --background-color:#080d14;
+  --color:#eaf7f5;
+  --primary:#44f2b5;
+  --form-element-background-color:#0b1924;
+  --form-element-border-color:#304b57;
+  --card-background-color:#14232d;
+  --muted-color:#94aebb;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at 85% 0%,#17463960,transparent 48%),
+    #080d14;
+  font:14px/1.6 Inter,system-ui,sans-serif;
+}
+nav.container-fluid{
+  max-width:none;
+  display:flex;justify-content:space-between;
+  align-items:center;gap:12px;
+  padding:14px 4%;
+  background:#0a141e;
+  border-bottom:1px solid #294651;
+}
+nav ul{margin:0;align-items:center;gap:12px}
+nav a{font-size:12px;text-decoration:none}
+nav a[role=button],button.primary{
+  background:#44f2b5;color:#05281b;
+  border-color:#44f2b5;font-weight:800;
+}
+.brand{color:#fff;font-size:19px;letter-spacing:2px}
+.brand span{color:#44f2b5}
+main.container{
+  max-width:1350px;padding:30px 18px 60px;
+}
+.hero{
+  padding:33px;border-radius:20px;
+  border:1px solid #46715d;
+  background:linear-gradient(112deg,#17372e,#102132 80%);
+  margin-bottom:18px;
+}
+.eyebrow{
+  color:#44f2b5;font-size:10px;
+  letter-spacing:2px;font-weight:850;
+}
+.hero h2{
+  font-size:clamp(31px,4vw,48px);
+  letter-spacing:-1.8px;margin:8px 0;
+}
+.hero h2 em{color:#44f2b5;font-style:normal}
+.hero h3{font-size:13px;color:#adc8ca}
+.hero p{font-size:13px;max-width:720px;color:#b4cbcd}
+.hero figure{margin:14px 0 0}
+.hero svg{width:100%;height:66px;display:block}
+.hero figcaption a{color:#a9deca;font-size:11px}
+.panel,.metric{
+  background:linear-gradient(145deg,#152630,#101b26);
+  border:1px solid #2c4752;
+  border-radius:15px;
+}
+.panel{padding:22px;margin-bottom:17px}
+.panel h3{font-size:17px;margin:0 0 14px}
+.metrics{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;margin-bottom:18px;
+}
+.metric{padding:19px;min-width:0}
+.metric small{
+  font-size:10px;color:#9bb6bf;
+  letter-spacing:1px;display:block;
+}
+.metric strong{
+  display:block;margin-top:9px;
+  font-size:clamp(23px,3vw,33px);
+  font-variant-numeric:tabular-nums;
+}
+.green{color:#44f2b5}
+.gold{color:#ffd277}
+.hint{color:#9fb6bd;font-size:12px;line-height:1.8}
+.layout{
+  display:grid;
+  grid-template-columns:minmax(290px,.72fr) minmax(0,1.28fr);
+  gap:18px;align-items:start;
+}
+.level-row{
+  display:flex;align-items:center;gap:15px;
+}
+.level-medal{
+  width:72px;height:72px;border-radius:50%;
+  display:grid;place-items:center;
+  border:2px solid #ffd277;
+  background:radial-gradient(circle,#554322,#192024 70%);
+  color:#ffe1a0;font-size:29px;font-weight:900;
+  box-shadow:0 0 30px #ffc76a22;
+}
+.level-info{flex:1}
+.level-info strong{font-size:21px}
+.progress-track{
+  background:#243d46;border-radius:999px;
+  height:10px;overflow:hidden;margin:14px 0 8px;
+}
+.progress-fill{
+  width:0;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,#18a988,#44f2b5);
+  transition:width .3s;
+}
+.check-row{
+  display:flex;gap:10px;align-items:flex-start;
+  background:#0c2029;
+  border:1px solid #2a4a51;
+  border-radius:10px;padding:12px;
+  margin:10px 0;
+}
+.check-row input{margin:3px 0 0;flex-shrink:0}
+.check-row span{color:#d7e9e9;font-size:12px}
+button{
+  font-size:12px;font-weight:800;border-radius:9px;
+  width:auto;
+}
+.secondary-btn{
+  background:#20343f;border:1px solid #3b5965;
+  color:#eaf7f5;
+}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
+.actions button{flex:1}
+.badge-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+}
+.achievement{
+  background:#0b1d28;
+  border:1px solid #2d4854;
+  border-radius:14px;padding:17px;
+  min-width:0;
+}
+.achievement.unlocked{
+  border-color:#8d753f;
+  background:linear-gradient(135deg,#342d20,#14262a 78%);
+  box-shadow:inset 0 1px 0 #ffe2a51a;
+}
+.achievement.locked{opacity:.67}
+.badge-top{
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;
+}
+.badge-icon{
+  width:45px;height:45px;
+  border-radius:12px;
+  background:#20323b;
+  display:grid;place-items:center;font-size:23px;
+}
+.unlocked .badge-icon{background:#4a3b20}
+.badge-state{
+  font-size:10px;font-weight:800;
+  color:#a4b9c0;
+}
+.unlocked .badge-state{color:#ffd277}
+.achievement h4{font-size:14px;margin:13px 0 5px}
+.achievement p{
+  color:#9ab6be;font-size:11px;
+  margin:0;min-height:52px;line-height:1.7;
+}
+.badge-progress{
+  display:flex;justify-content:space-between;
+  gap:10px;margin-top:12px;
+  font-size:10px;color:#9db5be;
+}
+.achievement .progress-track{height:6px;margin-top:7px}
+.unlocked .progress-fill{
+  background:linear-gradient(90deg,#d8a94c,#ffe19b);
+}
+.week-grid{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:7px;margin-top:12px;
+}
+.day-tile{
+  text-align:center;padding:11px 4px;
+  border:1px solid #2c4651;
+  border-radius:10px;background:#0c1c27;
+  font-size:11px;color:#95b2bd;
+}
+.day-tile.done{
+  background:#123d32;color:#44f2b5;
+  border-color:#39775c;
+}
+.day-tile strong{display:block;font-size:14px;margin-top:5px}
+.status{
+  border:1px solid #37725e;background:#103126;
+  color:#c9eee0;padding:13px;border-radius:10px;
+  font-size:12px;margin-bottom:17px;
+}
+.status.warning{
+  border-color:#8d6352;
+  background:#382725;color:#ffe2cc;
+}
+.subscribe article{
+  border:1px solid #304d56;
+  background:#13242e;border-radius:15px;
+}
+.subscribe h2{font-size:18px}
+.subscribe h3{font-size:12px;color:#9eb5c0}
+.subscribe form{
+  display:grid;grid-template-columns:1fr 1fr auto;gap:10px;
+}
+.subscribe input{margin:0}
+footer.container{
+  border-top:1px solid #2d4951;
+  padding-top:18px;margin-top:25px;
+}
+footer a{color:#b6dccc}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .badge-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  main.container{padding:18px 11px}
+  .hero,.panel{padding:18px}
+  .metrics{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .badge-grid{grid-template-columns:1fr}
+  .subscribe form{grid-template-columns:1fr}
+  nav.container-fluid{flex-wrap:wrap;padding:12px}
+  nav ul{gap:8px}
+  nav a{font-size:10px}
+}
+</style>
+<script src="./ultimate-theme.js" defer></script>
+</head>
+<body>
+<nav class="container-fluid">
+  <ul>
+    <li><strong class="brand">AXIOM<span>.</span> PRO</strong></li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="./private-vault.html">Vault</a></li>
+    <li><a href="#hall" role="button">Achievements</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+      <div class="hero">
+        <span class="eyebrow">
+          AXIOM ULTIMATE · ACHIEVEMENT ENGINE
+        </span>
+        <hgroup>
+          <h2>Master the habits.<br>
+            <em>Earn the discipline.</em>
+          </h2>
+          <h3>Trading Achievements & Personal Progress</h3>
+        </hgroup>
+        <p>
+          Mở khóa thành tựu từ việc ghi nhật ký,
+          lên kế hoạch rủi ro và review. Không có
+          phần thưởng vì giao dịch quá nhiều hoặc
+          đạt mức lợi nhuận cụ thể.
+        </p>
+        <figure>
+          <svg viewBox="0 0 700 75" role="img"
+               aria-label="Minh họa hành trình tiến bộ">
+            <path d="M5 59H150L228 44H358L430 27H560L690 10"
+                  fill="none" stroke="#44f2b5"
+                  stroke-width="4" stroke-linecap="round"/>
+            <g fill="#ffd277">
+              <circle cx="228" cy="44" r="7"/>
+              <circle cx="430" cy="27" r="7"/>
+              <circle cx="690" cy="10" r="7"/>
+            </g>
+          </svg>
+          <figcaption>
+            <a href="#hall" target="_blank">
+              Consistency over intensity.
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div id="status" class="status" role="status">
+        Đang đọc nhật ký...
+      </div>
+
+      <div class="metrics">
+        <div class="metric">
+          <small>BADGES UNLOCKED</small>
+          <strong id="earnedCount" class="gold">0 / 12</strong>
+        </div>
+        <div class="metric">
+          <small>TRADER LEVEL</small>
+          <strong id="levelValue" class="green">1</strong>
+        </div>
+        <div class="metric">
+          <small>JOURNAL DAYS</small>
+          <strong id="journalDays">0</strong>
+        </div>
+        <div class="metric">
+          <small>CHECK-IN STREAK</small>
+          <strong id="streakValue">0 days</strong>
+        </div>
+      </div>
+
+      <div class="layout">
+        <div>
+          <article class="panel">
+            <h3>🏆 Trader Level</h3>
+            <div class="level-row">
+              <div class="level-medal" id="levelMedal">1</div>
+              <div class="level-info">
+                <strong id="levelName">Foundation</strong>
+                <p class="hint">
+                  Cấp độ dựa trên huy hiệu đạt được.
+                  Không phụ thuộc số tiền kiếm được.
+                </p>
+              </div>
+            </div>
+            <div class="progress-track">
+              <div class="progress-fill" id="overallProgress"></div>
+            </div>
+            <p class="hint" id="progressLabel">
+              0 trong 12 huy hiệu.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h3>◎ Daily Discipline Check-in</h3>
+            <p class="hint" id="todayLabel"></p>
+            <p class="hint">
+              Tự đánh dấu điều em thực sự đã làm trong ngày.
+              Đây là ghi nhận cá nhân, không được AXIOM
+              xác minh tự động.
+            </p>
+            <div class="check-row">
+              <input id="planCheck" type="checkbox">
+              <span>
+                <strong>Đã xem lại Trading Plan</strong><br>
+                Kiểm tra setup và giới hạn rủi ro.
+              </span>
+            </div>
+            <div class="check-row">
+              <input id="reviewCheck" type="checkbox">
+              <span>
+                <strong>Đã review nhật ký</strong><br>
+                Đọc lại lệnh và ghi nhận bài học.
+              </span>
+            </div>
+            <div class="check-row">
+              <input id="restCheck" type="checkbox">
+              <span>
+                <strong>Chủ động nghỉ giao dịch</strong><br>
+                Không có setup phù hợp hoặc cần nghỉ ngơi.
+              </span>
+            </div>
+            <div class="actions">
+              <button id="saveCheck" type="button" class="primary">
+                ✓ SAVE CHECK-IN
+              </button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>▦ Last 7 Days</h3>
+            <p class="hint">
+              Một ngày được tính khi em đã lưu
+              ít nhất một mục check-in.
+              Nghỉ giao dịch vẫn được công nhận.
+            </p>
+            <div class="week-grid" id="weekGrid"></div>
+          </article>
+
+          <article class="panel">
+            <h3>◈ Test & Data Source</h3>
+            <p class="hint" id="sourceLabel"></p>
+            <div class="actions">
+              <button id="demoBtn" type="button"
+                      class="secondary-btn">
+                ✦ Try Demo Achievements
+              </button>
+              <button id="refreshBtn" type="button"
+                      class="secondary-btn">
+                ↻ Refresh Journal
+              </button>
+            </div>
+            <p class="hint">
+              Demo sử dụng dữ liệu giả định trong bộ nhớ
+              và không ghi đè nhật ký hay check-in.
+            </p>
+          </article>
+        </div>
+
+        <div>
+          <article class="panel" id="hall">
+            <h3>✦ Achievement Hall</h3>
+            <p class="hint">
+              12 huy hiệu, mỗi huy hiệu có điều kiện
+              mở khóa rõ ràng và thanh tiến trình.
+            </p>
+            <div class="badge-grid" id="badgeGrid"></div>
+          </article>
+        </div>
+      </div>
+
+      <h3>The Rules of Progress</h3>
+      <p class="hint">
+        Thành tựu được tính từ các trường có trong Journal
+        như ngày, chiến lược, ghi chú, SL/risk và tâm lý.
+        Dữ liệu thiếu trường sẽ không được tự suy đoán.
+        Thành tựu thể hiện mức độ ghi chép, không xác nhận
+        chất lượng hay lợi nhuận tương lai của giao dịch.
+      </p>
+
+      <h3>Privacy First</h3>
+      <p class="hint">
+        Trang chỉ đọc axiom_trades_v1. Check-in được lưu
+        riêng trong axiom_achievements_v1, hoàn toàn
+        không sửa giao dịch hay PNL cũ.
+      </p>
+    </section>
+  </div>
+
+  <section aria-label="Subscribe example" class="subscribe">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Build discipline, not pressure.</h2>
+          <h3>Lời nhắc cá nhân, không gửi email.</h3>
+        </hgroup>
+        <form class="grid" id="reminderForm">
+          <input id="firstname" type="text"
+                 placeholder="Tên trader"
+                 aria-label="Tên trader" required>
+          <input id="email" type="email"
+                 placeholder="Email"
+                 aria-label="Email" required>
+          <button class="primary" type="submit">
+            Xác nhận
+          </button>
+        </form>
+        <small class="hint" id="reminderMessage"></small>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container">
+    <small>
+      <a href="./index.html">Dashboard</a> •
+      <a href="./advanced-analytics.html">Analytics</a> •
+      <a href="./private-vault.html">Private Vault</a>
+    </small>
+  </footer>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  const $ = id => document.getElementById(id);
+  const TRADES_KEY = 'axiom_trades_v1';
+  const HABIT_KEY = 'axiom_achievements_v1';
+
+  let demo = false;
+  let demoTrades = [];
+  let demoDays = {};
+
+  const badges = [
+    {
+      icon:'📖', name:'First Page',
+      desc:'Ghi giao dịch đầu tiên vào Journal.',
+      key:'trades', goal:1
+    },
+    {
+      icon:'🗓️', name:'Journal Habit',
+      desc:'Ghi nhật ký trên 3 ngày khác nhau.',
+      key:'days', goal:3
+    },
+    {
+      icon:'🌱', name:'Steady Progress',
+      desc:'Ghi nhật ký trên 7 ngày khác nhau.',
+      key:'days', goal:7
+    },
+    {
+      icon:'✍️', name:'Reflective Trader',
+      desc:'3 giao dịch có ghi chú từ 20 ký tự.',
+      key:'notes', goal:3
+    },
+    {
+      icon:'📚', name:'Deep Reflection',
+      desc:'10 giao dịch có ghi chú từ 20 ký tự.',
+      key:'notes', goal:10
+    },
+    {
+      icon:'🎯', name:'Setup Tracker',
+      desc:'3 giao dịch được ghi tên chiến lược.',
+      key:'strategies', goal:3
+    },
+    {
+      icon:'🛡️', name:'Risk Guardian',
+      desc:'3 giao dịch có SL hoặc Risk dương.',
+      key:'risk', goal:3
+    },
+    {
+      icon:'🧩', name:'Complete Plan',
+      desc:'3 giao dịch có setup, risk và ghi chú.',
+      key:'complete', goal:3
+    },
+    {
+      icon:'🧠', name:'Mindful Trader',
+      desc:'3 giao dịch có ghi nhận cảm xúc.',
+      key:'moods', goal:3
+    },
+    {
+      icon:'🔎', name:'First Review',
+      desc:'Tự xác nhận đã review nhật ký 1 ngày.',
+      key:'reviews', goal:1
+    },
+    {
+      icon:'💎', name:'Review Ritual',
+      desc:'Tự xác nhận review trên 5 ngày.',
+      key:'reviews', goal:5
+    },
+    {
+      icon:'🌙', name:'Rest With Purpose',
+      desc:'Chủ động ghi nhận 1 ngày nghỉ trading.',
+      key:'rests', goal:1
+    }
+  ];
+
+  const levels = [
+    'Foundation',
+    'Disciplined Beginner',
+    'Process Builder',
+    'Risk Guardian',
+    'Trading Craftsman'
+  ];
+
+  function dateKey(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth()+1).padStart(2,'0');
+    const d = String(date.getDate()).padStart(2,'0');
+    return `${y}-${m}-${d}`;
+  }
+
+  function today(offset=0) {
+    const d = new Date();
+    d.setHours(12,0,0,0);
+    d.setDate(d.getDate()+offset);
+    return dateKey(d);
+  }
+
+  function validDate(value) {
+    if (typeof value !== 'string') return '';
+    const match = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
+    if (!match) return '';
+
+    const [y,m,d] = match.slice(1).map(Number);
+    const check = new Date(Date.UTC(y,m-1,d));
+
+    return check.getUTCFullYear() === y &&
+      check.getUTCMonth() === m-1 &&
+      check.getUTCDate() === d
+      ? match[0]
+      : '';
+  }
+
+  function textValue(...values) {
+    for (const value of values) {
+      if (typeof value === 'string' && value.trim()) {
+        return value.trim();
+      }
+    }
+    return '';
+  }
+
+  function hasRisk(trade) {
+    return [
+      trade.sl,
+      trade.stopLoss,
+      trade.stop_loss,
+      trade.risk,
+      trade.riskUsd
+    ].some(value => value !== null &&
+      value !== '' && Number(value) > 0);
+  }
+
+  function getJournal() {
+    const raw = localStorage.getItem(TRADES_KEY);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      throw Error('Journal không phải mảng giao dịch.');
+    }
+    return parsed.filter(t =>
+      t && typeof t === 'object' && !Array.isArray(t)
+    );
+  }
+
+  function getHabitDays() {
+    try {
+      const data = JSON.parse(
+        localStorage.getItem(HABIT_KEY) || '{}'
+      );
+
+      if (!data || typeof data !== 'object' ||
+          !data.days || typeof data.days !== 'object') {
+        return {};
+      }
+
+      const result = {};
+
+      Object.entries(data.days).forEach(([date,entry]) => {
+        if (validDate(date) !== date ||
+            !entry || typeof entry !== 'object') return;
+
+        result[date] = {
+          plan:entry.plan === true,
+          review:entry.review === true,
+          rest:entry.rest === true
+        };
+      });
+
+      return result;
+    } catch {
+      return {};
+    }
+  }
+
+  function activeDay(entry) {
+    return !!entry &&
+      (entry.plan || entry.review || entry.rest);
+  }
+
+  function getStreak(days) {
+    let offset = activeDay(days[today()]) ? 0 : -1;
+    let streak = 0;
+
+    for (let i=0; i<365; i++) {
+      if (!activeDay(days[today(offset-i)])) break;
+      streak++;
+    }
+    return streak;
+  }
+
+  function demoDataset() {
+    const trades = [];
+
+    for (let i=0; i<7; i++) {
+      trades.push({
+        id:'axiom-demo-'+i,
+        date:today(-i),
+        symbol:'BTCUSDT',
+        side:'LONG',
+        strategy:'Breakout',
+        sl:64000,
+        risk:50,
+        pnl:i%2===0?80:-40,
+        mood:'Calm',
+        notes:'Đã kiểm tra setup, SL và review kế hoạch trước khi vào lệnh.'
+      });
+    }
+
+    const days = {};
+    for (let i=0; i<5; i++) {
+      days[today(-i)] = {
+        plan:true, review:true, rest:i===3
+      };
+    }
+
+    return {trades,days};
+  }
+
+  function statsFor(trades,days) {
+    const dates = new Set();
+    const result = {
+      trades:trades.length,
+      days:0,notes:0,strategies:0,
+      risk:0,complete:0,moods:0,
+      reviews:0,rests:0
+    };
+
+    trades.forEach(t => {
+      const date = validDate(
+        textValue(t.date,t.closedAt,t.closeDate)
+      );
+      if (date) dates.add(date);
+
+      const note = textValue(t.notes,t.note,t.comment);
+      const strategy = textValue(t.strategy,t.setup);
+      const mood = textValue(t.mood,t.emotion);
+      const risk = hasRisk(t);
+
+      if (note.length >= 20) result.notes++;
+      if (strategy) result.strategies++;
+      if (risk) result.risk++;
+      if (strategy && risk && note.length >= 20) {
+        result.complete++;
+      }
+      if (mood) result.moods++;
+    });
+
+    result.days = dates.size;
+
+    Object.values(days).forEach(day => {
+      if (day.review) result.reviews++;
+      if (day.rest) result.rests++;
+    });
+
+    result.streak = getStreak(days);
+    return result;
+  }
+
+  function showStatus(message,error=false) {
+    $('status').textContent = message;
+    $('status').className =
+      'status' + (error?' warning':'');
+  }
+
+  function addElement(parent,tag,cls,value) {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (value !== undefined) node.textContent = value;
+    parent.appendChild(node);
+    return node;
+  }
+
+  function renderBadges(stats) {
+    const root = $('badgeGrid');
+    root.replaceChildren();
+
+    let earned = 0;
+
+    badges.forEach(badge => {
+      const value = stats[badge.key] || 0;
+      const achieved = value >= badge.goal;
+      if (achieved) earned++;
+
+      const card = addElement(
+        root,'div',
+        'achievement '+(achieved?'unlocked':'locked')
+      );
+
+      const top = addElement(card,'div','badge-top');
+      addElement(top,'div','badge-icon',
+        achieved?badge.icon:'🔒'
+      );
+      addElement(top,'span','badge-state',
+        achieved?'UNLOCKED':'LOCKED'
+      );
+
+      addElement(card,'h4','',badge.name);
+      addElement(card,'p','',badge.desc);
+
+      const line = addElement(card,'div','badge-progress');
+      addElement(line,'span','',
+        achieved?'Achievement earned':'Progress'
+      );
+      addElement(line,'span','',
+        Math.min(value,badge.goal)+' / '+badge.goal
+      );
+
+      const track = addElement(
+        card,'div','progress-track'
+      );
+      const fill = addElement(
+        track,'div','progress-fill'
+      );
+      fill.style.width =
+        Math.min(100,value/badge.goal*100)+'%';
+    });
+
+    $('earnedCount').textContent =
+      earned+' / '+badges.length;
+
+    const level = Math.min(
+      levels.length,
+      1+Math.floor(earned/3)
+    );
+
+    $('levelValue').textContent=level;
+    $('levelMedal').textContent=level;
+    $('levelName').textContent=levels[level-1];
+
+    $('overallProgress').style.width =
+      earned / badges.length * 100 + '%';
+
+    $('progressLabel').textContent =
+      earned+' / '+badges.length+
+      ' huy hiệu đã mở khóa.';
+
+    $('journalDays').textContent=stats.days;
+    $('streakValue').textContent=stats.streak+' days';
+  }
+
+  function renderWeek(days) {
+    const root = $('weekGrid');
+    root.replaceChildren();
+
+    for (let i=6; i>=0; i--) {
+      const key=today(-i);
+      const isDone=activeDay(days[key]);
+
+      const tile=addElement(
+        root,'div',
+        'day-tile'+(isDone?' done':'')
+      );
+      addElement(tile,'span','',key.slice(5));
+      addElement(tile,'strong','',isDone?'✓':'·');
+    }
+  }
+
+  function loadToday(days) {
+    const entry = days[today()] || {};
+
+    $('planCheck').checked=!!entry.plan;
+    $('reviewCheck').checked=!!entry.review;
+    $('restCheck').checked=!!entry.rest;
+
+    $('todayLabel').textContent =
+      'Hôm nay: '+today()+' · Check-in theo ngày của máy.';
+  }
+
+  function render() {
+    let trades=[],days={};
+
+    try {
+      trades=demo?demoTrades:getJournal();
+      days=demo?demoDays:getHabitDays();
+    } catch(error) {
+      showStatus('Lỗi đọc Journal: '+error.message,true);
+      return;
+    }
+
+    const stats=statsFor(trades,days);
+
+    renderBadges(stats);
+    renderWeek(days);
+    loadToday(days);
+
+    $('saveCheck').disabled=demo;
+    $('demoBtn').textContent=demo
+      ? '↩ Back to My Journal'
+      : '✦ Try Demo Achievements';
+
+    $('sourceLabel').textContent=demo
+      ? 'DEMO MODE — dữ liệu giả lập, không thay đổi AXIOM.'
+      : 'Nguồn: '+location.origin+
+        ' · '+trades.length+' giao dịch.'+
+        (location.protocol==='file:'
+          ? ' File trên máy có storage riêng, không tự đọc dữ liệu GitHub Pages.'
+          : ' Đọc dữ liệu từ trình duyệt hiện tại.');
+
+    showStatus(demo
+      ? 'DEMO MODE · Đang xem thành tựu minh họa.'
+      : 'PERSONAL JOURNAL · Thành tựu được tính từ dữ liệu cục bộ.');
+  }
+
+  $('saveCheck').addEventListener('click', () => {
+    if (demo) {
+      showStatus('Tắt Demo trước khi lưu.',true);
+      return;
+    }
+
+    const entry={
+      plan:$('planCheck').checked,
+      review:$('reviewCheck').checked,
+      rest:$('restCheck').checked
+    };
+
+    if (!activeDay(entry)) {
+      showStatus(
+        'Chọn ít nhất một mục check-in trước khi lưu.',
+        true
+      );
+      return;
+    }
+
+    try {
+      const days=getHabitDays();
+      days[today()]=entry;
+
+      localStorage.setItem(
+        HABIT_KEY,
+        JSON.stringify({version:1,days})
+      );
+
+      render();
+      showStatus('✓ Đã lưu check-in ngày '+today()+'.');
+    } catch(error) {
+      showStatus('Không thể lưu: '+error.message,true);
+    }
+  });
+
+  $('demoBtn').addEventListener('click',()=>{
+    demo=!demo;
+
+    if (demo) {
+      const sample=demoDataset();
+      demoTrades=sample.trades;
+      demoDays=sample.days;
+    }
+
+    render();
+  });
+
+  $('refreshBtn').addEventListener('click',()=>{
+    demo=false;
+    render();
+  });
+
+  $('reminderForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    $('reminderMessage').textContent =
+      'Lời nhắc chỉ hiển thị trên trang. Không gửi email.';
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

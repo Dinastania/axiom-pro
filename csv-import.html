@@ -1,0 +1,1037 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d14">
+<title>AXIOM ULTIMATE — Smart CSV Import</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+:root{
+  color-scheme:dark;
+  --background-color:#080d14;
+  --color:#eaf7f5;
+  --primary:#44f2b5;
+  --form-element-background-color:#0b1924;
+  --form-element-border-color:#304b57;
+  --form-element-color:#eaf7f5;
+  --card-background-color:#14232d;
+  --muted-color:#93abb8;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(ellipse at 85% 0%,#12483755,transparent 40%),
+    #080d14;
+  font:14px/1.6 Inter,system-ui,sans-serif;
+}
+nav.container-fluid{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  max-width:none;
+  padding:14px 4%;
+  background:#0b151e;
+  border-bottom:1px solid #28444c;
+}
+nav ul{margin:0;align-items:center;gap:12px}
+nav a{font-size:12px;text-decoration:none}
+nav a[role=button],button.primary{
+  background:#44f2b5;
+  color:#06291c;
+  border-color:#44f2b5;
+  font-weight:800;
+}
+.brand{font-size:19px;letter-spacing:2px;color:white}
+.brand span{color:#44f2b5}
+main.container{
+  max-width:1300px;
+  padding:30px 18px 65px;
+}
+.hero{
+  padding:32px;
+  background:linear-gradient(110deg,#15392f,#102032 80%);
+  border:1px solid #326955;
+  border-radius:20px;
+  margin-bottom:18px;
+}
+.eyebrow{
+  color:#44f2b5;
+  letter-spacing:2px;
+  font-size:10px;
+  font-weight:800;
+}
+.hero h2{
+  font-size:clamp(30px,4vw,45px);
+  letter-spacing:-1.4px;
+  margin:8px 0;
+}
+.hero h2 em{color:#44f2b5;font-style:normal}
+.hero h3{font-size:13px;color:#afc7cb}
+.hero p{max-width:750px;color:#acc8c7;font-size:13px}
+.hero figure{margin:13px 0 0}
+.hero svg{width:100%;height:62px}
+.hero figcaption a{font-size:11px;color:#b0dccc}
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+}
+.panel{
+  background:linear-gradient(145deg,#152630,#101b26);
+  border:1px solid #2b4752;
+  border-radius:16px;
+  padding:23px;
+  margin-bottom:17px;
+  min-width:0;
+}
+.panel h3{font-size:17px;margin:0 0 14px}
+.hint{font-size:12px;color:#92acb8;line-height:1.8}
+label{font-size:12px;color:#bfd3d8}
+input,select{
+  background:#0a1822!important;
+  color:#e8f9f6!important;
+  border:1px solid #34515c!important;
+}
+input[type=file]{width:100%}
+button{
+  width:auto;
+  font-size:12px;
+  border-radius:9px;
+  font-weight:800;
+}
+.secondary-btn{
+  color:#e9f6f4;
+  background:#20333e;
+  border:1px solid #385665;
+}
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+  margin-top:15px;
+}
+.actions button{flex:1}
+.mapping{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.mapping label{min-width:0}
+.mapping select{
+  margin:5px 0 0;
+  font-size:12px;
+  padding:9px;
+  width:100%;
+}
+.summary{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:16px 0;
+}
+.metric{
+  padding:17px;
+  border:1px solid #2b4651;
+  background:#101e29;
+  border-radius:13px;
+}
+.metric small{
+  display:block;
+  color:#97afbb;
+  font-size:10px;
+  letter-spacing:.6px;
+}
+.metric strong{
+  display:block;
+  font-size:clamp(23px,3vw,30px);
+  margin-top:8px;
+  font-variant-numeric:tabular-nums;
+}
+.green{color:#44f2b5}
+.red{color:#ff718d}
+.amber{color:#f2bf6c}
+.notice{
+  padding:14px;
+  margin:12px 0;
+  border-radius:11px;
+  border:1px solid #376e58;
+  background:#103129;
+  color:#d5f3e7;
+  font-size:12px;
+  white-space:pre-line;
+}
+.notice.warning{
+  background:#372827;
+  border-color:#916652;
+  color:#ffe0c6;
+}
+.table-wrap{overflow-x:auto}
+table{
+  width:100%;
+  font-size:12px;
+  border-collapse:collapse;
+}
+th{
+  color:#8ca9b5;
+  font-size:10px;
+  letter-spacing:.6px;
+}
+td,th{
+  padding:11px 9px;
+  border-bottom:1px solid #29434b;
+  white-space:nowrap;
+}
+.status-good{color:#44f2b5}
+.status-bad{color:#ff718d}
+.status-dup{color:#f2bf6c}
+.steps{
+  display:grid;
+  gap:9px;
+  padding:14px;
+  background:#0b1c25;
+  border-radius:10px;
+}
+.steps div{
+  border-left:2px solid #44f2b5;
+  padding-left:12px;
+  color:#c4dcd9;
+  font-size:12px;
+}
+.subscribe article{
+  border:1px solid #2b4852;
+  background:#13232d;
+  border-radius:15px;
+}
+.subscribe h2{font-size:18px}
+.subscribe h3{font-size:12px;color:#96b0bd}
+.subscribe form{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:10px;
+}
+.subscribe input{margin:0}
+footer.container{
+  border-top:1px solid #2a444e;
+  margin-top:25px;
+  padding-top:17px;
+}
+footer a{color:#b4d8cc}
+@media(max-width:850px){
+  .layout{grid-template-columns:1fr}
+  .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:560px){
+  main.container{padding:17px 11px}
+  .panel,.hero{padding:18px}
+  .mapping,.subscribe form{grid-template-columns:1fr}
+  nav.container-fluid{padding:12px;flex-wrap:wrap}
+  nav ul{gap:8px}
+  nav a{font-size:10px}
+}
+</style>
+</head>
+
+<body>
+<nav class="container-fluid">
+  <ul>
+    <li><strong class="brand">AXIOM<span>.</span> PRO</strong></li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="./advanced-analytics.html">Analytics</a></li>
+    <li><a href="#importer" role="button">CSV Import</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+      <div class="hero">
+        <span class="eyebrow">
+          AXIOM ULTIMATE · JOURNAL ENGINE 06
+        </span>
+        <hgroup>
+          <h2>Less manual entry.<br>
+            <em>More data integrity.</em>
+          </h2>
+          <h3>Smart CSV Trade Import & Validation</h3>
+        </hgroup>
+        <p>
+          Đọc CSV, ghép tên cột, kiểm tra giao dịch,
+          phát hiện trùng lặp và chỉ nhập khi đã sao lưu.
+        </p>
+        <figure>
+          <svg viewBox="0 0 700 70" role="img"
+               aria-label="Minh họa nhập và kiểm tra dữ liệu">
+            <path d="M5 51H190L255 36H420L485 18H695"
+                  fill="none" stroke="#44f2b5"
+                  stroke-width="4" stroke-linecap="round"/>
+            <circle cx="255" cy="36" r="6" fill="#44f2b5"/>
+            <circle cx="485" cy="18" r="6" fill="#44f2b5"/>
+          </svg>
+          <figcaption>
+            <a href="#importer" target="_blank">
+              Validate before you import.
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="layout" id="importer">
+        <div>
+          <article class="panel">
+            <h3>① Select CSV File</h3>
+            <p class="hint">
+              Hỗ trợ CSV UTF-8, dấu phẩy, chấm phẩy hoặc tab,
+              có dấu ngoặc kép bao quanh giá trị.
+              Tối đa 5 MB và 5.000 dòng giao dịch.
+            </p>
+            <label>
+              CSV File
+              <input id="csvFile" type="file"
+                     accept=".csv,text/csv,text/plain">
+            </label>
+            <div class="actions">
+              <button type="button" class="secondary-btn"
+                      id="sampleBtn">
+                ⇩ Download Test CSV
+              </button>
+            </div>
+            <p class="hint" id="fileInfo">
+              Chưa chọn file.
+            </p>
+          </article>
+
+          <article class="panel">
+            <h3>② Column Mapping</h3>
+            <p class="hint">
+              Những trường có dấu * là bắt buộc.
+              Kiểm tra từng cột trước khi tiếp tục.
+              BUY/SELL được hiểu tương ứng LONG/SHORT
+              trong bộ chuyển đổi này.
+            </p>
+            <div id="mapping" class="mapping"></div>
+            <div class="actions">
+              <button id="previewBtn" type="button"
+                      class="primary">
+                ◈ Validate & Preview
+              </button>
+            </div>
+          </article>
+        </div>
+
+        <div>
+          <article class="panel">
+            <h3>③ Safe Import Controls</h3>
+            <div class="steps">
+              <div>1. Kiểm tra nội dung CSV và các cột dữ liệu.</div>
+              <div>2. Xem trước dòng hợp lệ và dòng trùng.</div>
+              <div>3. Sao lưu nhật ký hiện tại ra JSON.</div>
+              <div>4. Chỉ thêm giao dịch mới khi xác nhận.</div>
+            </div>
+
+            <p class="hint" id="environment"></p>
+
+            <div class="actions">
+              <button type="button" class="secondary-btn"
+                      id="backupBtn">
+                ⇩ Backup Current Journal
+              </button>
+              <button type="button" class="primary"
+                      id="importBtn" disabled>
+                + Import Valid Trades
+              </button>
+            </div>
+
+            <div id="notice" class="notice warning"
+                 role="status">
+              Chọn file CSV để bắt đầu.
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>◎ Import Safety Policy</h3>
+            <p class="hint">
+              Chỉ thêm giao dịch hợp lệ vào khóa
+              <strong>axiom_trades_v1</strong>.
+              Không xóa hoặc thay thế dữ liệu hiện có.
+            </p>
+            <p class="hint">
+              Dòng trùng được phát hiện theo ngày,
+              symbol, hướng lệnh, Entry, Exit,
+              Quantity và PNL. Hai lệnh thực sự giống hệt
+              nhau có thể bị coi là trùng.
+            </p>
+            <p class="hint">
+              CSV không đồng nhất giữa các sàn. Công cụ này
+              không tự tính phí, quy đổi pip, funding,
+              tiền tệ hoặc đơn vị hợp đồng.
+              PNL phải là PNL USD đã xác định.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="metric">
+          <small>TOTAL CSV ROWS</small>
+          <strong id="totalRows">0</strong>
+        </div>
+        <div class="metric">
+          <small>READY TO IMPORT</small>
+          <strong id="readyRows" class="green">0</strong>
+        </div>
+        <div class="metric">
+          <small>DUPLICATE ROWS</small>
+          <strong id="duplicateRows" class="amber">0</strong>
+        </div>
+        <div class="metric">
+          <small>INVALID ROWS</small>
+          <strong id="invalidRows" class="red">0</strong>
+        </div>
+      </div>
+
+      <article class="panel">
+        <h3>④ Data Preview</h3>
+        <p class="hint">
+          Hiển thị tối đa 12 dòng đầu tiên.
+          Tất cả dòng vẫn được kiểm tra trước khi nhập.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Symbol</th>
+                <th>Side</th>
+                <th>PNL</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="previewRows"></tbody>
+          </table>
+        </div>
+        <p id="previewInfo" class="hint">
+          Chưa có dữ liệu xem trước.
+        </p>
+      </article>
+
+      <h3>Keep Your Journal Safe</h3>
+      <p class="hint">
+        File CSV được đọc trong trình duyệt.
+        Không có tính năng tải CSV lên máy chủ.
+        Không tải CSV riêng tư hoặc JSON backup
+        lên repository GitHub Public.
+      </p>
+
+      <h3>Import With Confidence</h3>
+      <p class="hint">
+        Khi mở từ Downloads bằng file://,
+        đây chỉ là bản kiểm tra và xem trước.
+        Việc nhập thật chỉ được bật trên địa chỉ
+        GitHub Pages của AXIOM PRO sau khi triển khai.
+      </p>
+    </section>
+  </div>
+
+  <section aria-label="Subscribe example" class="subscribe">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Clean data. Clear decisions.</h2>
+          <h3>Ghi nhớ việc sao lưu trước khi nhập dữ liệu.</h3>
+        </hgroup>
+        <form class="grid" id="reminderForm">
+          <input type="text" id="firstname"
+                 placeholder="Tên trader"
+                 aria-label="Tên trader" required>
+          <input type="email" id="email"
+                 placeholder="Email"
+                 aria-label="Email" required>
+          <button type="submit" class="primary">
+            Xác nhận
+          </button>
+        </form>
+        <small id="reminderMessage" class="hint"></small>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container">
+    <small>
+      <a href="./index.html">AXIOM Dashboard</a> •
+      <a href="./advanced-analytics.html">Analytics</a> •
+      <a href="#importer">CSV Import</a>
+    </small>
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const JOURNAL_KEY = 'axiom_trades_v1';
+const GOALS_KEY = 'axiom_pro_goals_v1';
+const PLAYBOOK_KEY = 'axiom_playbook_v1';
+
+const LIVE = location.protocol === 'https:' &&
+  location.hostname === 'dinastania.github.io' &&
+  location.pathname.startsWith('/axiom-pro/');
+
+const definitions = [
+  ['date','Date *',['date','tradedate','closedate','ngay']],
+  ['symbol','Symbol *',['symbol','pair','ticker','market']],
+  ['side','Side *',['side','direction','type','buysell']],
+  ['entry','Entry *',['entry','entryprice','openprice']],
+  ['exit','Exit *',['exit','exitprice','closeprice']],
+  ['qty','Quantity *',['qty','quantity','size','volume']],
+  ['pnl','Realized PNL *',
+    ['pnl','realizedpnl','netpnl','profitloss','profit']],
+  ['strategy','Strategy',
+    ['strategy','setup','tradingsetup']],
+  ['sl','Stop Loss',['sl','stoploss']],
+  ['tp','Take Profit',['tp','takeprofit']],
+  ['risk','Risk USD',['risk','riskamount','riskusd']],
+  ['mood','Mood',['mood','emotion','psychology']],
+  ['notes','Notes',['notes','comment','remark']]
+];
+
+let headers = [];
+let records = [];
+let prepared = [];
+let backedUp = false;
+let loadError = false;
+
+function notice(message, error=false) {
+  $('notice').textContent = message;
+  $('notice').className =
+    'notice' + (error ? ' warning' : '');
+}
+
+function normalizedHeader(value) {
+  return String(value).normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g,'')
+    .toLowerCase().replace(/[^a-z0-9]/g,'');
+}
+
+function readJournal() {
+  const raw = localStorage.getItem(JOURNAL_KEY);
+  if (!raw) return [];
+  const data = JSON.parse(raw);
+  if (!Array.isArray(data)) {
+    throw Error('Nhật ký hiện tại không phải một mảng.');
+  }
+  return data;
+}
+
+function validDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [y,m,d] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(y,m-1,d));
+  return date.getUTCFullYear() === y &&
+    date.getUTCMonth() === m-1 &&
+    date.getUTCDate() === d;
+}
+
+function numberValue(value) {
+  const clean = String(value).trim()
+    .replace(/\u2212/g,'-')
+    .replace(/^\$/,'').trim();
+
+  if (!/^[+-]?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/.test(clean)) {
+    return NaN;
+  }
+  return Number(clean.replace(/,/g,''));
+}
+
+function countDelimiter(line, delimiter) {
+  let count = 0, quoted = false;
+
+  for (let i=0;i<line.length;i++) {
+    if (line[i]==='"') {
+      if (quoted && line[i+1]==='"') {
+        i++;
+      } else {
+        quoted = !quoted;
+      }
+    } else if (!quoted && line[i]===delimiter) {
+      count++;
+    }
+  }
+  return count;
+}
+
+function detectDelimiter(text) {
+  const first = text.split(/\r?\n/,1)[0];
+  const options = [',',';','\t'];
+  options.sort((a,b)=>
+    countDelimiter(first,b)-countDelimiter(first,a)
+  );
+  if (!countDelimiter(first,options[0])) {
+    throw Error('Không nhận diện được dấu phân cách CSV.');
+  }
+  return options[0];
+}
+
+function parseCsv(text, delimiter) {
+  const rows = [];
+  let row=[],value='',quoted=false;
+
+  function endField() {
+    row.push(value);
+    value='';
+  }
+
+  function endRow() {
+    endField();
+    if (row.some(cell=>cell.trim()!=='')) {
+      rows.push(row);
+    }
+    row=[];
+    if (rows.length > 5002) {
+      throw Error('CSV có quá 5.000 giao dịch.');
+    }
+  }
+
+  for (let i=0;i<text.length;i++) {
+    const c=text[i];
+
+    if (quoted) {
+      if (c==='"') {
+        if (text[i+1]==='"') {
+          value+='"';
+          i++;
+        } else {
+          quoted=false;
+        }
+      } else {
+        value+=c;
+      }
+    } else if (c==='"' && value==='') {
+      quoted=true;
+    } else if (c===delimiter) {
+      endField();
+    } else if (c==='\n' || c==='\r') {
+      if (c==='\r' && text[i+1]==='\n') i++;
+      endRow();
+    } else {
+      value+=c;
+    }
+  }
+
+  if (quoted) throw Error('CSV có dấu ngoặc kép chưa đóng.');
+  if (value!=='' || row.length) endRow();
+  return rows;
+}
+
+function option(value,text) {
+  const item=document.createElement('option');
+  item.value=value;
+  item.textContent=text;
+  return item;
+}
+
+function renderMapping() {
+  const root=$('mapping');
+  root.replaceChildren();
+
+  definitions.forEach(([key,label,aliases])=>{
+    const wrapper=document.createElement('label');
+    wrapper.textContent=label;
+
+    const select=document.createElement('select');
+    select.id='map_'+key;
+    select.appendChild(option('','-- Chưa chọn --'));
+
+    headers.forEach((head,index)=>{
+      select.appendChild(option(String(index),head));
+    });
+
+    const match=headers.findIndex(head=>
+      aliases.includes(normalizedHeader(head))
+    );
+    if (match>=0) select.value=String(match);
+
+    select.addEventListener('change',()=>{
+      backedUp=false;
+      buildPreview();
+    });
+
+    wrapper.appendChild(select);
+    root.appendChild(wrapper);
+  });
+}
+
+function cell(record,key) {
+  const selected=$('map_'+key)?.value;
+  if (selected==='' || selected===undefined) return '';
+  return String(record[Number(selected)] ?? '').trim();
+}
+
+function parseRecord(record) {
+  const date=cell(record,'date');
+  const symbol=cell(record,'symbol')
+    .replace(/^'/,'').toUpperCase().slice(0,32);
+  const rawSide=cell(record,'side').toUpperCase();
+  const side=rawSide==='BUY'?'LONG':
+    rawSide==='SELL'?'SHORT':rawSide;
+
+  const entry=numberValue(cell(record,'entry'));
+  const exit=numberValue(cell(record,'exit'));
+  const qty=numberValue(cell(record,'qty'));
+  const pnl=numberValue(cell(record,'pnl'));
+
+  if (!validDate(date)) throw Error('Ngày không hợp lệ');
+  if (!symbol) throw Error('Thiếu symbol');
+  if (!['LONG','SHORT'].includes(side)) {
+    throw Error('Side không phải LONG/SHORT/BUY/SELL');
+  }
+  if (![entry,exit,qty,pnl].every(Number.isFinite) ||
+      entry<=0 || exit<=0 || qty<=0) {
+    throw Error('Entry, Exit, Quantity hoặc PNL không hợp lệ');
+  }
+
+  function optionalNumber(key,positive=false) {
+    const raw=cell(record,key);
+    if (raw==='') return null;
+    const value=numberValue(raw);
+    if (!Number.isFinite(value) ||
+        (positive ? value<=0 : value<0)) {
+      throw Error(key+' không hợp lệ');
+    }
+    return value;
+  }
+
+  return {
+    date,symbol,side,entry,exit,qty,pnl,
+    sl:optionalNumber('sl',true),
+    tp:optionalNumber('tp',true),
+    risk:optionalNumber('risk'),
+    strategy:cell(record,'strategy').slice(0,100),
+    mood:cell(record,'mood').slice(0,60),
+    notes:cell(record,'notes').slice(0,2000),
+    image:''
+  };
+}
+
+function fingerprint(t) {
+  return [
+    t.date,
+    String(t.symbol||'').toUpperCase(),
+    t.side,
+    Number(t.entry),
+    Number(t.exit),
+    Number(t.qty||t.quantity),
+    Number(t.pnl)
+  ].join('|');
+}
+
+function requiredMappingsValid() {
+  return ['date','symbol','side','entry','exit','qty','pnl']
+    .every(key=>$('map_'+key)?.value!=='');
+}
+
+function buildPreview() {
+  prepared=[];
+  backedUp=false;
+  $('importBtn').disabled=true;
+
+  const root=$('previewRows');
+  root.replaceChildren();
+
+  if (!headers.length || !requiredMappingsValid()) {
+    $('previewInfo').textContent=
+      'Chọn đủ các cột bắt buộc để xem trước.';
+    updateSummary();
+    return;
+  }
+
+  let existing=[];
+  loadError=false;
+  try {
+    existing=readJournal();
+  } catch (error) {
+    loadError=true;
+    notice('Không đọc được nhật ký hiện tại: '+
+      error.message+
+      '. Chế độ nhập sẽ bị khóa.',true);
+  }
+
+  const seen=new Set(existing.map(fingerprint));
+
+  for (const record of records) {
+    let item=null,status='ready',reason='Hợp lệ';
+
+    try {
+      item=parseRecord(record);
+      const key=fingerprint(item);
+
+      if (seen.has(key)) {
+        status='duplicate';
+        reason='Có thể trùng lệnh';
+      } else {
+        seen.add(key);
+      }
+    } catch (error) {
+      status='invalid';
+      reason=error.message;
+    }
+
+    prepared.push({item,status,reason});
+  }
+
+  prepared.slice(0,12).forEach(result=>{
+    const tr=document.createElement('tr');
+
+    const values=result.item
+      ? [
+          result.item.date,
+          result.item.symbol,
+          result.item.side,
+          money(result.item.pnl)
+        ]
+      : ['—','—','—','—'];
+
+    values.forEach(value=>{
+      const td=document.createElement('td');
+      td.textContent=value;
+      tr.appendChild(td);
+    });
+
+    const td=document.createElement('td');
+    td.className=result.status==='ready'?'status-good':
+      result.status==='duplicate'?'status-dup':'status-bad';
+    td.textContent=result.reason;
+    tr.appendChild(td);
+    root.appendChild(tr);
+  });
+
+  $('previewInfo').textContent=
+    'Đã kiểm tra '+prepared.length+
+    ' dòng. Preview chỉ hiển thị tối đa 12 dòng.';
+
+  updateSummary();
+
+  if (!loadError) {
+    notice('Đã kiểm tra CSV. Xem số dòng hợp lệ, '+
+      'dòng trùng và dòng bị loại trước khi nhập.');
+  }
+}
+
+function money(value) {
+  return (value<0?'−':'')+'$'+
+    Math.abs(value).toLocaleString('en-US',{
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    });
+}
+
+function updateSummary() {
+  const ready=prepared.filter(x=>x.status==='ready').length;
+  const duplicate=prepared.filter(
+    x=>x.status==='duplicate'
+  ).length;
+  const invalid=prepared.filter(
+    x=>x.status==='invalid'
+  ).length;
+
+  $('totalRows').textContent=records.length;
+  $('readyRows').textContent=ready;
+  $('duplicateRows').textContent=duplicate;
+  $('invalidRows').textContent=invalid;
+
+  $('importBtn').disabled=
+    !LIVE || !backedUp || loadError || ready===0;
+}
+
+function download(name,content,type) {
+  const blob=new Blob([content],{type});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=name;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+}
+
+$('csvFile').addEventListener('change',async event=>{
+  const file=event.target.files?.[0];
+  headers=[];
+  records=[];
+  prepared=[];
+  backedUp=false;
+  renderMapping();
+  updateSummary();
+
+  if (!file) return;
+
+  try {
+    if (file.size>5*1024*1024) {
+      throw Error('File CSV vượt quá 5 MB.');
+    }
+
+    const text=(await file.text()).replace(/^\uFEFF/,'');
+    const delimiter=detectDelimiter(text);
+    const rows=parseCsv(text,delimiter);
+
+    if (rows.length<2) {
+      throw Error('CSV cần header và ít nhất một dòng dữ liệu.');
+    }
+
+    headers=rows[0].map(x=>x.trim());
+    records=rows.slice(1);
+
+    if (headers.length>100) {
+      throw Error('CSV có quá nhiều cột.');
+    }
+
+    $('fileInfo').textContent=
+      file.name+' · '+records.length+
+      ' dòng · '+headers.length+' cột';
+
+    renderMapping();
+    buildPreview();
+  } catch (error) {
+    headers=[];
+    records=[];
+    prepared=[];
+    renderMapping();
+    updateSummary();
+    $('fileInfo').textContent='Không đọc được CSV.';
+    notice(error.message,true);
+  }
+});
+
+$('previewBtn').addEventListener('click',()=>{
+  buildPreview();
+});
+
+$('sampleBtn').addEventListener('click',()=>{
+  const lines=[
+    'date,symbol,side,strategy,entry,exit,sl,tp,qty,risk,pnl,mood,notes',
+    '2026-10-10,BTCUSDT,LONG,Breakout,65000,66000,64500,68000,0.1,50,100,Bình tĩnh,Lệnh thử số 1',
+    '2026-10-11,ETHUSDT,SHORT,Pullback,4000,3900,4050,3800,1,50,100,Tự tin,Lệnh thử số 2',
+    '2026-10-11,ETHUSDT,SHORT,Pullback,4000,3900,4050,3800,1,50,100,Tự tin,Lệnh trùng',
+    '2026-10-12,XAUUSD,LONG,SMC,4000,4100,3950,4200,1,50,ABC,Bình tĩnh,PNL sai'
+  ];
+  download(
+    'axiom-csv-test.csv',
+    '\uFEFF'+lines.join('\r\n'),
+    'text/csv;charset=utf-8'
+  );
+});
+
+$('backupBtn').addEventListener('click',()=>{
+  if (!LIVE) {
+    notice('Bản file:// chỉ hỗ trợ xem trước. '+
+      'Chưa thể sao lưu hoặc ghi nhật ký GitHub Pages '+
+      'từ thư mục Downloads.',true);
+    return;
+  }
+
+  try {
+    const trades=readJournal();
+    const goals=JSON.parse(
+      localStorage.getItem(GOALS_KEY)||'null'
+    );
+    const playbook=localStorage.getItem(PLAYBOOK_KEY)||'';
+
+    const payload={
+      version:3,
+      exportedAt:new Date().toISOString(),
+      trades,goals,playbook
+    };
+
+    download(
+      'axiom-before-csv-import.json',
+      JSON.stringify(payload,null,2),
+      'application/json'
+    );
+
+    backedUp=true;
+    updateSummary();
+
+    notice('Đã yêu cầu tải bản sao lưu '+trades.length+
+      ' giao dịch. Kiểm tra thư mục Downloads '+
+      'và giữ file JSON an toàn trước khi nhập.');
+  } catch (error) {
+    backedUp=false;
+    updateSummary();
+    notice('Không thể sao lưu: '+error.message,true);
+  }
+});
+
+$('importBtn').addEventListener('click',()=>{
+  if (!LIVE || !backedUp) return;
+
+  buildPreview();
+
+  // Revalidation resets the backup flag; restore only
+  // after confirming this operation began with a backup.
+  backedUp=true;
+  updateSummary();
+
+  const accepted=prepared.filter(x=>
+    x.status==='ready'
+  ).map(x=>x.item);
+
+  if (loadError || !accepted.length) return;
+
+  const old=readJournal();
+
+  if (!confirm(
+    'Thêm '+accepted.length+
+    ' giao dịch vào nhật ký hiện tại ('+
+    old.length+' lệnh)?\n'+
+    'Không xóa lệnh cũ. Hãy chắc chắn đã giữ Backup JSON.'
+  )) return;
+
+  const timestamp=Date.now();
+
+  const incoming=accepted.map((trade,index)=>({
+    ...trade,
+    id:timestamp+index+Math.random(),
+    importedFrom:'CSV'
+  }));
+
+  try {
+    localStorage.setItem(
+      JOURNAL_KEY,
+      JSON.stringify([...old,...incoming])
+    );
+
+    backedUp=false;
+    buildPreview();
+
+    notice('✓ Đã thêm '+incoming.length+
+      ' giao dịch. Mở Dashboard để kiểm tra PNL. '+
+      'Hãy đối chiếu với dữ liệu gốc của sàn.');
+  } catch (error) {
+    notice('Không thể lưu dữ liệu: '+
+      error.message,true);
+  }
+});
+
+$('reminderForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  $('reminderMessage').textContent=
+    'Lời nhắc chỉ hiển thị tại đây; không gửi email.';
+});
+
+$('environment').textContent=LIVE
+  ? 'Đang ở GitHub Pages AXIOM PRO: '+
+    'có thể nhập thật sau khi xác nhận sao lưu.'
+  : 'SAFE PREVIEW MODE: Có thể kiểm tra CSV, '+
+    'nhưng không ghi vào nhật ký thật.';
+
+renderMapping();
+updateSummary();
+</script>
+</body>
+</html>

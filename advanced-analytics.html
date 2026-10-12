@@ -1,0 +1,917 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d14">
+<title>AXIOM ULTIMATE — Advanced Analytics</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+:root {
+  color-scheme:dark;
+  --background-color:#080d14;
+  --color:#eaf5f6;
+  --primary:#44f2b5;
+  --form-element-background-color:#0b1924;
+  --form-element-border-color:#304957;
+  --form-element-color:#eaf5f6;
+  --card-background-color:#14212b;
+  --muted-color:#91a9b5;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at 80% 0%,#143e355c,transparent 42%),#080d14;
+  color:#eaf5f6;
+  font:14px/1.6 Inter,system-ui,sans-serif;
+}
+nav.container-fluid{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 4%;
+  background:#0a141f;
+  border-bottom:1px solid #29434a;
+  max-width:none;
+}
+nav ul{margin:0;align-items:center;gap:12px}
+nav a{text-decoration:none;font-size:12px}
+nav a[role=button],button.primary{
+  background:#44f2b5;
+  border-color:#44f2b5;
+  color:#08271b;
+  font-weight:800;
+}
+.brand{font-size:19px;letter-spacing:2px;color:#f0fcfa}
+.brand span{color:#44f2b5}
+main.container{max-width:1400px;padding:28px 18px 60px}
+.hero{
+  padding:31px;
+  border:1px solid #356858;
+  border-radius:20px;
+  background:linear-gradient(110deg,#15372f,#0e1d2c 76%);
+  margin-bottom:18px;
+}
+.eyebrow{font-size:10px;color:#44f2b5;font-weight:800;letter-spacing:2px}
+.hero h2{font-size:clamp(29px,4vw,44px);letter-spacing:-1.3px;margin:9px 0}
+.hero h2 em{font-style:normal;color:#44f2b5}
+.hero h3{font-size:13px;color:#a6c3c7}
+.hero p{font-size:13px;color:#aac5ca;max-width:710px}
+.hero figure{margin:15px 0 0}
+.hero figure svg{width:100%;height:56px}
+.hero figcaption{font-size:11px}
+.hero a{color:#b0dfd0}
+.toolbar{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+  padding:16px;
+  background:#111e28;
+  border:1px solid #2c4651;
+  border-radius:14px;
+}
+.toolbar label{font-size:11px;color:#a5bdc5;margin:0}
+.toolbar select{
+  width:auto;
+  min-width:145px;
+  margin:5px 0 0;
+  padding:8px 12px;
+  font-size:12px;
+  background:#0b1924;
+}
+button{
+  border-radius:9px;
+  font-size:12px;
+  font-weight:750;
+  width:auto;
+  margin:0;
+  padding:10px 13px;
+}
+.secondary-btn{
+  background:#1a303b;
+  border:1px solid #375462;
+  color:#e8f5f7;
+}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:15px 0;
+}
+.stat,.panel{
+  background:linear-gradient(145deg,#14232d,#0f1924);
+  border:1px solid #2a414e;
+  border-radius:15px;
+  min-width:0;
+}
+.stat{padding:19px;min-height:110px}
+.stat small{
+  display:block;
+  color:#8ea9b7;
+  font-size:10px;
+  letter-spacing:1px;
+}
+.stat strong{
+  display:block;
+  font-size:clamp(20px,2.4vw,29px);
+  font-variant-numeric:tabular-nums;
+  overflow-wrap:anywhere;
+  margin:9px 0 3px;
+}
+.stat span{font-size:11px;color:#8da6b4}
+.green{color:#44f2b5}
+.red{color:#ff718d}
+.layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) minmax(300px,1fr);
+  gap:15px;
+  margin:15px 0;
+  align-items:start;
+}
+.panel{padding:20px}
+.panel h3{font-size:16px;margin:0 0 16px}
+.subtitle{color:#91a9b5;font-size:11px;margin:-8px 0 14px}
+.chart{width:100%;height:250px;display:block}
+.rows{display:grid;gap:11px;min-height:65px}
+.data-row{
+  display:grid;
+  grid-template-columns:minmax(92px,1fr) minmax(90px,1.5fr) auto;
+  align-items:center;
+  gap:12px;
+  font-size:12px;
+}
+.data-row .name{
+  overflow-wrap:anywhere;
+  color:#d2e4e6;
+}
+.data-row strong{
+  min-width:85px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.track{
+  height:9px;
+  background:#293f49;
+  border-radius:20px;
+  overflow:hidden;
+}
+.fill{
+  height:100%;
+  border-radius:20px;
+  background:#44f2b5;
+}
+.fill.loss{background:#ff718d}
+.data-row small{font-size:10px;color:#849da8}
+.banner{
+  margin:0 0 15px;
+  padding:13px 15px;
+  border:1px solid #85683f;
+  border-radius:10px;
+  background:#30291c;
+  color:#f6d49a;
+  font-size:12px;
+}
+.banner.ok{
+  border-color:#326f56;
+  background:#102d25;
+  color:#c6f3df;
+}
+.empty{color:#94adba;font-size:12px}
+.month-row{
+  display:grid;
+  grid-template-columns:100px 1fr 105px;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid #29414c;
+  align-items:center;
+  font-size:12px;
+}
+.month-row strong{text-align:right}
+.note{
+  font-size:11px;
+  color:#91aab7;
+  line-height:1.8;
+}
+.subscribe article{
+  background:#13232d;
+  border:1px solid #294954;
+  border-radius:15px;
+}
+.subscribe h2{font-size:18px}
+.subscribe h3{font-size:12px;color:#9ab4bf}
+.subscribe form{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:10px;
+}
+.subscribe input{margin:0}
+footer.container{
+  border-top:1px solid #29414d;
+  margin-top:25px;
+  padding-top:18px;
+}
+footer a{color:#b8dacf}
+@media(max-width:1000px){
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .layout{grid-template-columns:1fr}
+}
+@media(max-width:560px){
+  main.container{padding:15px 10px}
+  .hero,.panel{padding:17px}
+  .toolbar{align-items:stretch}
+  .toolbar label,.toolbar select{width:100%}
+  .data-row{grid-template-columns:85px 1fr auto;gap:6px;font-size:11px}
+  .month-row{grid-template-columns:85px 1fr 85px}
+  .subscribe form{grid-template-columns:1fr}
+  nav.container-fluid{padding:12px}
+  nav ul{gap:7px}
+  nav a{font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<nav class="container-fluid">
+  <ul>
+    <li><strong class="brand">AXIOM<span>.</span> PRO</strong></li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="./risk-lab.html">Risk Lab</a></li>
+    <li><a href="#analytics" role="button">Analytics</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+      <div class="hero">
+        <span class="eyebrow">AXIOM ULTIMATE · INTELLIGENCE ENGINE 04</span>
+        <hgroup>
+          <h2>Know your numbers.<br><em>Find your edge.</em></h2>
+          <h3>Advanced Performance & Psychology Analytics</h3>
+        </hgroup>
+        <p>
+          Phân tích hiệu suất giao dịch, chiến lược, chiều lệnh,
+          tâm lý và thời gian. Tất cả chạy ngay trong trình duyệt.
+        </p>
+        <figure>
+          <svg viewBox="0 0 700 60" role="img"
+               aria-label="Minh họa đường tăng trưởng hiệu suất">
+            <path d="M5 50L100 45L160 52L240 27L295 38L360 20L420 30L505 12L555 19L635 4L690 9"
+                  fill="none" stroke="#44f2b5"
+                  stroke-width="4" stroke-linecap="round"/>
+          </svg>
+          <figcaption>
+            <a href="#analytics" target="_blank">
+              Focus on repeatable performance.
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="toolbar" id="analytics">
+        <label>Time Period
+          <select id="period">
+            <option value="all">All Time</option>
+            <option value="month">This Month</option>
+            <option value="30">Last 30 Days</option>
+          </select>
+        </label>
+
+        <label>Direction
+          <select id="direction">
+            <option value="all">All Directions</option>
+            <option value="LONG">LONG</option>
+            <option value="SHORT">SHORT</option>
+          </select>
+        </label>
+
+        <button class="secondary-btn" id="localBtn" type="button">
+          ↻ Browser Data
+        </button>
+        <button class="secondary-btn" id="demoBtn" type="button">
+          ◈ Demo Analytics
+        </button>
+        <button class="primary" id="fileBtn" type="button">
+          ⇧ Read Backup JSON
+        </button>
+        <input id="backupFile" type="file"
+               accept=".json,application/json" hidden>
+      </div>
+
+      <div id="dataNotice" class="banner" role="status">
+        Checking local journal...
+      </div>
+
+      <div class="stats">
+        <article class="stat">
+          <small>NET REALIZED PNL</small>
+          <strong id="netPnl" class="green">$0.00</strong>
+          <span>Total PNL</span>
+        </article>
+        <article class="stat">
+          <small>WIN RATE</small>
+          <strong id="winRate">0.0%</strong>
+          <span id="record">0 wins / 0 losses</span>
+        </article>
+        <article class="stat">
+          <small>PROFIT FACTOR</small>
+          <strong id="profitFactor">—</strong>
+          <span>Gross Profit / Gross Loss</span>
+        </article>
+        <article class="stat">
+          <small>EXPECTANCY / TRADE</small>
+          <strong id="expectancy">$0.00</strong>
+          <span>Mean PNL per trade</span>
+        </article>
+        <article class="stat">
+          <small>MAX DRAWDOWN</small>
+          <strong id="drawdown" class="red">$0.00</strong>
+          <span>By recorded trade order</span>
+        </article>
+        <article class="stat">
+          <small>BEST TRADE</small>
+          <strong id="bestTrade" class="green">$0.00</strong>
+          <span>Highest realized PNL</span>
+        </article>
+        <article class="stat">
+          <small>WORST TRADE</small>
+          <strong id="worstTrade" class="red">$0.00</strong>
+          <span>Lowest realized PNL</span>
+        </article>
+        <article class="stat">
+          <small>TRADE COUNT</small>
+          <strong id="tradeCount">0</strong>
+          <span>Matching filters</span>
+        </article>
+      </div>
+
+      <div class="layout">
+        <article class="panel">
+          <h3>↗ Equity Performance</h3>
+          <p class="subtitle">
+            Cumulative PNL · Theo thứ tự ngày đóng lệnh
+          </p>
+          <svg id="equityChart" class="chart" viewBox="0 0 760 230"
+               preserveAspectRatio="none"
+               role="img" aria-label="Đường PNL tích lũy"></svg>
+          <p id="equityNote" class="note"></p>
+        </article>
+
+        <article class="panel">
+          <h3>◎ Strategy Performance</h3>
+          <p class="subtitle">PNL và số giao dịch theo setup</p>
+          <div id="strategies" class="rows"></div>
+        </article>
+      </div>
+
+      <div class="layout">
+        <article class="panel">
+          <h3>◈ LONG vs SHORT</h3>
+          <p class="subtitle">So sánh hiệu suất hai hướng lệnh</p>
+          <div id="sides" class="rows"></div>
+        </article>
+
+        <article class="panel">
+          <h3>♡ Trading Psychology</h3>
+          <p class="subtitle">
+            Tâm lý em đã ghi nhận và kết quả PNL tương ứng
+          </p>
+          <div id="moods" class="rows"></div>
+          <p class="note">
+            Sự tương quan không chứng minh tâm lý là nguyên nhân
+            trực tiếp tạo ra lợi nhuận hoặc thua lỗ.
+          </p>
+        </article>
+      </div>
+
+      <div class="layout">
+        <article class="panel">
+          <h3>▦ Monthly PNL Breakdown</h3>
+          <p class="subtitle">Tổng PNL theo tháng đóng lệnh</p>
+          <div id="months"></div>
+        </article>
+
+        <article class="panel">
+          <h3>◷ Trading Session Analysis</h3>
+          <p class="subtitle">
+            Phiên giao dịch chỉ được phân tích khi có dữ liệu được ghi rõ
+          </p>
+          <div id="sessions" class="rows"></div>
+          <p class="note">
+            Nhật ký AXIOM 3.0 chỉ có ngày đóng lệnh, chưa có giờ hoặc
+            phiên giao dịch bắt buộc. Hệ thống không tự suy đoán
+            phiên Á, London hay New York từ ngày đóng lệnh.
+          </p>
+        </article>
+      </div>
+
+      <article class="panel">
+        <h3>▣ Data Integrity</h3>
+        <p class="note">
+          Browser Data đọc localStorage key
+          <strong>axiom_trades_v1</strong> ở chế độ chỉ đọc.
+          Backup JSON được phân tích trong bộ nhớ của trang,
+          không tự nhập hoặc ghi đè vào Journal.
+        </p>
+        <p class="note">
+          Nếu mở bằng file:// từ ZIP, dữ liệu localStorage có thể
+          không giống dữ liệu của website GitHub Pages.
+          Hãy dùng nút Read Backup JSON để thử với một bản sao lưu.
+        </p>
+        <p id="integrity" class="note"></p>
+      </article>
+
+      <h3>Performance Is a Process</h3>
+      <p class="note">
+        Các thống kê dựa trên PNL nhập vào nhật ký; chúng không
+        xác minh giá khớp, chi phí thực tế hay lịch sử từ sàn.
+      </p>
+
+      <h3>Trade With Context</h3>
+      <p class="note">
+        Phân tích dựa trên dữ liệu quá khứ và không bảo đảm kết quả
+        trong tương lai. Không dùng bảng này làm tín hiệu mua bán.
+      </p>
+    </section>
+  </div>
+
+  <section aria-label="Subscribe example" class="subscribe">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Review. Learn. Improve.</h2>
+          <h3>Lời nhắc phân tích hiệu suất sau mỗi tuần.</h3>
+        </hgroup>
+        <form class="grid" id="reminderForm">
+          <input type="text" id="firstname" name="firstname"
+                 placeholder="Tên trader" aria-label="Tên trader" required>
+          <input type="email" id="email" name="email"
+                 placeholder="Email" aria-label="Email" required>
+          <button type="submit" class="primary">Xác nhận</button>
+        </form>
+        <small id="reminderMessage" class="note"></small>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container">
+    <small>
+      <a href="./index.html">AXIOM Dashboard</a> •
+      <a href="./risk-lab.html">Risk Lab</a> •
+      <a href="./trade-grading.html">Trade Grading</a>
+    </small>
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const JOURNAL_KEY = 'axiom_trades_v1';
+const NS = 'http://www.w3.org/2000/svg';
+
+let source = 'browser';
+let externalTrades = [];
+let importedName = '';
+let rejectedCount = 0;
+
+function localDate(offsetDays = 0) {
+  const date = new Date();
+  date.setHours(12,0,0,0);
+  date.setDate(date.getDate() + offsetDays);
+  return [
+    date.getFullYear(),
+    String(date.getMonth()+1).padStart(2,'0'),
+    String(date.getDate()).padStart(2,'0')
+  ].join('-');
+}
+
+function money(value) {
+  const negative = value < 0;
+  return (negative ? '−' : '') + '$' +
+    Math.abs(value).toLocaleString('en-US',{
+      minimumFractionDigits:2,
+      maximumFractionDigits:2
+    });
+}
+
+function shortText(value, fallback='Không xác định') {
+  const text = String(value ?? '').trim().slice(0,60);
+  return text || fallback;
+}
+
+function validDate(value) {
+  if (typeof value !== 'string' ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+
+  const [y,m,d] = value.split('-').map(Number);
+  const date = new Date(y,m-1,d);
+  return date.getFullYear()===y &&
+         date.getMonth()===m-1 &&
+         date.getDate()===d;
+}
+
+function normalize(items) {
+  rejectedCount = 0;
+  if (!Array.isArray(items)) return [];
+
+  const result = [];
+
+  for (const item of items) {
+    if (!item || typeof item !== 'object' ||
+        !validDate(item.date) ||
+        item.pnl === null || item.pnl === '' ||
+        !Number.isFinite(Number(item.pnl))) {
+      rejectedCount++;
+      continue;
+    }
+
+    result.push({
+      date:item.date,
+      pnl:Number(item.pnl),
+      symbol:shortText(item.symbol),
+      side:item.side==='LONG'||item.side==='SHORT'
+        ? item.side : 'Không xác định',
+      strategy:shortText(item.strategy || item.setup),
+      mood:shortText(item.mood),
+      session:shortText(
+        item.session || item.tradingSession
+      )
+    });
+  }
+  return result;
+}
+
+function readBrowser() {
+  try {
+    const raw = localStorage.getItem(JOURNAL_KEY);
+    if (!raw) return [];
+    return normalize(JSON.parse(raw));
+  } catch (error) {
+    return [];
+  }
+}
+
+function demoData() {
+  const pnl=[130,-55,185,72,-110,230,94,-38,165,90,-42,215];
+  const strategies=['Breakout','SMC','Pullback'];
+  const moods=['Bình tĩnh','FOMO','Tự tin','Sợ hãi'];
+  const sessions=['London','New York','Asia'];
+
+  return pnl.map((amount,i)=>({
+    date:localDate(-i*3),
+    pnl:amount,
+    symbol:i%2?'XAUUSD':'BTCUSDT',
+    side:i%3===0?'SHORT':'LONG',
+    strategy:strategies[i%3],
+    mood:moods[i%4],
+    session:sessions[i%3]
+  }));
+}
+
+function allTrades() {
+  if (source==='demo') return demoData();
+  if (source==='backup') return externalTrades;
+  return readBrowser();
+}
+
+function filteredTrades(items) {
+  const period=$('period').value;
+  const direction=$('direction').value;
+  const cutoff=localDate(-29);
+  const month=localDate().slice(0,7);
+
+  return items.filter(t=>{
+    if (direction!=='all' && t.side!==direction) return false;
+    if (period==='month' && !t.date.startsWith(month)) return false;
+    if (period==='30' &&
+        (t.date<cutoff || t.date>localDate())) return false;
+    return true;
+  });
+}
+
+function svgElement(tag,attrs) {
+  const node=document.createElementNS(NS,tag);
+  Object.entries(attrs).forEach(([key,value])=>{
+    node.setAttribute(key,String(value));
+  });
+  return node;
+}
+
+function drawEquity(trades) {
+  const root=$('equityChart');
+  root.replaceChildren();
+
+  for (const y of [35,80,125,170,215]) {
+    root.appendChild(svgElement('line',{
+      x1:15,y1:y,x2:745,y2:y,
+      stroke:'#294b50','stroke-dasharray':'5 7'
+    }));
+  }
+
+  if (!trades.length) {
+    $('equityNote').textContent='Chưa có giao dịch phù hợp.';
+    return;
+  }
+
+  const ordered=[...trades].sort((a,b)=>
+    a.date.localeCompare(b.date)
+  );
+
+  let total=0;
+  const values=[0];
+
+  ordered.forEach(t=>{
+    total+=t.pnl;
+    values.push(total);
+  });
+
+  const low=Math.min(0,...values);
+  const high=Math.max(0,...values);
+  const span=high-low || 1;
+
+  const points=values.map((v,i)=>[
+    25+i*710/Math.max(1,values.length-1),
+    205-(v-low)/span*170
+  ]);
+
+  const path=points.map((p,i)=>
+    (i?'L':'M')+p[0].toFixed(2)+','+p[1].toFixed(2)
+  ).join(' ');
+
+  const last=points[points.length-1];
+  const color=total>=0?'#44f2b5':'#ff718d';
+
+  root.appendChild(svgElement('path',{
+    d:path+' L'+last[0]+',220 L25,220 Z',
+    fill:total>=0?'#44f2b522':'#ff718d22'
+  }));
+
+  root.appendChild(svgElement('path',{
+    d:path,fill:'none',stroke:color,
+    'stroke-width':3.5,
+    'stroke-linecap':'round',
+    'stroke-linejoin':'round'
+  }));
+
+  root.appendChild(svgElement('circle',{
+    cx:last[0],cy:last[1],r:5,fill:color
+  }));
+
+  $('equityNote').textContent=
+    ordered.length+' trades · Ending PNL '+money(total)+
+    ' · Giao dịch cùng ngày không có giờ đóng lệnh để sắp xếp chính xác.';
+}
+
+function drawStats(items) {
+  const wins=items.filter(x=>x.pnl>0);
+  const losses=items.filter(x=>x.pnl<0);
+  const grossProfit=wins.reduce((s,x)=>s+x.pnl,0);
+  const grossLoss=-losses.reduce((s,x)=>s+x.pnl,0);
+  const net=grossProfit-grossLoss;
+  const rate=items.length?wins.length/items.length*100:0;
+
+  $('netPnl').textContent=money(net);
+  $('netPnl').className=net>=0?'green':'red';
+  $('winRate').textContent=rate.toFixed(1)+'%';
+  $('record').textContent=
+    wins.length+' wins / '+losses.length+' losses';
+
+  $('profitFactor').textContent=grossLoss
+    ? (grossProfit/grossLoss).toFixed(2)
+    : grossProfit?'∞':'—';
+
+  $('expectancy').textContent=money(
+    items.length?net/items.length:0
+  );
+
+  const ordered=[...items].sort((a,b)=>
+    a.date.localeCompare(b.date)
+  );
+
+  let equity=0,peak=0,maxDD=0;
+  ordered.forEach(t=>{
+    equity+=t.pnl;
+    peak=Math.max(peak,equity);
+    maxDD=Math.max(maxDD,peak-equity);
+  });
+
+  $('drawdown').textContent=money(-maxDD);
+  $('bestTrade').textContent=money(
+    items.length?Math.max(...items.map(x=>x.pnl)):0
+  );
+  $('worstTrade').textContent=money(
+    items.length?Math.min(...items.map(x=>x.pnl)):0
+  );
+  $('tradeCount').textContent=items.length;
+}
+
+function grouped(items,key) {
+  const map=new Map();
+
+  items.forEach(t=>{
+    const name=shortText(t[key]);
+    const group=map.get(name)||{
+      name,count:0,wins:0,pnl:0
+    };
+    group.count++;
+    group.pnl+=t.pnl;
+    if(t.pnl>0) group.wins++;
+    map.set(name,group);
+  });
+
+  return [...map.values()].sort((a,b)=>
+    Math.abs(b.pnl)-Math.abs(a.pnl)
+  );
+}
+
+function showGroups(id,groups) {
+  const root=$(id);
+  root.replaceChildren();
+
+  if(!groups.length) {
+    const p=document.createElement('p');
+    p.className='empty';
+    p.textContent='Chưa có dữ liệu phù hợp.';
+    root.appendChild(p);
+    return;
+  }
+
+  const max=Math.max(1,...groups.map(g=>Math.abs(g.pnl)));
+
+  groups.slice(0,8).forEach(g=>{
+    const row=document.createElement('div');
+    row.className='data-row';
+
+    const name=document.createElement('div');
+    name.className='name';
+    name.textContent=g.name;
+
+    const info=document.createElement('small');
+    info.textContent=
+      g.count+' trades · '+
+      (g.wins/g.count*100).toFixed(0)+'% win';
+    name.appendChild(document.createElement('br'));
+    name.appendChild(info);
+
+    const track=document.createElement('div');
+    track.className='track';
+    const fill=document.createElement('div');
+    fill.className='fill'+(g.pnl<0?' loss':'');
+    fill.style.width=
+      Math.max(2,Math.abs(g.pnl)/max*100)+'%';
+    track.appendChild(fill);
+
+    const value=document.createElement('strong');
+    value.className=g.pnl>=0?'green':'red';
+    value.textContent=money(g.pnl);
+
+    row.append(name,track,value);
+    root.appendChild(row);
+  });
+}
+
+function showMonths(items) {
+  const root=$('months');
+  root.replaceChildren();
+  const groups=new Map();
+
+  items.forEach(t=>{
+    const key=t.date.slice(0,7);
+    groups.set(key,(groups.get(key)||0)+t.pnl);
+  });
+
+  const entries=[...groups.entries()].sort(
+    (a,b)=>b[0].localeCompare(a[0])
+  );
+
+  if(!entries.length) {
+    root.textContent='Chưa có dữ liệu theo tháng.';
+    return;
+  }
+
+  const max=Math.max(1,...entries.map(x=>Math.abs(x[1])));
+
+  entries.forEach(([month,pnl])=>{
+    const row=document.createElement('div');
+    row.className='month-row';
+
+    const title=document.createElement('span');
+    title.textContent=month;
+
+    const track=document.createElement('div');
+    track.className='track';
+    const fill=document.createElement('div');
+    fill.className='fill'+(pnl<0?' loss':'');
+    fill.style.width=Math.max(2,Math.abs(pnl)/max*100)+'%';
+    track.appendChild(fill);
+
+    const value=document.createElement('strong');
+    value.className=pnl>=0?'green':'red';
+    value.textContent=money(pnl);
+
+    row.append(title,track,value);
+    root.appendChild(row);
+  });
+}
+
+function render() {
+  const all=allTrades();
+  const trades=filteredTrades(all);
+
+  const labels={
+    browser:'Nguồn: Nhật ký của trình duyệt hiện tại.',
+    demo:'DỮ LIỆU MINH HỌA — không phải PNL thật.',
+    backup:'Nguồn: Backup JSON '+importedName+
+      '. Đọc để phân tích, KHÔNG nhập đè nhật ký.'
+  };
+
+  $('dataNotice').textContent=labels[source];
+  $('dataNotice').className=
+    'banner'+(source==='browser'?' ok':'');
+
+  drawStats(trades);
+  drawEquity(trades);
+  showGroups('strategies',grouped(trades,'strategy'));
+  showGroups('sides',grouped(trades,'side'));
+  showGroups('moods',grouped(trades,'mood'));
+  showGroups('sessions',grouped(trades,'session'));
+  showMonths(trades);
+
+  $('integrity').textContent=
+    'Nguồn có '+all.length+' giao dịch hợp lệ. '+
+    trades.length+' giao dịch khớp bộ lọc.'+
+    (rejectedCount>0?' Bỏ qua '+rejectedCount+
+      ' dòng dữ liệu không hợp lệ.':'')+
+    ' Phân tích này không ghi dữ liệu vào localStorage.';
+}
+
+$('period').addEventListener('change',render);
+$('direction').addEventListener('change',render);
+
+$('localBtn').addEventListener('click',()=>{
+  source='browser';
+  rejectedCount=0;
+  render();
+});
+
+$('demoBtn').addEventListener('click',()=>{
+  source='demo';
+  rejectedCount=0;
+  render();
+});
+
+$('fileBtn').addEventListener('click',()=>{
+  $('backupFile').click();
+});
+
+$('backupFile').addEventListener('change',async event=>{
+  const file=event.target.files?.[0];
+  if(!file) return;
+
+  try {
+    if(file.size>25*1024*1024) {
+      throw Error('File lớn hơn 25 MB.');
+    }
+
+    const parsed=JSON.parse(await file.text());
+    const items=Array.isArray(parsed)?parsed:parsed?.trades;
+
+    if(!Array.isArray(items)) {
+      throw Error('Không tìm thấy danh sách trades.');
+    }
+
+    const clean=normalize(items);
+
+    if(!clean.length) {
+      throw Error('Không tìm thấy giao dịch hợp lệ.');
+    }
+
+    externalTrades=clean;
+    importedName=file.name;
+    source='backup';
+    render();
+  } catch(error) {
+    $('dataNotice').className='banner';
+    $('dataNotice').textContent=
+      'Không thể đọc backup: '+error.message;
+  } finally {
+    event.target.value='';
+  }
+});
+
+$('reminderForm').addEventListener('submit',event=>{
+  event.preventDefault();
+  $('reminderMessage').textContent=
+    'Lời nhắc chỉ hiển thị trên trang; không gửi email tự động.';
+});
+
+render();
+</script>
+</body>
+</html>

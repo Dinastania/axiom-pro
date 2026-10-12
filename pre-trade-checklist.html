@@ -1,0 +1,757 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d14">
+<title>AXIOM ULTIMATE — Discipline Gate</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+:root {
+  color-scheme: dark;
+  --background-color: #080d14;
+  --color: #eaf7f5;
+  --primary: #44f2b5;
+  --form-element-background-color: #0b1923;
+  --form-element-border-color: #2f4855;
+  --form-element-color: #eaf7f5;
+  --card-background-color: #111d27;
+  --green: #44f2b5;
+  --red: #ff718d;
+  --line: #2a414a;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(ellipse at 82% 0%, #14443855, transparent 38%),
+    #080d14;
+  font: 14px/1.6 Inter, system-ui, sans-serif;
+}
+nav.container-fluid {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 4%;
+  border-bottom: 1px solid var(--line);
+  background: #0b141e;
+  max-width: none;
+}
+nav ul {
+  margin: 0;
+  align-items: center;
+  gap: 14px;
+}
+nav a { text-decoration: none; font-size: 12px; }
+nav a[role=button], button.primary {
+  background: var(--green);
+  border-color: var(--green);
+  color: #08241c;
+  font-weight: 800;
+}
+.brand {
+  color: white;
+  font-size: 19px;
+  letter-spacing: 2px;
+}
+.brand span { color: var(--green); }
+main.container {
+  max-width: 1220px;
+  padding: 32px 16px 55px;
+}
+.hero {
+  background: linear-gradient(115deg, #15372f, #101b29 75%);
+  border: 1px solid #376b58;
+  border-radius: 20px;
+  padding: 32px;
+  margin-bottom: 20px;
+}
+.eyebrow {
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.hero h2 {
+  font-size: clamp(30px, 4.2vw, 46px);
+  letter-spacing: -1.5px;
+  margin: 9px 0;
+}
+.hero h2 em {
+  color: var(--green);
+  font-style: normal;
+}
+.hero h3 {
+  color: #b2c8d0;
+  font-size: 13px;
+}
+.hero p {
+  color: #a8c5c6;
+  max-width: 660px;
+}
+.hero figure { margin: 15px 0 0; }
+.hero svg {
+  width: 100%;
+  max-height: 62px;
+}
+.hero figcaption a {
+  font-size: 11px;
+  color: #9ed2c0;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0,1.1fr) minmax(300px,.9fr);
+  gap: 18px;
+  align-items: start;
+}
+.panel {
+  background: linear-gradient(140deg, #15242e, #101923);
+  border: 1px solid var(--line);
+  border-radius: 17px;
+  padding: 23px;
+  margin-bottom: 16px;
+}
+.panel h3 {
+  font-size: 17px;
+  margin-bottom: 17px;
+}
+.fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 12px;
+}
+.fields label {
+  font-size: 11px;
+  color: #b3c8d1;
+}
+.fields input,
+.fields select,
+textarea {
+  background: #0a1721 !important;
+  border: 1px solid #304956 !important;
+  color: #eaf7f5 !important;
+  border-radius: 9px;
+  margin: 6px 0 0;
+  min-width: 0;
+}
+.checklist {
+  display: grid;
+  gap: 10px;
+}
+.check-item {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  padding: 14px;
+  background: #0e1c26;
+  border: 1px solid #2b414d;
+  border-radius: 11px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.check-item:has(input:checked) {
+  background: #11382b;
+  border-color: #35775b;
+}
+.check-item input {
+  margin: 3px 0 0;
+  accent-color: var(--green);
+  flex-shrink: 0;
+}
+.check-item strong {
+  display: block;
+  color: #e9f7f3;
+}
+.check-item small {
+  display: block;
+  font-size: 11px;
+  color: #8ea6af;
+  margin-top: 2px;
+}
+.meter {
+  width: 100%;
+  height: 11px;
+  background: #2b3f49;
+  border-radius: 30px;
+  overflow: hidden;
+  margin: 15px 0 7px;
+}
+.meter div {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #14895f, #44f2b5);
+  transition: width .2s;
+}
+.results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 15px;
+}
+.metric {
+  background: #0b1e27;
+  border: 1px solid #2c4550;
+  padding: 16px;
+  border-radius: 12px;
+}
+.metric small {
+  display: block;
+  font-size: 10px;
+  color: #91abb7;
+  letter-spacing: .5px;
+}
+.metric strong {
+  display: block;
+  margin-top: 8px;
+  font-size: clamp(20px, 2.6vw, 27px);
+  font-variant-numeric: tabular-nums;
+}
+.green { color: var(--green); }
+.red { color: var(--red); }
+.status {
+  padding: 15px;
+  border: 1px solid #8b5943;
+  background: #382b27;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+.status.ready {
+  border-color: #34835f;
+  background: #10372a;
+}
+.status strong { display: block; }
+.status p {
+  margin: 6px 0 0;
+  font-size: 12px;
+  white-space: pre-line;
+}
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 13px;
+}
+button {
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+}
+button.secondary {
+  background: #1c2e38;
+  border: 1px solid #37505c;
+  color: #eaf6f7;
+}
+.hint {
+  font-size: 11px;
+  color: #93aab6;
+  line-height: 1.75;
+}
+.subscribe article {
+  background: #13232c;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+}
+.subscribe h2 { font-size: 18px; }
+.subscribe h3 {
+  font-size: 12px;
+  color: #98b1bc;
+}
+.subscribe form {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+}
+.subscribe input { margin: 0; }
+footer.container {
+  border-top: 1px solid var(--line);
+  margin-top: 28px;
+  padding-top: 19px;
+  font-size: 12px;
+}
+footer a { color: #b6dacf; }
+@media(max-width: 850px) {
+  .layout { grid-template-columns: 1fr; }
+}
+@media(max-width: 560px) {
+  main.container { padding: 20px 12px; }
+  .hero { padding: 20px; }
+  .panel { padding: 17px; }
+  .fields { grid-template-columns: 1fr; }
+  .subscribe form { grid-template-columns: 1fr; }
+  nav.container-fluid { padding: 12px; }
+  nav ul { gap: 7px; }
+  nav a { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="container-fluid">
+  <ul>
+    <li>
+      <strong class="brand">AXIOM<span>.</span> PRO</strong>
+    </li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="./risk-lab.html">Risk Lab</a></li>
+    <li><a href="#checklist" role="button">Checklist</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+      <div class="hero">
+        <span class="eyebrow">AXIOM ULTIMATE · DISCIPLINE ENGINE 02</span>
+        <hgroup>
+          <h2>Plan first.<br><em>Trade with discipline.</em></h2>
+          <h3>Pre-Trade Checklist & Risk Gate</h3>
+        </hgroup>
+        <p>
+          Một lệnh giao dịch chỉ nên được cân nhắc khi kế hoạch,
+          tâm lý và giới hạn rủi ro đều đã được kiểm tra.
+        </p>
+        <figure>
+          <svg viewBox="0 0 650 65" role="img"
+               aria-label="Minh họa mức độ hoàn thành kiểm tra">
+            <path d="M5 50H645"
+                  stroke="#376c5b" stroke-dasharray="6 7"/>
+            <path d="M5 51L100 45L180 48L255 31L345 35L435 19L535 24L645 6"
+                  fill="none" stroke="#44f2b5"
+                  stroke-width="4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+          <figcaption>
+            <a href="#checklist" target="_blank">
+              Process over impulse. Every single trade.
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="layout">
+        <div>
+          <article class="panel">
+            <h3>◎ Trade Risk Parameters</h3>
+            <div class="fields">
+              <label>Account Balance ($)
+                <input id="balance" type="number"
+                       value="10000" min="0.01" step="any">
+              </label>
+              <label>Risk Per Trade (%)
+                <input id="riskPct" type="number"
+                       value="1" min="0.01" step="any">
+              </label>
+              <label>Max Allowed Risk (%)
+                <input id="maxRiskPct" type="number"
+                       value="1" min="0.01" step="any">
+              </label>
+              <label>Minimum Required R:R
+                <input id="minRR" type="number"
+                       value="2" min="0.01" step="any">
+              </label>
+              <label>Direction
+                <select id="direction">
+                  <option value="LONG">LONG</option>
+                  <option value="SHORT">SHORT</option>
+                </select>
+              </label>
+              <label>Entry Price
+                <input id="entryPrice" type="number"
+                       value="65000" step="any">
+              </label>
+              <label>Stop Loss
+                <input id="stopLoss" type="number"
+                       value="64000" step="any">
+              </label>
+              <label>Take Profit
+                <input id="takeProfit" type="number"
+                       value="68000" step="any">
+              </label>
+              <label>Daily Loss So Far ($)
+                <input id="dailyLoss" type="number"
+                       value="0" min="0" step="any">
+              </label>
+              <label>Daily Loss Limit ($)
+                <input id="dailyLimit" type="number"
+                       value="200" min="0.01" step="any">
+              </label>
+            </div>
+          </article>
+
+          <article class="panel" id="checklist">
+            <h3>☑ Pre-Trade Discipline Checklist</h3>
+            <div class="checklist">
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Setup đúng chiến lược</strong>
+                  <small>Đã xác nhận tiêu chí trong trading plan.</small>
+                </span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Đã kiểm tra xu hướng / bối cảnh</strong>
+                  <small>Không giao dịch chỉ vì một cây nến.</small>
+                </span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Đã xác nhận tín hiệu Entry</strong>
+                  <small>Không vào lệnh trước khi có trigger.</small>
+                </span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Stop Loss phù hợp kế hoạch</strong>
+                  <small>SL phải hợp lệ với LONG/SHORT.</small>
+                </span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Đã kiểm tra lịch tin tức</strong>
+                  <small>Người dùng tự xác minh sự kiện liên quan.</small>
+                </span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Tâm lý ổn định, không FOMO</strong>
+                  <small>Không revenge trade sau khi thua.</small>
+                </span>
+              </label>
+              <label class="check-item">
+                <input type="checkbox" class="gate">
+                <span>
+                  <strong>Không vượt giới hạn lỗ ngày</strong>
+                  <small>Đối chiếu số lỗ thực tế với giới hạn.</small>
+                </span>
+              </label>
+            </div>
+
+            <label style="margin-top:16px">
+              Trading Plan Notes
+              <textarea id="notes" rows="3"
+                placeholder="Setup, lý do vào lệnh, điều kiện hủy kế hoạch..."></textarea>
+            </label>
+
+            <div class="actions">
+              <button id="saveDraft" type="button" class="primary">
+                Lưu checklist nháp
+              </button>
+              <button id="clearDraft" type="button" class="secondary">
+                Làm mới checklist
+              </button>
+            </div>
+
+            <p id="saveMessage" class="hint" role="status"></p>
+          </article>
+        </div>
+
+        <div>
+          <article class="panel">
+            <h3>◈ Pre-Trade Readiness</h3>
+            <div style="display:flex;justify-content:space-between">
+              <span class="hint">CHECKLIST PROGRESS</span>
+              <strong id="progressText">0 / 7</strong>
+            </div>
+            <div class="meter"><div id="progressBar"></div></div>
+
+            <div class="results">
+              <div class="metric">
+                <small>PLANNED RISK</small>
+                <strong class="red" id="riskValue">—</strong>
+              </div>
+              <div class="metric">
+                <small>RISK / REWARD</small>
+                <strong class="green" id="rrValue">—</strong>
+              </div>
+              <div class="metric">
+                <small>REMAINING DAILY BUDGET</small>
+                <strong id="remainingValue">—</strong>
+              </div>
+              <div class="metric">
+                <small>DISCIPLINE SCORE</small>
+                <strong class="green" id="scoreValue">0%</strong>
+              </div>
+            </div>
+
+            <div class="status" id="statusBox" role="status">
+              <strong id="statusTitle">NOT READY</strong>
+              <p id="statusDetails">
+                Hoàn thành checklist và kiểm tra Risk Parameters.
+              </p>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h3>✦ Important</h3>
+            <p class="hint">
+              Checklist là công cụ tự đánh giá, không xác nhận
+              cơ hội giao dịch tốt hay bảo đảm lợi nhuận.
+            </p>
+            <p class="hint">
+              Risk budget là giá trị lập kế hoạch.
+              Phí giao dịch, trượt giá, gap và thanh lý
+              có thể làm mức lỗ thực tế cao hơn.
+            </p>
+            <p class="hint">
+              Trang này không đặt lệnh và không tự truy cập
+              dữ liệu thật từ tài khoản giao dịch.
+            </p>
+          </article>
+        </div>
+      </div>
+
+      <h3>Rules Before Entries</h3>
+      <p class="hint">
+        Nếu checklist chưa đầy đủ hoặc Risk Gate không hợp lệ,
+        AXIOM sẽ báo NOT READY. Đây là lời nhắc về kỷ luật,
+        không phải cơ chế khóa giao dịch trên sàn.
+      </p>
+
+      <h3>Protect the Process</h3>
+      <p class="hint">
+        Dữ liệu checklist nháp được lưu riêng trong trình duyệt,
+        không sửa hoặc xóa nhật ký giao dịch AXIOM PRO 3.0.
+      </p>
+    </section>
+  </div>
+
+  <section aria-label="Subscribe example" class="subscribe">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Discipline compounds.</h2>
+          <h3>Lưu lời nhắc cá nhân, không gửi email tự động.</h3>
+        </hgroup>
+        <form class="grid" id="reminderForm">
+          <input id="firstname" type="text"
+                 placeholder="Tên trader" required>
+          <input id="email" type="email"
+                 placeholder="Email" required>
+          <button type="submit" class="primary">Lưu lời nhắc</button>
+        </form>
+        <small id="reminderMessage" class="hint"></small>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container">
+    <small>
+      <a href="./index.html">AXIOM Dashboard</a> •
+      <a href="./risk-lab.html">Risk Lab</a> •
+      <a href="#checklist">Discipline Gate</a>
+    </small>
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const DRAFT_KEY = 'axiom_ultimate_pretrade_draft_v1';
+
+const inputIds = [
+  'balance','riskPct','maxRiskPct','minRR',
+  'direction','entryPrice','stopLoss','takeProfit',
+  'dailyLoss','dailyLimit','notes'
+];
+
+const checks = [...document.querySelectorAll('.gate')];
+
+function displayMoney(value) {
+  return (value < 0 ? '−' : '') + '$' +
+    Math.abs(value).toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+}
+
+function getNum(id) {
+  const raw = $(id).value.trim();
+  return raw === '' ? NaN : Number(raw);
+}
+
+function refresh() {
+  const count = checks.filter(x => x.checked).length;
+  $('progressText').textContent = count + ' / ' + checks.length;
+  $('progressBar').style.width =
+    (count / checks.length * 100) + '%';
+  $('scoreValue').textContent =
+    Math.round(count / checks.length * 100) + '%';
+
+  const balance = getNum('balance');
+  const riskPct = getNum('riskPct');
+  const maxRiskPct = getNum('maxRiskPct');
+  const minRR = getNum('minRR');
+  const entry = getNum('entryPrice');
+  const sl = getNum('stopLoss');
+  const tp = getNum('takeProfit');
+  const dailyLoss = getNum('dailyLoss');
+  const dailyLimit = getNum('dailyLimit');
+  const direction = $('direction').value;
+
+  const risk = balance * riskPct / 100;
+  const lossDistance =
+    direction === 'LONG' ? entry - sl : sl - entry;
+  const rewardDistance =
+    direction === 'LONG' ? tp - entry : entry - tp;
+  const rr = rewardDistance / lossDistance;
+  const remaining = dailyLimit - dailyLoss;
+
+  const reasons = [];
+  const valid = [
+    balance, riskPct, maxRiskPct, minRR,
+    entry, sl, tp, dailyLoss, dailyLimit
+  ].every(Number.isFinite);
+
+  if (!valid ||
+      balance <= 0 || riskPct <= 0 ||
+      maxRiskPct <= 0 || minRR <= 0 ||
+      entry <= 0 || sl <= 0 || tp <= 0 ||
+      dailyLoss < 0 || dailyLimit <= 0 ||
+      riskPct > 100 || maxRiskPct > 100) {
+    reasons.push('Thông số phải hợp lệ và nằm trong phạm vi cho phép.');
+  }
+
+if (
+  Number.isFinite(entry) &&
+  Number.isFinite(sl) &&
+  Number.isFinite(tp) &&
+  !(lossDistance > 0 && rewardDistance > 0)
+) {
+  reasons.push('SL hoặc TP đang sai hướng với Entry.');
+}
+
+
+  if (valid && riskPct > maxRiskPct) {
+    reasons.push('Risk % vượt mức rủi ro tối đa đã đặt.');
+  }
+
+  if (valid && Number.isFinite(rr) && rr < minRR) {
+    reasons.push('R:R chưa đạt mức tối thiểu.');
+  }
+
+  if (valid && risk > remaining) {
+    reasons.push('Rủi ro kế hoạch vượt ngân sách lỗ còn lại trong ngày.');
+  }
+
+  if (count < checks.length) {
+    reasons.push(
+      'Còn ' + (checks.length - count) + ' mục checklist chưa xác nhận.'
+    );
+  }
+
+  $('riskValue').textContent =
+    Number.isFinite(risk) && risk >= 0
+      ? displayMoney(risk) : '—';
+
+  $('rrValue').textContent =
+    Number.isFinite(rr) && rr > 0 &&
+    lossDistance > 0 && rewardDistance > 0
+      ? '1 : ' + rr.toFixed(2) : '—';
+
+  $('remainingValue').textContent =
+    Number.isFinite(remaining)
+      ? displayMoney(remaining) : '—';
+
+  const ready = reasons.length === 0;
+  $('statusBox').className = 'status' + (ready ? ' ready' : '');
+  $('statusTitle').textContent =
+    ready ? '✓ READY — PLAN VERIFIED' : '⚠ NOT READY';
+
+  $('statusDetails').textContent = ready
+    ? 'Các điều kiện tự kiểm tra và giới hạn rủi ro đã đạt. ' +
+      'Điều này không bảo đảm giao dịch sẽ có lãi.'
+    : reasons.join('\n');
+}
+
+function saveDraft() {
+  const values = {};
+  inputIds.forEach(id => values[id] = $(id).value);
+
+  const payload = {
+    version: 1,
+    values,
+    checks: checks.map(x => x.checked),
+    savedAt: new Date().toISOString()
+  };
+
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(payload));
+    $('saveMessage').textContent =
+      '✓ Đã lưu checklist nháp trên trình duyệt này.';
+  } catch (err) {
+    $('saveMessage').textContent =
+      'Không thể lưu cục bộ. Hãy kiểm tra quyền lưu trữ của trình duyệt.';
+  }
+}
+
+function restoreDraft() {
+  try {
+    const stored = JSON.parse(localStorage.getItem(DRAFT_KEY));
+    if (!stored || stored.version !== 1) return;
+
+    inputIds.forEach(id => {
+      const value = stored.values?.[id];
+      if (typeof value === 'string') {
+        $(id).value = value;
+      }
+    });
+
+    if (Array.isArray(stored.checks)) {
+      checks.forEach((item, i) => {
+        item.checked = stored.checks[i] === true;
+      });
+    }
+  } catch (err) {
+    // Một số trình duyệt hạn chế lưu trữ trên file://
+  }
+}
+
+function clearDraft() {
+  if (!confirm('Làm mới checklist nháp hiện tại?')) return;
+
+  checks.forEach(item => item.checked = false);
+  $('notes').value = '';
+
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch (err) {}
+
+  $('saveMessage').textContent = 'Checklist đã được làm mới.';
+  refresh();
+}
+
+inputIds.forEach(id => {
+  $(id).addEventListener('input', refresh);
+  $(id).addEventListener('change', refresh);
+});
+
+checks.forEach(item => {
+  item.addEventListener('change', refresh);
+});
+
+$('saveDraft').addEventListener('click', saveDraft);
+$('clearDraft').addEventListener('click', clearDraft);
+
+$('reminderForm').addEventListener('submit', event => {
+  event.preventDefault();
+  $('reminderMessage').textContent =
+    'Đã ghi nhận lời nhắc trên trang. Không gửi email tự động.';
+});
+
+restoreDraft();
+refresh();
+</script>
+</body>
+</html>
