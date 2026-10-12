@@ -623,9 +623,15 @@ function refresh() {
     reasons.push('Thông số phải hợp lệ và nằm trong phạm vi cho phép.');
   }
 
-  if (!valid || !(lossDistance > 0 && rewardDistance > 0)) {
-    reasons.push('SL hoặc TP đang sai hướng với Entry.');
-  }
+if (
+  Number.isFinite(entry) &&
+  Number.isFinite(sl) &&
+  Number.isFinite(tp) &&
+  !(lossDistance > 0 && rewardDistance > 0)
+) {
+  reasons.push('SL hoặc TP đang sai hướng với Entry.');
+}
+
 
   if (valid && riskPct > maxRiskPct) {
     reasons.push('Risk % vượt mức rủi ro tối đa đã đặt.');
