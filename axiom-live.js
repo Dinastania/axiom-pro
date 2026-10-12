@@ -296,7 +296,14 @@
 
     if (watchId !== null) return;
 
-    setStatus('Đang yêu cầu quyền truy cập vị trí...');
+    
+$('live-location').textContent = 'Đang xác định vị trí...';
+
+setStatus(
+  '📡 Đang kết nối dịch vụ định vị của thiết bị. ' +
+  'Vui lòng chờ tối đa 30 giây...'
+);
+
 
     try {
       watchId = navigator.geolocation.watchPosition(
@@ -339,8 +346,18 @@ error => {
 
   watchId = null;
 
-  $('live-start').disabled = false;
-  $('live-stop').disabled = true;
+$('live-location').textContent =
+  error.code === 1
+    ? '⛔ Quyền truy cập vị trí bị từ chối'
+    : error.code === 2
+      ? '⚠ Không thể xác định vị trí'
+      : error.code === 3
+        ? '⌛ Hết thời gian chờ GPS'
+        : '⚠ Lỗi định vị không xác định';
+
+$('live-start').disabled = false;
+$('live-stop').disabled = true;
+
 
   setStatus(
     '⚠ GPS ERROR ' + error.code + ': ' +
@@ -350,8 +367,8 @@ error => {
 
         {
           enableHighAccuracy: false,
-          timeout: 15000,
-          maximumAge: 30000
+          timeout: 30000,
+          maximumAge: 60000
         }
       );
 
