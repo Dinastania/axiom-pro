@@ -325,16 +325,29 @@
             Math.round(accuracy) + ' mét.'
           );
         },
-        error => {
-          const messages = {
-            1: 'Quyền vị trí bị từ chối. Hãy cho phép GPS trong Chrome.',
-            2: 'Thiết bị không xác định được vị trí.',
-            3: 'Yêu cầu lấy vị trí đã hết thời gian.'
-          };
+        
+error => {
+  const messages = {
+    1: 'PERMISSION_DENIED: Trình duyệt hoặc Windows từ chối quyền vị trí.',
+    2: 'POSITION_UNAVAILABLE: Thiết bị chưa xác định được vị trí.',
+    3: 'TIMEOUT: Yêu cầu định vị mất quá nhiều thời gian.'
+  };
 
-          setStatus(messages[error.code] || error.message);
-          stopTracking();
-        },
+  if (watchId !== null) {
+    navigator.geolocation.clearWatch(watchId);
+  }
+
+  watchId = null;
+
+  $('live-start').disabled = false;
+  $('live-stop').disabled = true;
+
+  setStatus(
+    '⚠ GPS ERROR ' + error.code + ': ' +
+    (messages[error.code] || error.message)
+  );
+},
+
         {
           enableHighAccuracy: false,
           timeout: 15000,
