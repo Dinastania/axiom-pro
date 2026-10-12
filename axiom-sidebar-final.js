@@ -72,9 +72,16 @@
         background: #315d69;
       }
 
-      .sidebar.axiom-sb [hidden] {
-        display: none !important;
-      }
+     
+/* FIX: SIDEBAR COLLAPSE / EXPAND */
+
+.sidebar.axiom-sb [hidden],
+.sidebar.axiom-sb a.side[hidden],
+.sidebar.axiom-sb .side-note[hidden],
+.sidebar.axiom-sb .side-label[hidden] {
+  display: none !important;
+}
+
 
       /* FOUNDER CARD */
 
