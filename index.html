@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d14">
+
+  <title>AXIOM PRO 3.0 — Trading Journal</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+  <link rel="stylesheet" href="./style.css">
+  <script src="./script.js" defer></script>
+</head>
+
+<body>
+  <nav class="container-fluid topnav">
+    <ul>
+      <li><strong class="brand">AXIOM<span>.</span><sup>PRO</sup></strong></li>
+    </ul>
+    <ul>
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#journal">Journal</a></li>
+      <li><a href="#entry" role="button">＋ New Trade</a></li>
+    </ul>
+  </nav>
+  <main class="container page">
+    <div class="app-grid">
+      <aside class="sidebar">
+        <div class="side-label">WORKSPACE</div><a class="side active" href="#dashboard">◈ &nbsp; Tổng quan</a><a
+          class="side" href="#performance">⌁ &nbsp; Phân tích hiệu suất</a><a class="side" href="#calendar-panel">▦
+          &nbsp; Lịch PNL</a><a class="side" href="#journal">☷ &nbsp; Lịch sử giao dịch</a>
+        <div class="side-label">TRADING TOOLS</div><a class="side" href="#entry">＋ &nbsp; Nhập giao dịch</a><a
+          class="side" href="#goals">◎ &nbsp; Mục tiêu & rủi ro</a><a class="side" href="#playbook">✎ &nbsp; Trading
+          Playbook</a>
+        <article class="side-note"><span class="eyebrow">YOUR EDGE</span><strong>Trade with intention.</strong>
+          <p>Make every trade count. Focus on the process.</p>
+        </article>
+      </aside>
+      <div class="content">
+        <header class="heading" id="dashboard">
+          <div>
+            <div class="eyebrow">YOUR PERSONAL TRADING COMMAND CENTER</div>
+            <h1>Trading Overview <em>/ Pro</em></h1>
+            <p class="muted">Your performance. Your process. Your edge.</p>
+          </div><span class="private">● PRIVATE WORKSPACE</span>
+        </header>
+        <p id="demoBanner" class="demo-banner" hidden>ĐANG XEM DỮ LIỆU MINH HỌA, không phải PNL thực tế của bạn.</p>
+        <section class="hero">
+          <div class="hero-copy"><span class="eyebrow">THE PRECISION ADVANTAGE · AXIOM PRO</span>
+            <hgroup>
+              <h2>Master the process.<br><em>Own the outcome.</em></h2>
+              <h3>Your private Trading Journal PNL</h3>
+            </hgroup>
+            <p>Nhật ký giao dịch cá nhân thế hệ mới. Theo dõi PNL, quản trị rủi ro và hiểu chính xác điều gì tạo nên lợi
+              thế của bạn.</p>
+            <div class="hero-actions"><a href="#entry" role="button" class="mint">＋ Ghi giao dịch →</a><button
+                type="button" id="demoBtn">Xem dữ liệu mẫu</button></div>
+          </div>
+          <figure class="hero-figure"><svg viewBox="0 0 480 270" aria-label="Trading performance illustration"
+              role="img">
+              <defs>
+                <linearGradient id="hg" x1="0" y1="0" x2="0" y2="1">
+                  <stop stop-color="#44f2b5" stop-opacity=".32" />
+                  <stop offset="1" stop-color="#44f2b5" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <rect x="23" y="16" width="435" height="235" rx="18" fill="#0b2029" stroke="#377360" />
+              <path d="M40 62H439M40 110H439M40 158H439M40 206H439" stroke="#33725d" stroke-opacity=".4"
+                stroke-dasharray="5 7" />
+              <path
+                d="M42 221L85 202L123 211L161 167L195 177L226 136L260 151L294 93L326 110L366 60L395 76L443 31V234H42Z"
+                fill="url(#hg)" />
+              <path d="M42 221L85 202L123 211L161 167L195 177L226 136L260 151L294 93L326 110L366 60L395 76L443 31"
+                fill="none" stroke="#51ffc0" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" />
+              <circle cx="443" cy="31" r="7" fill="#67ffd0" />
+            </svg>
+            <figcaption>Focus · Risk · Process</figcaption>
+          </figure>
+        </section>
+        <div class="stats">
+          <article class="stat">
+            <div class="kicker">NET REALIZED PNL</div><strong id="totalPnl"
+              class="number positive">$0.00</strong><small>Lợi nhuận ròng đã ghi nhận</small>
+          </article>
+          <article class="stat">
+            <div class="kicker">WIN RATE</div><strong id="winRate" class="number">0.0%</strong><small id="winText">0
+              wins · 0 losses</small>
+          </article>
+          <article class="stat">
+            <div class="kicker">PROFIT FACTOR</div><strong id="profitFactor" class="number">—</strong><small>Gross
+              profit / gross loss</small>
+          </article>
+          <article class="stat">
+            <div class="kicker">MAX DRAWDOWN</div><strong id="drawdown" class="number negative">$0.00</strong><small>Sụt
+              giảm lợi nhuận tích lũy</small>
+          </article>
+        </div>
+        <div class="cols" id="performance">
+          <article class="panel">
+            <div class="panel-head">
+              <h3>↗ Equity Curve</h3><span>CUMULATIVE PNL · USD</span>
+            </div><svg class="equity" viewBox="0 0 760 260" preserveAspectRatio="none" role="img"
+              aria-label="Equity performance chart">
+              <defs>
+                <linearGradient id="eqFade" x1="0" y1="0" x2="0" y2="1">
+                  <stop stop-color="#43efb5" stop-opacity=".28" />
+                  <stop offset="1" stop-color="#43efb5" stop-opacity="0" />
+                </linearGradient>
+              </defs>
+              <g id="chartGrid"></g>
+              <path id="eqArea" fill="url(#eqFade)"></path>
+              <path id="eqLine" stroke="#44f2b5" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"
+                fill="none"></path>
+              <circle id="eqDot" r="5" fill="#44f2b5"></circle>
+            </svg>
+            <div class="muted" style="display:flex;justify-content:space-between"><span>PNL theo ngày đóng lệnh</span><b
+                id="tradeCount">0 trades</b></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head">
+              <h3>◎ Intelligence Snapshot</h3><span>LIVE ANALYTICS</span>
+            </div>
+            <div class="micro-stats">
+              <div class="micro"><small>Average Winner</small><strong id="avgWin" class="positive">$0.00</strong></div>
+              <div class="micro"><small>Average Loser</small><strong id="avgLoss" class="negative">$0.00</strong></div>
+              <div class="micro"><small>Expectancy / Trade</small><strong id="expectancy">$0.00</strong></div>
+              <div class="micro"><small>Win Streak</small><strong id="streak">0</strong></div>
+            </div>
+            <div class="kicker" style="margin-top:15px">WINNING TRADES SHARE</div>
+            <div class="progress">
+              <div id="winMeter"></div>
+            </div>
+            <p id="meterText" class="muted">Chưa có dữ liệu</p>
+          </article>
+        </div>
+        <div class="cols">
+          <article class="panel" id="calendar-panel">
+            <div class="panel-head">
+              <h3>▦ Interactive PNL Calendar</h3><span>CLICK A DAY TO REVIEW</span>
+            </div>
+            <div class="calendar-head"><button type="button" id="prevMonth">‹</button><strong
+                id="monthTitle"></strong><button type="button" id="nextMonth">›</button></div>
+            <div id="calendarGrid" class="calendar"></div>
+            <div class="calendar-legend"><span>■ <b class="positive">Profit</b></span><span>■ <b
+                  class="negative">Loss</b></span><span>■ No trade</span></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head">
+              <h3>◫ Strategy Edge</h3><span>THE SETUPS THAT PAY</span>
+            </div>
+            <p class="muted">PNL theo chiến lược</p>
+            <div id="strategyRows" class="strategy-bars"></div>
+            <div id="strategyInsight" class="notice-box">Thêm lệnh và tên chiến lược để phân tích.</div>
+          </article>
+        </div>
+        <h2 class="section-heading" id="entry">Record a New Trade</h2>
+        <article class="panel">
+          <div class="panel-head">
+            <h3>＋ New Trade — Risk-Aware Journal</h3><span>TRADE EXECUTION</span>
+          </div>
+          <form id="tradeForm" class="entry-grid"><label>Ngày đóng lệnh<input type="date" id="date"
+                required></label><label>Symbol<input id="symbol" maxlength="30" required
+                placeholder="BTCUSDT"></label><label>Direction<select id="side">
+                <option>LONG</option>
+                <option>SHORT</option>
+              </select></label><label>Strategy<input id="strategy" maxlength="50"
+                placeholder="Breakout / SMC"></label><label>Entry<input type="number" id="entryPrice" step="any"
+                required></label><label>Exit<input type="number" id="exitPrice" step="any" required></label><label>Stop
+              Loss (SL)<input type="number" id="sl" step="any" placeholder="Optional"></label><label>Take Profit
+              (TP)<input type="number" id="tp" step="any" placeholder="Optional"></label><label>Quantity<input
+                type="number" id="qty" step="any" min="0.00000001" required></label><label>Risk Amount ($)<input
+                type="number" id="risk" step="any" min="0.01" placeholder="50"></label><label>Realized PNL ($)<input
+                type="number" id="pnl" step="any" required placeholder="Sau phí"></label><label>Mindset<select
+                id="mood">
+                <option>Bình tĩnh</option>
+                <option>FOMO</option>
+                <option>Sợ hãi</option>
+                <option>Tự tin</option>
+                <option>Trả thù thị trường</option>
+              </select></label>
+            <div class="full risk-preview"><span>Planned R:R <b id="rrPreview">—</b></span><span>Realized R <b
+                  id="rPreview">—</b></span><span class="muted">Risk Amount tính bằng USD</span></div><label
+              class="half">Trade screenshot<input type="file" id="screenshot"
+                accept="image/jpeg,image/png,image/webp"><img id="imagePreview" class="image-preview"
+                alt="Trade screenshot preview" hidden></label><label class="half">Trade Notes<textarea id="notes"
+                rows="3" placeholder="Setup, lý do, tâm lý, bài học..."></textarea></label><button type="submit"
+              class="mint full">＋ SAVE TRADE</button>
+          </form>
+          <p class="muted" style="margin:12px 0 0">Ảnh được thu nhỏ trước khi lưu. Hãy sao lưu JSON thường xuyên do dung
+            lượng trình duyệt có giới hạn.</p>
+        </article>
+        <div class="cols">
+          <article class="panel" id="goals">
+            <div class="panel-head">
+              <h3>◎ Monthly Goals & Risk Guardrails</h3><span>PERSONAL TARGETS</span>
+            </div>
+            <div class="goal-grid"><label>Mục tiêu PNL tháng ($)<input id="target" type="number" min="1" step="any"
+                  value="2000"></label><label>Giới hạn lỗ/ngày ($)<input id="dailyLimit" type="number" min="1"
+                  step="any" value="200"></label></div><button type="button" id="saveGoals">Lưu mục tiêu</button>
+            <div class="progress-top"><span class="kicker">MONTHLY TARGET PROGRESS</span><strong
+                id="goalPercent">0%</strong></div>
+            <div class="progress">
+              <div id="goalBar"></div>
+            </div>
+            <div class="progress-top"><strong id="monthNet">$0.00</strong><span id="goalAmount">/ $2,000.00</span></div>
+            <div class="notice-box" id="riskNotice">Chưa có ngày nào chạm giới hạn lỗ.</div>
+          </article>
+          <article class="panel" id="playbook">
+            <div class="panel-head">
+              <h3>✎ Your Trading Playbook</h3><span>PERSONAL RULES</span>
+            </div><textarea id="playbookText" rows="6"
+              placeholder="Chỉ vào setup A+, không FOMO, kiểm soát risk..."></textarea><button type="button"
+              id="savePlaybook">Lưu nguyên tắc</button>
+            <p class="muted" style="margin-top:13px">Playbook được lưu trên trình duyệt.</p>
+          </article>
+        </div>
+        <h2 class="section-heading" id="journal">Complete Trade Ledger</h2>
+        <article class="panel">
+          <div class="panel-head">
+            <h3>☷ Your Trading History</h3><span id="filterCount">0 entries</span>
+          </div>
+          <div class="toolbar"><input id="search" type="search" placeholder="Tìm symbol / setup"><select id="sideFilter"
+              aria-label="Lọc chiều lệnh">
+              <option value="all">All directions</option>
+              <option>LONG</option>
+              <option>SHORT</option>
+            </select><select id="resultFilter" aria-label="Lọc kết quả">
+              <option value="all">All outcomes</option>
+              <option value="win">Profitable</option>
+              <option value="loss">Loss</option>
+              <option value="flat">Breakeven</option>
+            </select><input id="monthFilter" type="month" aria-label="Lọc tháng"><button type="button"
+              id="clearFilters">Clear</button><button type="button" id="exportCsv">⇩ CSV</button><button type="button"
+              id="backup">⇩ Backup JSON</button><button type="button" id="importBtn">⇧ Import JSON</button><input
+              id="importFile" type="file" accept=".json,application/json" hidden></div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>DATE</th>
+                  <th>SYMBOL</th>
+                  <th>SIDE</th>
+                  <th>STRATEGY</th>
+                  <th>ENTRY → EXIT</th>
+                  <th>PNL</th>
+                  <th>R</th>
+                  <th>MINDSET</th>
+                  <th>NOTES</th>
+                  <th>ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="tradeRows"></tbody>
+            </table>
+          </div>
+          <div id="emptyState" class="empty-state">Chưa có lệnh khớp bộ lọc. Hãy nhập lệnh đầu tiên.</div>
+        </article>
+        <p class="disclaimer">AXIOM PRO 3.0 là nhật ký trading cá nhân, không kết nối sàn hoặc thực hiện giao dịch. Dữ
+          liệu được lưu riêng bằng localStorage theo từng địa chỉ website. Đổi địa chỉ website/thiết bị không tự chuyển
+          dữ liệu. Hãy dùng Backup JSON để tránh mất nhật ký.</p>
+        <section aria-label="Subscribe example" class="subscribe">
+          <div class="container">
+            <article>
+              <hgroup>
+                <h2>Consistency is your superpower.</h2>
+                <h3>Lưu thông tin nhắc review cá nhân (không gửi email tự động).</h3>
+              </hgroup>
+              <form class="grid" id="reminderForm"><input type="text" id="firstname" name="firstname"
+                  placeholder="Tên trader" aria-label="Tên trader" required><input type="email" id="email" name="email"
+                  placeholder="Email" aria-label="Email" required><button type="submit" class="mint">Lưu ghi
+                  nhớ</button></form><small id="reminderMessage"></small>
+            </article>
+          </div>
+        </section>
+        <footer class="container"><small><a href="#dashboard">AXIOM PRO</a> • <a href="#journal">Trading Journal</a> •
+            Your performance, your process.</small></footer>
+      </div>
+    </div>
+    <dialog id="dayDialog">
+      <div class="dialog-head">
+        <h3 id="dayHeading">PNL theo ngày</h3><button id="closeDay" type="button">✕</button>
+      </div>
+      <div id="dayDetails"></div>
+    </dialog>
+    <dialog id="tradeDialog">
+      <div class="dialog-head">
+        <h3 id="tradeHeading">Trade detail</h3><button id="closeTrade" type="button">✕</button>
+      </div>
+      <div id="tradeDetails"></div>
+    </dialog>
+    <div id="toast" role="status"></div>
+  </main>
+</body>
+
+</html>
