@@ -142,22 +142,137 @@
 
   </div>
 
-  <div class="axv4-core" aria-hidden="true">
-    <div class="axv4-orbit"></div>
+  
+<!-- AXIOM CORE — INTERACTIVE BUTTON -->
 
-    <div class="axv4-logo-frame">
-      <img src="./favicon.png" alt="">
-    </div>
+<button
+  id="axv4-core-button"
+  class="axv4-core"
+  type="button"
+  aria-label="Mở trung tâm điều khiển AXIOM Core"
+  aria-controls="axv4-system-panel"
+  aria-expanded="false"
+>
+  <span class="axv4-orbit" aria-hidden="true"></span>
 
-    <div class="axv4-core-caption">
-      THE AXIOM CORE
-    </div>
-  </div>
+  <span class="axv4-logo-frame">
+    <img src="./favicon.png" alt="">
+  </span>
+
+  <span class="axv4-core-caption">
+    THE AXIOM CORE
+    <small>CLICK TO ACTIVATE ↗</small>
+  </span>
+</button>
 
 </section>
 
 
 <!-- AXIOM V4 — INTERACTIVE WORKFLOW -->
+
+<!-- ======================================
+ AXIOM CORE — SYSTEM HUB
+====================================== -->
+
+<section
+  id="axv4-system-panel"
+  class="axv4-system-panel"
+  aria-label="AXIOM System Hub"
+  hidden
+>
+
+  <div class="axv4-system-top">
+    <div>
+      <span class="axv4-system-kicker">
+        ✦ AXIOM SYSTEM HUB
+      </span>
+
+      <h2>
+        Welcome back,
+        <span>DINATRAN.</span>
+      </h2>
+
+      <p>
+        Your personal command center.
+        Stay focused. Stay disciplined.
+      </p>
+    </div>
+
+    <button
+      id="axv4-system-close"
+      class="axv4-system-close"
+      type="button"
+      aria-label="Đóng System Hub"
+    >
+      ✕
+    </button>
+  </div>
+
+  <div class="axv4-system-stats">
+
+    <div class="axv4-system-stat">
+      <span>◷ LOCAL CLOCK</span>
+
+      <strong id="axv4-system-time">
+        --:--:--
+      </strong>
+
+      <small>Thời gian trên thiết bị</small>
+    </div>
+
+    <div class="axv4-system-stat">
+      <span>◉ BROWSER NETWORK</span>
+
+      <strong id="axv4-system-network"
+              aria-live="polite">
+        CHECKING...
+      </strong>
+
+      <small>Trạng thái mạng của trình duyệt</small>
+    </div>
+
+  </div>
+
+  <div class="axv4-system-divider"></div>
+
+  <div class="axv4-system-links-title">
+    QUICK LAUNCH / TRADING WORKFLOW
+  </div>
+
+  <div class="axv4-system-links">
+
+    <a href="./pre-trade-checklist.html">
+      <span>◈</span>
+      <strong>PLAN</strong>
+      <small>Pre-Trade Checklist</small>
+      <em>↗</em>
+    </a>
+
+    <a href="./paper-trading.html">
+      <span>⌁</span>
+      <strong>EXECUTE</strong>
+      <small>Paper Trading</small>
+      <em>↗</em>
+    </a>
+
+    <a href="./trade-grading.html">
+      <span>✦</span>
+      <strong>EVOLVE</strong>
+      <small>Trade Grading</small>
+      <em>↗</em>
+    </a>
+
+  </div>
+
+  <p class="axv4-system-footer">
+    AXIOM PRO ULTIMATE
+    <span>✦</span>
+    DINATRAN FOUNDER EDITION
+  </p>
+
+</section>
+
+<!-- END AXIOM SYSTEM HUB -->
 
 <div class="axv4-command-tiles"
      aria-label="AXIOM Trading Workflow">
