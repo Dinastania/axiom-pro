@@ -1,0 +1,1592 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080f1c">
+  <title>AXIOM ULTIMATE — Paper Trading</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --background-color: #080f1c;
+      --color: #e9f5ff;
+      --primary: #50efba;
+      --primary-hover: #8bffdb;
+      --card-background-color: #112233;
+      --form-element-background-color: #081927;
+      --form-element-border-color: #315365;
+      --form-element-color: #e9f5ff;
+      --muted-color: #98b8c7;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: #e9f5ff;
+      font: 14px/1.6 system-ui, sans-serif;
+      background:
+        radial-gradient(ellipse at 90% 0%, #12484477, transparent 43%),
+        radial-gradient(ellipse at 0% 0%, #33245755, transparent 38%),
+        #080f1c;
+    }
+
+    nav.container-fluid {
+      max-width: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 13px 3%;
+      background: #0a1624f5;
+      border-bottom: 1px solid #29495a;
+    }
+
+    nav ul {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav li { list-style: none; padding: 0; }
+
+    nav a {
+      text-decoration: none;
+      color: #bad1dc;
+      font-size: 12px;
+    }
+
+    .brand {
+      font-size: 19px;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    .brand span { color: #50efba; }
+    .brand sup { color: #ab9cff; font-size: 9px; }
+
+    main.container {
+      max-width: 1450px;
+      padding: 25px 20px 60px;
+    }
+
+    .hero, .panel, .stat {
+      background: linear-gradient(135deg, #142838, #0c1b2a);
+      border: 1px solid #2e5060;
+      border-radius: 16px;
+    }
+
+    .hero {
+      padding: 30px;
+      background:
+        radial-gradient(circle at 94% 0%, #27645c77, transparent 38%),
+        linear-gradient(115deg, #153b38, #111d34);
+      margin-bottom: 19px;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      color: #65fbc9;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .hero h2 {
+      font-size: clamp(30px, 4vw, 52px);
+      letter-spacing: -1.5px;
+      line-height: 1.1;
+      margin: 10px 0;
+    }
+
+    .hero h2 span { color: #51efbc; }
+    .hero h3 { font-size: 13px; color: #b5cedc; }
+
+    .hero p, .small {
+      font-size: 11px;
+      color: #a9c5d2;
+      line-height: 1.8;
+    }
+
+    .hero figure {
+      margin: 13px 0 0;
+    }
+
+    .hero img {
+      width: 100%;
+      max-height: 75px;
+      object-fit: contain;
+      object-position: left;
+    }
+
+    .hero figcaption { font-size: 10px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 13px;
+      margin-bottom: 18px;
+    }
+
+    .stat { padding: 17px; }
+
+    .stat small {
+      font-size: 10px;
+      font-weight: 800;
+      color: #9cbac9;
+      letter-spacing: 1px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: clamp(20px, 2.3vw, 30px);
+      color: #50efbc;
+      font-variant-numeric: tabular-nums;
+      margin-top: 7px;
+    }
+
+    .stat p { font-size: 10px; color: #96b5c4; margin: 5px 0 0; }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: minmax(0, 1.55fr) minmax(310px, .85fr);
+      gap: 16px;
+    }
+
+    .panel {
+      padding: 21px;
+      min-width: 0;
+      margin-bottom: 16px;
+    }
+
+    .panel h3 { font-size: 17px; margin-bottom: 14px; }
+
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    label { font-size: 11px; color: #bcd4df; }
+
+    input:not([type=checkbox]), select {
+      margin-top: 5px !important;
+      background: #091b2a !important;
+      color: #eaf8ff !important;
+      border: 1px solid #345869 !important;
+      border-radius: 9px !important;
+      padding: 11px !important;
+      font-size: 12px;
+    }
+
+    button {
+      width: auto;
+      margin: 0;
+      font-size: 12px;
+      font-weight: 850;
+      border-radius: 9px;
+      padding: 11px 14px;
+    }
+
+    .primary {
+      background: linear-gradient(110deg, #4df0bc, #64d5e8);
+      color: #05241f;
+      border: 0;
+    }
+
+    .alt {
+      color: #e7f8fa;
+      background: #1c3747;
+      border: 1px solid #395b70;
+    }
+
+    button:disabled { opacity: .45; cursor: not-allowed; }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin: 13px 0;
+    }
+
+    canvas.chart {
+      display: block;
+      width: 100%;
+      height: 350px;
+      background: #071522;
+      border: 1px solid #33556b;
+      border-radius: 12px;
+    }
+
+    .chartwrap { position: relative; }
+
+    .chartlabel {
+      position: absolute;
+      top: 12px;
+      left: 13px;
+      font: 11px monospace;
+      color: #a1c4d5;
+    }
+
+    .notice, .error {
+      font-size: 11px;
+      line-height: 1.8;
+      padding: 12px;
+      border-radius: 9px;
+      margin-top: 12px;
+    }
+
+    .notice {
+      background: #10352d;
+      border: 1px solid #33735f;
+      color: #a9f5d3;
+    }
+
+    .error {
+      background: #392521;
+      border: 1px solid #8d6145;
+      color: #ffd1aa;
+    }
+
+    .status {
+      min-height: 20px;
+      font-size: 12px;
+      color: #8eeecd;
+      margin: 10px 0;
+    }
+
+    .good { color: #63f1b8; }
+    .bad { color: #ff8da5; }
+
+    .tablewrap { overflow-x: auto; }
+
+    table {
+      font-size: 11px;
+      width: 100%;
+      margin: 0;
+    }
+
+    th, td {
+      padding: 10px;
+      white-space: nowrap;
+      border-bottom: 1px solid #2e4c5e;
+    }
+
+    th { color: #a4becc; }
+
+    dialog#symbolDialog {
+      width: min(780px, calc(100vw - 24px));
+      max-height: 86vh;
+      padding: 0;
+      background: #0b1b2b;
+      color: #edf8ff;
+      border: 1px solid #40776c;
+      border-radius: 17px;
+      box-shadow: 0 20px 80px #000b;
+    }
+
+    #symbolDialog::backdrop {
+      background: #000b;
+      backdrop-filter: blur(5px);
+    }
+
+    .dialoghead {
+      padding: 21px;
+      background: #102637;
+      border-bottom: 1px solid #315263;
+    }
+
+    .dialogtop {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .dialogtop h3 { margin: 0; font-size: 22px; }
+
+    #symbolResults {
+      max-height: 46vh;
+      overflow-y: auto;
+      padding: 10px;
+    }
+
+    #symbolResults button {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      text-align: left;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid #294453;
+      color: #eaf9ff;
+      padding: 12px;
+    }
+
+    #symbolResults button:hover {
+      background: #174238;
+    }
+
+    #symbolResults small { color: #93b3c2; }
+
+    .subscribe article {
+      background: #132736;
+      border: 1px solid #335363;
+      border-radius: 15px;
+    }
+
+    .subscribe h2 { font-size: 19px; }
+    .subscribe h3 { font-size: 12px; color: #9ebccc; }
+    .subscribe form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; }
+    .subscribe input { margin: 0 !important; }
+
+    footer.container {
+      border-top: 1px solid #315163;
+      padding-top: 17px;
+      margin-top: 25px;
+    }
+
+    footer a { color: #abeedb; }
+
+    @media(max-width: 850px) {
+      .dashboard { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media(max-width: 570px) {
+      main.container { padding: 14px 9px; }
+      .panel, .hero { padding: 16px; }
+      .fields { grid-template-columns: 1fr; }
+      canvas.chart { height: 270px; }
+      nav.container-fluid { flex-wrap: wrap; }
+      .subscribe form { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="container-fluid">
+  <ul>
+    <li>
+      <strong class="brand">
+        AXIOM<span>.</span> PRO <sup>ULTIMATE</sup>
+      </strong>
+    </li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="#trades">Trade History</a></li>
+    <li><a href="#terminal" role="button">Trading Desk</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+
+      <header class="hero">
+        <span class="eyebrow">AXIOM ULTIMATE · PAPER TRADING ENGINE 01</span>
+        <hgroup>
+          <h2>Trade the market.<br><span>Without real risk.</span></h2>
+          <h3>Real Binance Spot prices · Virtual LONG / SHORT</h3>
+        </hgroup>
+        <p>
+          Học giao dịch với nến và báo giá công khai từ thị trường thật.
+          Không gửi bất kỳ lệnh nào lên sàn. Tất cả giao dịch và số dư
+          trên trang đều là mô phỏng.
+        </p>
+        <figure>
+          <img
+            alt="Đồ thị tăng trưởng minh họa"
+            src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 600 90'%3E%3Cpath d='M8 75L82 57L125 67L203 29L253 45L319 12L387 25L453 9L513 21L588 5' fill='none' stroke='%2350efbc' stroke-width='5'/%3E%3C/svg%3E"
+          >
+          <figcaption>
+            <a href="https://www.binance.com" target="_blank" rel="noopener noreferrer">
+              Public market reference — Binance
+            </a>
+          </figcaption>
+        </figure>
+      </header>
+
+      <div class="stats">
+        <div class="stat">
+          <small>MARKET STATUS</small>
+          <strong id="connection">OFFLINE</strong>
+          <p id="connectionDetail">Đang kết nối</p>
+        </div>
+
+        <div class="stat">
+          <small>VIRTUAL BALANCE</small>
+          <strong id="balance">$10,000</strong>
+          <p id="walletCurrency">Ví USDT giả lập</p>
+        </div>
+
+        <div class="stat">
+          <small>LAST MARKET PRICE</small>
+          <strong id="lastPrice">—</strong>
+          <p id="priceTime">Chưa có báo giá</p>
+        </div>
+
+        <div class="stat">
+          <small>CLOSED TRADES</small>
+          <strong id="tradeCount">0</strong>
+          <p>Lịch sử giao dịch ảo</p>
+        </div>
+      </div>
+
+      <div class="dashboard" id="terminal">
+
+        <article class="panel">
+          <h3>↗ Real Market Chart</h3>
+
+          <p class="small">
+            Tải nến Binance Spot đã đóng. Ticker hiện tại được tải riêng.
+            Đây là dữ liệu thị trường thật, không phải nến do AXIOM tự tạo.
+          </p>
+
+          <div class="fields">
+            <label>
+              Asset
+              <select id="symbol">
+                <option value="BTCUSDT">BTC / USDT</option>
+                <option value="ETHUSDT">ETH / USDT</option>
+                <option value="SOLUSDT">SOL / USDT</option>
+              </select>
+            </label>
+
+            <label>
+              Timeframe
+              <select id="timeframe">
+                <option value="1m">1 minute</option>
+                <option value="5m" selected>5 minutes</option>
+                <option value="15m">15 minutes</option>
+                <option value="1h">1 hour</option>
+                <option value="4h">4 hours</option>
+                <option value="1d">1 day</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button class="primary" id="searchSymbols" type="button">
+              ⌕ Search All Symbols
+            </button>
+
+            <button class="alt" id="refresh" type="button">
+              ↻ Refresh Chart
+            </button>
+          </div>
+
+          <div class="chartwrap">
+            <canvas id="chart" class="chart"></canvas>
+            <span id="chartLabel" class="chartlabel">
+              Loading historical candles...
+            </span>
+          </div>
+
+          <div class="notice" id="sourceStatus">
+            Đang tải dữ liệu từ Binance Spot...
+          </div>
+
+          <div class="actions">
+            <button class="alt" type="button" id="exportData">
+              ↓ Export Paper JSON
+            </button>
+
+            <button class="alt" type="button" id="resetAccount">
+              Reset Demo Account
+            </button>
+          </div>
+
+          <p class="small">
+            Nếu Binance API bị chặn theo mạng hoặc khu vực,
+            AXIOM sẽ báo OFFLINE và không hiển thị giá giả.
+          </p>
+        </article>
+
+        <article class="panel">
+          <h3>◎ Virtual Trading Desk</h3>
+
+          <div class="fields">
+            <label>
+              Direction
+              <select id="side">
+                <option value="LONG">LONG ▲</option>
+                <option value="SHORT">SHORT ▼</option>
+              </select>
+            </label>
+
+            <label>
+              Quantity
+              <input id="qty" type="number" min="0.00000001" step="any" value="0.01">
+            </label>
+
+            <label>
+              Stop Loss
+              <input id="sl" type="number" step="any" placeholder="SL price">
+            </label>
+
+            <label>
+              Take Profit
+              <input id="tp" type="number" step="any" placeholder="TP price">
+            </label>
+          </div>
+
+          <p id="riskInfo" class="small">
+            Nhập Stop Loss để tính rủi ro dự kiến.
+          </p>
+
+          <div class="actions">
+            <button class="primary" type="button" id="openTrade" disabled>
+              + Open Virtual Trade
+            </button>
+
+            <button class="alt" type="button" id="closeTrade" disabled>
+              Close at Current Price
+            </button>
+          </div>
+
+          <p class="status" id="tradeStatus"></p>
+
+          <div class="notice">
+            Mỗi lệnh giới hạn rủi ro kế hoạch ở mức 1% ví ảo.
+            LONG/SHORT là mô phỏng, không sử dụng đòn bẩy.
+          </div>
+
+          <div class="error">
+            Mô hình không tính spread, phí, funding, slippage
+            hay liquidation. Giá được kiểm tra định kỳ,
+            không phải luồng tick liên tục. Stop Loss không
+            được bảo đảm khớp đúng mức đặt.
+          </div>
+
+          <h4 style="margin-top:20px">Open Position</h4>
+          <p id="position" class="small">
+            Chưa có vị thế nào được mở.
+          </p>
+        </article>
+      </div>
+
+      <article class="panel" id="trades">
+        <h3>▤ Paper Trading History</h3>
+
+        <div class="tablewrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Symbol</th>
+                <th>Side</th>
+                <th>Entry</th>
+                <th>Exit</th>
+                <th>Qty</th>
+                <th>PNL</th>
+                <th>Reason</th>
+              </tr>
+            </thead>
+            <tbody id="tradeRows"></tbody>
+          </table>
+        </div>
+
+        <p class="small">
+          Giao dịch demo được lưu trong trình duyệt với khóa
+          <code>axiom_paper_trading_v1</code>.
+          Không sửa dữ liệu PNL thật của AXIOM.
+        </p>
+      </article>
+
+      <h3>Master the process.</h3>
+      <p class="small">
+        Mục tiêu của Paper Trading là luyện cách xây dựng kế hoạch,
+        kiểm soát rủi ro và ghi nhật ký, không phải chứng minh
+        rằng giao dịch bằng tiền thật sẽ có lợi nhuận.
+      </p>
+
+    </section>
+  </div>
+</main>
+
+<section aria-label="Subscribe example" class="subscribe">
+  <div class="container">
+    <article>
+      <hgroup>
+        <h2>Build your trading discipline.</h2>
+        <h3>Lời nhắc cá nhân trên trang, không gửi email.</h3>
+      </hgroup>
+
+      <form class="grid" id="reminderForm">
+        <input type="text" id="firstname" name="firstname"
+               placeholder="Tên của bạn" aria-label="Tên của bạn" required>
+        <input type="email" id="email" name="email"
+               placeholder="Email" aria-label="Email" required>
+        <button type="submit">Confirm</button>
+      </form>
+
+      <small id="reminderStatus" class="small"></small>
+    </article>
+  </div>
+</section>
+
+<footer class="container">
+  <small>
+    <a href="./index.html">AXIOM Dashboard</a> •
+    <a href="#terminal">Paper Trading</a>
+  </small>
+</footer>
+
+<dialog id="symbolDialog">
+  <div class="dialoghead">
+    <div class="dialogtop">
+      <h3>Symbol Search</h3>
+      <button class="alt" id="closeDialog" type="button">✕ Close</button>
+    </div>
+
+    <input id="symbolQuery" type="search"
+           placeholder="Search BTC, ETH, XRP, SOL..."
+           aria-label="Search symbol">
+
+    <select id="quoteFilter" aria-label="Quote asset">
+      <option value="USDT">USDT Pairs</option>
+      <option value="USDC">USDC Pairs</option>
+      <option value="FDUSD">FDUSD Pairs</option>
+      <option value="BTC">BTC Pairs</option>
+      <option value="ETH">ETH Pairs</option>
+      <option value="ALL">All Spot Pairs</option>
+    </select>
+
+    <p class="small" id="symbolCount">Loading symbols...</p>
+  </div>
+
+  <div id="symbolResults"></div>
+</dialog>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = id => document.getElementById(id);
+
+  const API = "https://data-api.binance.vision/api/v3";
+  const SAVE_KEY = "axiom_paper_trading_v1";
+
+  let allSymbols = [];
+  let marketBars = [];
+  let latestQuote = null;
+
+  let currentSymbol = "BTCUSDT";
+  let currentTimeframe = "5m";
+  let loading = false;
+  let polling = false;
+
+  const defaultAccount = () => ({
+    wallets: {},
+    position: null,
+    history: []
+  });
+
+  function readAccount() {
+    try {
+      const saved = JSON.parse(
+        localStorage.getItem(SAVE_KEY) || "null"
+      );
+
+      if (
+        saved &&
+        saved.wallets &&
+        typeof saved.wallets === "object" &&
+        !Array.isArray(saved.wallets) &&
+        Array.isArray(saved.history) &&
+        Object.prototype.hasOwnProperty.call(saved, "position")
+      ) {
+        return saved;
+      }
+    } catch (error) {
+      console.warn("Paper account load error:", error);
+    }
+
+    return defaultAccount();
+  }
+
+  let account = readAccount();
+
+  function saveAccount() {
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(account));
+    } catch (error) {
+      $("tradeStatus").textContent =
+        "Không lưu được dữ liệu: " + error.message;
+    }
+  }
+
+  const format = number => {
+    const value = Number(number);
+
+    if (!Number.isFinite(value)) return "—";
+
+    const digits = Math.abs(value) < 1 ? 6 : 2;
+
+    return value.toLocaleString("en-US", {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits
+    });
+  };
+
+  const dateLabel = timestamp =>
+    new Date(timestamp).toLocaleString("vi-VN");
+
+  function quoteCurrency(symbol) {
+    const match = allSymbols.find(x => x.symbol === symbol);
+
+    if (match) return match.quoteAsset;
+
+    for (const quote of [
+      "USDT", "USDC", "FDUSD", "BTC", "ETH", "BNB"
+    ]) {
+      if (symbol.endsWith(quote)) return quote;
+    }
+
+    return "QUOTE";
+  }
+
+  function wallet(currency) {
+    if (!Number.isFinite(account.wallets[currency])) {
+      // Mỗi loại quote asset có ví demo độc lập.
+      account.wallets[currency] = 10000;
+      saveAccount();
+    }
+
+    return account.wallets[currency];
+  }
+
+  async function fetchJSON(path, params = {}) {
+    const url = new URL(API + path);
+
+    for (const [key, value] of Object.entries(params)) {
+      url.searchParams.set(key, String(value));
+    }
+
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 14000);
+
+    try {
+      const response = await fetch(url, {
+        cache: "no-store",
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        throw new Error("Binance HTTP " + response.status);
+      }
+
+      return await response.json();
+
+    } catch (error) {
+      if (error.name === "AbortError") {
+        throw new Error("Market API timeout");
+      }
+
+      throw error;
+
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async function fetchQuote(symbol) {
+    const data = await fetchJSON("/ticker/price", { symbol });
+
+    const price = Number(data.price);
+
+    if (!Number.isFinite(price) || price <= 0) {
+      throw new Error("Invalid market quote");
+    }
+
+    return {
+      symbol,
+      price,
+      received: Date.now()
+    };
+  }
+
+  async function fetchCandles(symbol, timeframe) {
+    const raw = await fetchJSON("/klines", {
+      symbol,
+      interval: timeframe,
+      limit: 300
+    });
+
+    if (!Array.isArray(raw)) {
+      throw new Error("Invalid candle response");
+    }
+
+    const now = Date.now();
+
+    const rows = raw.map(item => ({
+      open: Number(item[1]),
+      high: Number(item[2]),
+      low: Number(item[3]),
+      close: Number(item[4]),
+      end: Number(item[6])
+    })).filter(bar =>
+      Object.values(bar).every(Number.isFinite) &&
+      bar.open > 0 &&
+      bar.close > 0 &&
+      bar.high >= Math.max(bar.open, bar.close) &&
+      bar.low <= Math.min(bar.open, bar.close) &&
+      bar.end < now
+    );
+
+    if (rows.length < 30) {
+      throw new Error("Not enough closed candles");
+    }
+
+    return rows;
+  }
+
+  function drawChart() {
+    const canvas = $("chart");
+
+    if (!marketBars.length) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    if (rect.width < 10 || rect.height < 10) return;
+
+    const ratio = Math.min(2, devicePixelRatio || 1);
+    const width = rect.width;
+    const height = rect.height;
+
+    canvas.width = Math.ceil(width * ratio);
+    canvas.height = Math.ceil(height * ratio);
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+    ctx.clearRect(0, 0, width, height);
+
+    const bars = marketBars.slice(-60);
+
+    const low = Math.min(...bars.map(x => x.low));
+    const high = Math.max(...bars.map(x => x.high));
+
+    const padding = (high - low) * 0.15 || 1;
+
+    const min = low - padding;
+    const max = high + padding;
+
+    const plotWidth = width - 70;
+    const step = plotWidth / bars.length;
+
+    function y(price) {
+      return 12 +
+        (max - price) / (max - min) *
+        (height - 44);
+    }
+
+    ctx.font = "10px monospace";
+
+    // Horizontal grid + price axis.
+    for (let i = 0; i < 5; i++) {
+      const price = max - (max - min) * i / 4;
+      const yy = y(price);
+
+      ctx.setLineDash([4, 6]);
+      ctx.strokeStyle = "#2a4959";
+      ctx.beginPath();
+      ctx.moveTo(8, yy);
+      ctx.lineTo(width - 57, yy);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      ctx.fillStyle = "#88afbf";
+      ctx.fillText(
+        format(price),
+        width - 55,
+        yy + 3
+      );
+    }
+
+    // Candles.
+    bars.forEach((bar, index) => {
+      const x = 11 + (index + 0.5) * step;
+      const rising = bar.close >= bar.open;
+
+      const color = rising ? "#59efbf" : "#fb8ca1";
+
+      ctx.strokeStyle = color;
+      ctx.fillStyle = color;
+      ctx.lineWidth = 1.5;
+
+      ctx.beginPath();
+      ctx.moveTo(x, y(bar.high));
+      ctx.lineTo(x, y(bar.low));
+      ctx.stroke();
+
+      const top = Math.min(y(bar.open), y(bar.close));
+      const bodyHeight = Math.max(
+        2,
+        Math.abs(y(bar.open) - y(bar.close))
+      );
+
+      const bodyWidth = Math.max(2, step * 0.6);
+
+      ctx.fillRect(
+        x - bodyWidth / 2,
+        top,
+        bodyWidth,
+        bodyHeight
+      );
+    });
+
+    // Position levels.
+    const position = account.position;
+
+    if (
+      position &&
+      position.symbol === currentSymbol
+    ) {
+      const levels = [
+        ["ENTRY", position.entry, "#9dbaff"],
+        ["SL", position.sl, "#ff8ea6"],
+        ["TP", position.tp, "#6af8c8"]
+      ];
+
+      levels.forEach(([label, price, color]) => {
+        if (price < min || price > max) return;
+
+        const yy = y(price);
+
+        ctx.strokeStyle = color;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(8, yy);
+        ctx.lineTo(width - 57, yy);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.fillStyle = color;
+        ctx.fillText(label, 15, yy - 5);
+      });
+    }
+
+    ctx.fillStyle = "#8fb5c5";
+    ctx.fillText(
+      "BINANCE SPOT · CLOSED CANDLES",
+      13,
+      height - 10
+    );
+  }
+
+  function isFresh() {
+    return (
+      latestQuote &&
+      latestQuote.symbol === currentSymbol &&
+      Date.now() - latestQuote.received < 35000
+    );
+  }
+
+  function calculateRisk() {
+    const price = latestQuote?.price;
+    const qty = Number($("qty").value);
+    const sl = Number($("sl").value);
+    const tp = Number($("tp").value);
+    const side = $("side").value;
+
+    const currency = quoteCurrency(currentSymbol);
+    const balance = wallet(currency);
+
+    const valid =
+      Number.isFinite(price) &&
+      [qty, sl, tp].every(x =>
+        Number.isFinite(x) && x > 0
+      ) &&
+      (
+        side === "LONG"
+          ? sl < price && price < tp
+          : tp < price && price < sl
+      );
+
+    const risk = valid
+      ? Math.abs(price - sl) * qty
+      : NaN;
+
+    const notional = valid ? price * qty : NaN;
+
+    if (Number.isFinite(risk)) {
+      $("riskInfo").textContent =
+        "Planned risk: " + format(risk) + " " +
+        currency + " (" +
+        format(100 * risk / Math.max(balance, 0.000001)) +
+        "% ví demo). Giới hạn: 1%.";
+    } else {
+      $("riskInfo").textContent =
+        "LONG: SL < Entry < TP. " +
+        "SHORT: TP < Entry < SL.";
+    }
+
+    $("openTrade").disabled = !(
+      isFresh() &&
+      !account.position &&
+      valid &&
+      risk > 0 &&
+      risk <= balance * 0.01 &&
+      notional <= balance &&
+      balance > 0
+    );
+
+    $("closeTrade").disabled = !(
+      isFresh() &&
+      account.position
+    );
+
+    return { valid, risk, notional, balance, currency };
+  }
+
+  function renderAccount() {
+    const currency = quoteCurrency(currentSymbol);
+
+    $("balance").textContent = format(wallet(currency));
+    $("walletCurrency").textContent =
+      "Ví " + currency + " giả lập";
+
+    $("lastPrice").textContent =
+      latestQuote
+        ? format(latestQuote.price)
+        : "—";
+
+    $("priceTime").textContent =
+      latestQuote
+        ? "Nhận lúc " + dateLabel(latestQuote.received)
+        : "Không có báo giá";
+
+    $("tradeCount").textContent =
+      account.history.length;
+
+    const position = account.position;
+
+    $("position").textContent = position
+      ? position.symbol + " " + position.side +
+        " | Entry: " + format(position.entry) +
+        " | Qty: " + position.qty +
+        " | SL: " + format(position.sl) +
+        " | TP: " + format(position.tp)
+      : "Chưa có vị thế nào được mở.";
+
+    const rows = $("tradeRows");
+    rows.replaceChildren();
+
+    account.history
+      .slice(-50)
+      .reverse()
+      .forEach(trade => {
+        const row = document.createElement("tr");
+
+        const values = [
+          trade.time,
+          trade.symbol,
+          trade.side,
+          format(trade.entry),
+          format(trade.exit),
+          String(trade.qty),
+          format(trade.pnl) + " " + trade.currency,
+          trade.reason
+        ];
+
+        values.forEach((value, index) => {
+          const cell = document.createElement("td");
+
+          cell.textContent = value;
+
+          if (index === 6) {
+            cell.className =
+              trade.pnl >= 0 ? "good" : "bad";
+          }
+
+          row.appendChild(cell);
+        });
+
+        rows.appendChild(row);
+      });
+
+    calculateRisk();
+  }
+
+  function finishTrade(exit, reason) {
+    const position = account.position;
+
+    if (!position) return;
+
+    const direction =
+      position.side === "LONG" ? 1 : -1;
+
+    const pnl =
+      direction *
+      (exit - position.entry) *
+      position.qty;
+
+    wallet(position.currency);
+
+    account.wallets[position.currency] += pnl;
+
+    account.history.push({
+      time: dateLabel(Date.now()),
+      symbol: position.symbol,
+      side: position.side,
+      entry: position.entry,
+      exit,
+      qty: position.qty,
+      pnl,
+      currency: position.currency,
+      reason
+    });
+
+    account.position = null;
+
+    saveAccount();
+
+    $("tradeStatus").textContent =
+      reason + " | Virtual PNL: " +
+      format(pnl) + " " +
+      position.currency;
+  }
+
+  async function updateQuote() {
+    if (polling || document.hidden) return;
+
+    polling = true;
+    const symbol = currentSymbol;
+
+    try {
+      const tick = await fetchQuote(symbol);
+
+      if (symbol !== currentSymbol) return;
+
+      latestQuote = tick;
+
+      $("connection").textContent = "ONLINE";
+      $("connectionDetail").textContent =
+        symbol + " · Binance public ticker";
+
+      $("sourceStatus").textContent =
+        "Nguồn: Binance Spot. Giá nhận lúc " +
+        dateLabel(tick.received) +
+        ". Dữ liệu cập nhật định kỳ khoảng 15 giây.";
+
+      const position = account.position;
+
+      if (position && position.symbol === symbol) {
+        const stopHit =
+          position.side === "LONG"
+            ? tick.price <= position.sl
+            : tick.price >= position.sl;
+
+        const targetHit =
+          position.side === "LONG"
+            ? tick.price >= position.tp
+            : tick.price <= position.tp;
+
+        if (stopHit) {
+          finishTrade(
+            tick.price,
+            "Virtual SL triggered at observed quote"
+          );
+        } else if (targetHit) {
+          finishTrade(
+            tick.price,
+            "Virtual TP triggered at observed quote"
+          );
+        }
+      }
+
+      renderAccount();
+
+    } catch (error) {
+      latestQuote = null;
+
+      $("connection").textContent = "OFFLINE";
+      $("connectionDetail").textContent =
+        "Ticker API unavailable";
+
+      $("sourceStatus").textContent =
+        "Không lấy được báo giá thật: " + error.message;
+
+      renderAccount();
+
+    } finally {
+      polling = false;
+    }
+  }
+
+  async function loadMarket() {
+    if (loading) return;
+
+    loading = true;
+
+    currentSymbol = $("symbol").value;
+    currentTimeframe = $("timeframe").value;
+
+    marketBars = [];
+    latestQuote = null;
+
+    $("connection").textContent = "LOADING";
+    $("chartLabel").textContent =
+      "Loading real market candles...";
+
+    $("sourceStatus").textContent =
+      "Đang tải dữ liệu từ Binance Spot...";
+
+    renderAccount();
+
+    try {
+      marketBars = await fetchCandles(
+        currentSymbol,
+        currentTimeframe
+      );
+
+      $("chartLabel").textContent =
+        currentSymbol + " · " +
+        currentTimeframe + " · " +
+        marketBars.length + " closed candles";
+
+      drawChart();
+
+      await updateQuote();
+
+    } catch (error) {
+      $("connection").textContent = "OFFLINE";
+
+      $("chartLabel").textContent =
+        "Market data unavailable";
+
+      $("sourceStatus").textContent =
+        "Không tải được nến thật: " + error.message;
+
+    } finally {
+      loading = false;
+    }
+  }
+
+  // Symbol search: obtain active Binance Spot pairs.
+  async function loadSymbols() {
+    try {
+      const response = await fetchJSON("/exchangeInfo");
+
+      if (!Array.isArray(response.symbols)) {
+        throw new Error("Invalid symbol response");
+      }
+
+      allSymbols = response.symbols.filter(item =>
+        item.symbol &&
+        item.baseAsset &&
+        item.quoteAsset &&
+        item.status === "TRADING" &&
+        item.isSpotTradingAllowed !== false
+      );
+
+      const select = $("symbol");
+      const previous = select.value;
+
+      select.replaceChildren();
+
+      const fragment = document.createDocumentFragment();
+
+      for (const item of allSymbols) {
+        const option = document.createElement("option");
+
+        option.value = item.symbol;
+        option.textContent =
+          item.baseAsset + " / " + item.quoteAsset;
+
+        fragment.appendChild(option);
+      }
+
+      select.appendChild(fragment);
+      select.value = previous;
+
+      if (!select.value) {
+        select.value = "BTCUSDT";
+      }
+
+      $("symbolCount").textContent =
+        allSymbols.length + " cặp Spot đang giao dịch";
+
+    } catch (error) {
+      $("symbolCount").textContent =
+        "Không tải được danh sách: " + error.message;
+
+      // Giữ danh sách mặc định nếu API bị chặn.
+    }
+  }
+
+  const dialog = $("symbolDialog");
+
+  function displaySymbols() {
+    const keyword = $("symbolQuery").value
+      .toUpperCase()
+      .replace(/[^A-Z0-9]/g, "");
+
+    const quoteFilter = $("quoteFilter").value;
+
+    const matches = allSymbols.filter(item => {
+      const matchingQuote =
+        quoteFilter === "ALL" ||
+        item.quoteAsset === quoteFilter;
+
+      const matchingSymbol =
+        item.symbol.includes(keyword) ||
+        item.baseAsset.includes(keyword);
+
+      return matchingQuote && matchingSymbol;
+    });
+
+    const results = $("symbolResults");
+    results.replaceChildren();
+
+    $("symbolCount").textContent =
+      matches.length + " kết quả · hiện tối đa 100";
+
+    for (const item of matches.slice(0, 100)) {
+      const button = document.createElement("button");
+      button.type = "button";
+
+      const title = document.createElement("strong");
+      title.textContent =
+        item.baseAsset + " / " + item.quoteAsset;
+
+      const subtitle = document.createElement("small");
+      subtitle.textContent = "BINANCE SPOT";
+
+      button.append(title, subtitle);
+
+      button.addEventListener("click", () => {
+        if (account.position) {
+          $("tradeStatus").textContent =
+            "Đóng vị thế ảo trước khi đổi symbol.";
+          dialog.close();
+          return;
+        }
+
+        $("symbol").value = item.symbol;
+        dialog.close();
+
+        $("sl").value = "";
+        $("tp").value = "";
+
+        loadMarket();
+      });
+
+      results.appendChild(button);
+    }
+
+    if (!matches.length) {
+      const empty = document.createElement("p");
+      empty.textContent = "Không tìm thấy symbol.";
+      results.appendChild(empty);
+    }
+  }
+
+  $("searchSymbols").onclick = () => {
+    if (!allSymbols.length) {
+      $("sourceStatus").textContent =
+        "Danh sách symbol chưa tải được từ Binance.";
+      return;
+    }
+
+    $("symbolQuery").value = "";
+    $("quoteFilter").value = "USDT";
+
+    displaySymbols();
+    dialog.showModal();
+  };
+
+  $("closeDialog").onclick = () => dialog.close();
+
+  $("symbolQuery").oninput = displaySymbols;
+  $("quoteFilter").onchange = displaySymbols;
+
+  dialog.addEventListener("click", event => {
+    if (event.target === dialog) dialog.close();
+  });
+
+  $("symbol").onchange = () => {
+    if (account.position) {
+      $("symbol").value = currentSymbol;
+      $("tradeStatus").textContent =
+        "Hãy đóng vị thế ảo trước khi đổi symbol.";
+      return;
+    }
+
+    $("sl").value = "";
+    $("tp").value = "";
+
+    loadMarket();
+  };
+
+  $("timeframe").onchange = () => loadMarket();
+  $("refresh").onclick = loadMarket;
+
+  ["qty", "sl", "tp", "side"].forEach(id => {
+    $(id).addEventListener("input", calculateRisk);
+  });
+
+  $("side").onchange = calculateRisk;
+
+  $("openTrade").onclick = async () => {
+    if (account.position) return;
+
+    $("openTrade").disabled = true;
+
+    try {
+      // Obtain a new price when the user clicks.
+      const tick = await fetchQuote(currentSymbol);
+
+      latestQuote = tick;
+
+      const plan = calculateRisk();
+
+      if (
+        !plan.valid ||
+        plan.risk <= 0 ||
+        plan.risk > plan.balance * 0.01 ||
+        plan.notional > plan.balance
+      ) {
+        $("tradeStatus").textContent =
+          "Lệnh không hợp lệ. Kiểm tra SL/TP, " +
+          "khối lượng, giới hạn 1% rủi ro " +
+          "và giá trị vị thế so với ví ảo.";
+        return;
+      }
+
+      account.position = {
+        symbol: currentSymbol,
+        currency: plan.currency,
+        side: $("side").value,
+        qty: Number($("qty").value),
+        entry: tick.price,
+        sl: Number($("sl").value),
+        tp: Number($("tp").value)
+      };
+
+      saveAccount();
+      renderAccount();
+      drawChart();
+
+      $("tradeStatus").textContent =
+        "Đã mở " + account.position.side +
+        " ẢO tại " + format(tick.price) +
+        ". Không gửi lệnh lên sàn.";
+
+    } catch (error) {
+      $("tradeStatus").textContent =
+        "Không lấy được giá mới: " + error.message;
+
+    } finally {
+      calculateRisk();
+    }
+  };
+
+  $("closeTrade").onclick = async () => {
+    if (!account.position) return;
+
+    $("closeTrade").disabled = true;
+
+    try {
+      const tick = await fetchQuote(
+        account.position.symbol
+      );
+
+      latestQuote = tick;
+
+      finishTrade(tick.price, "Manual close");
+
+      renderAccount();
+      drawChart();
+
+    } catch (error) {
+      $("tradeStatus").textContent =
+        "Không thể đóng tại giá chưa xác minh: " +
+        error.message;
+
+    } finally {
+      calculateRisk();
+    }
+  };
+
+  $("exportData").onclick = () => {
+    const backup = {
+      format: "AXIOM_PAPER_TRADING_V1",
+      exportedAt: new Date().toISOString(),
+      account
+    };
+
+    const blob = new Blob(
+      [JSON.stringify(backup, null, 2)],
+      { type: "application/json" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+
+    anchor.href = url;
+    anchor.download = "axiom-paper-trading-backup.json";
+
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  };
+
+  $("resetAccount").onclick = () => {
+    const confirmed = confirm(
+      "Reset toàn bộ ví và lịch sử Paper Trading?\n" +
+      "Nhật ký giao dịch thật sẽ không bị ảnh hưởng."
+    );
+
+    if (!confirmed) return;
+
+    account = defaultAccount();
+
+    saveAccount();
+    renderAccount();
+    drawChart();
+
+    $("tradeStatus").textContent =
+      "Đã reset tài khoản giao dịch ảo.";
+  };
+
+  $("reminderForm").onsubmit = event => {
+    event.preventDefault();
+
+    $("reminderStatus").textContent =
+      "Lời nhắc chỉ hiển thị tại trang. Không gửi email.";
+  };
+
+  window.addEventListener("resize", drawChart);
+
+  // Price polling. Does not run while browser tab is hidden.
+  setInterval(() => {
+    if (!document.hidden) {
+      updateQuote();
+    }
+  }, 15000);
+
+  setInterval(renderAccount, 5000);
+
+  renderAccount();
+  loadSymbols();
+  loadMarket();
+})();
+</script>
+
+</body>
+</html>
