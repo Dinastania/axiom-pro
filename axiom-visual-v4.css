@@ -1,0 +1,362 @@
+
+/* ==========================================
+   AXIOM PRO ULTIMATE
+   VISUAL EVOLUTION 4.0
+   PHASE 1 — COMMAND DASHBOARD
+   DINATRAN FOUNDER EDITION
+   ========================================== */
+
+.axv4-command,
+.axv4-command * {
+  box-sizing: border-box;
+}
+
+.axv4-command {
+  --axv4-mint: #64ffd2;
+  --axv4-cyan: #59ceff;
+  --axv4-violet: #b495ff;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr)
+                         minmax(210px, .6fr);
+  align-items: center;
+  gap: 24px;
+
+  width: 100%;
+  min-width: 0;
+  margin: 20px 0 25px;
+  padding: clamp(24px, 4vw, 43px);
+
+  border: 1px solid rgba(98, 236, 210, .32);
+  border-radius: 24px;
+
+  background:
+    radial-gradient(
+      ellipse at 85% 30%,
+      rgba(49, 206, 205, .19),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 10% 95%,
+      rgba(135, 83, 236, .14),
+      transparent 60%
+    ),
+    linear-gradient(
+      125deg,
+      #102b39,
+      #0d192e 68%,
+      #12132e
+    );
+
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, .22),
+    inset 0 1px rgba(255, 255, 255, .08);
+}
+
+.axv4-command::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image: linear-gradient(
+    90deg,
+    rgba(130, 255, 222, .035) 1px,
+    transparent 1px
+  );
+
+  background-size: 44px 44px;
+  mask-image: linear-gradient(90deg, transparent, black);
+}
+
+.axv4-command-copy {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.axv4-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 2px;
+  color: #8bffde;
+  text-transform: uppercase;
+}
+
+.axv4-dot {
+  width: 8px;
+  height: 8px;
+  flex: 0 0 8px;
+  border-radius: 50%;
+  background: #65ffd0;
+  box-shadow: 0 0 13px #65ffd080;
+}
+
+.axv4-command-title {
+  margin: 20px 0 15px !important;
+  font-size: clamp(31px, 4vw, 55px) !important;
+  font-weight: 950 !important;
+  line-height: 1.12 !important;
+  letter-spacing: -1.5px;
+  color: #f0faff !important;
+}
+
+.axv4-command-title span {
+  display: block;
+
+  background: linear-gradient(
+    100deg,
+    #63f8c4,
+    #4fcaf5,
+    #bba0ff
+  );
+
+  color: #68f6d0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.axv4-command-subtitle {
+  max-width: 620px;
+  margin: 0 0 24px !important;
+
+  color: #adc6d7 !important;
+  font-size: 13px !important;
+  line-height: 1.8;
+}
+
+.axv4-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.axv4-tags span {
+  display: inline-block;
+
+  padding: 7px 11px;
+  border: 1px solid rgba(120, 205, 236, .22);
+  border-radius: 9px;
+
+  background: rgba(89, 146, 177, .08);
+  color: #bfd9e5;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .7px;
+  white-space: normal;
+}
+
+/* FUTURISTIC AXIOM LOGO CORE */
+
+.axv4-core {
+  position: relative;
+  display: grid;
+  place-items: center;
+
+  width: min(100%, 260px);
+  aspect-ratio: 1;
+
+  margin: auto;
+}
+
+.axv4-orbit {
+  position: absolute;
+  inset: 8%;
+  border: 1px solid rgba(92, 249, 211, .3);
+  border-radius: 50%;
+  box-shadow: 0 0 32px rgba(52, 236, 207, .09);
+}
+
+.axv4-orbit::before {
+  content: "";
+  position: absolute;
+  inset: 11%;
+  border: 1px dashed rgba(125, 182, 245, .32);
+  border-radius: 50%;
+}
+
+.axv4-orbit::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 12%;
+  right: 12%;
+  border-radius: 50%;
+  background: #63ffd3;
+  box-shadow: 0 0 18px #6df8d5;
+}
+
+.axv4-logo-frame {
+  position: relative;
+  z-index: 1;
+
+  display: grid;
+  place-items: center;
+
+  width: 58%;
+  aspect-ratio: 1;
+
+  padding: 10px;
+  border-radius: 25%;
+  border: 1px solid rgba(111, 255, 218, .4);
+
+  background: linear-gradient(
+    135deg,
+    rgba(32, 92, 91, .7),
+    rgba(29, 27, 71, .72)
+  );
+
+  box-shadow:
+    0 0 25px rgba(83, 255, 209, .13),
+    0 0 65px rgba(96, 147, 255, .1);
+}
+
+.axv4-logo-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  border-radius: 20%;
+}
+
+.axv4-core-caption {
+  position: absolute;
+  bottom: 2%;
+  left: 0;
+  right: 0;
+
+  text-align: center;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: 2px;
+  color: #8fded3;
+}
+
+/* COMMAND PHILOSOPHY TILES */
+
+.axv4-command-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 26px;
+}
+
+.axv4-tile {
+  min-width: 0;
+  padding: 18px;
+  border-radius: 15px;
+
+  background: linear-gradient(
+    140deg,
+    rgba(27, 48, 68, .9),
+    rgba(16, 28, 45, .96)
+  );
+
+  border: 1px solid rgba(117, 177, 207, .2);
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.axv4-tile:hover {
+  transform: translateY(-3px);
+  border-color: rgba(94, 241, 197, .5);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, .18);
+}
+
+.axv4-tile-icon {
+  display: inline-grid;
+  place-items: center;
+
+  width: 36px;
+  height: 36px;
+  margin-bottom: 12px;
+
+  border-radius: 10px;
+  background: rgba(91, 237, 195, .12);
+  color: #75f8d4;
+  font-size: 19px;
+}
+
+.axv4-tile:nth-child(2) .axv4-tile-icon {
+  background: rgba(85, 174, 255, .13);
+  color: #8ccaff;
+}
+
+.axv4-tile:nth-child(3) .axv4-tile-icon {
+  background: rgba(173, 142, 255, .13);
+  color: #c5a9ff;
+}
+
+.axv4-tile h3 {
+  margin: 0 0 7px !important;
+  color: #f0f8ff !important;
+  font-size: 14px !important;
+  font-weight: 850;
+}
+
+.axv4-tile p {
+  margin: 0 !important;
+  color: #a6c0d0 !important;
+  font-size: 11px !important;
+  line-height: 1.7;
+}
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .axv4-command {
+    grid-template-columns: 1fr;
+  }
+
+  .axv4-core {
+    width: 190px;
+  }
+}
+
+@media (max-width: 600px) {
+  .axv4-command {
+    padding: 22px 17px;
+    border-radius: 18px;
+  }
+
+  .axv4-command-title {
+    font-size: 31px !important;
+  }
+
+  .axv4-command-tiles {
+    grid-template-columns: 1fr;
+  }
+
+  .axv4-core {
+    width: 160px;
+  }
+
+  .axv4-tags span {
+    font-size: 8px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .axv4-command *,
+  .axv4-command-tiles * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
