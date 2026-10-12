@@ -323,3 +323,168 @@
     padding: 15px !important;
   }
 }
+
+
+/* =========================================
+   AXIOM V4 — SMALLER / CLEANER CARDS
+   ========================================= */
+
+/* ---------- MARKET PULSE ---------- */
+.axv4-market {
+  padding: 16px !important;
+  border-radius: 18px !important;
+  margin: 14px 0 !important;
+}
+
+.axv4-market-head {
+  margin-bottom: 12px !important;
+}
+
+.axv4-market-title {
+  font-size: 16px !important;
+}
+
+.axv4-market-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin-top: 10px !important;
+}
+
+.axv4-market-card {
+  padding: 12px !important;
+  border-radius: 14px !important;
+  min-height: 120px !important;
+}
+
+.axv4-market-symbol {
+  margin-bottom: 10px !important;
+  gap: 10px !important;
+}
+
+.axv4-market-symbol strong {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+.axv4-market-symbol span {
+  font-size: 10px !important;
+  opacity: .82 !important;
+}
+
+.axv4-market-icon {
+  width: 34px !important;
+  height: 34px !important;
+  flex-basis: 34px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+}
+
+.axv4-market-price {
+  font-size: clamp(18px, 1.6vw, 26px) !important;
+  line-height: 1.1 !important;
+  margin-bottom: 8px !important;
+}
+
+.axv4-market-change {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 8px !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
+.axv4-market-change.positive {
+  background: rgba(68, 242, 181, 0.14) !important;
+  color: #4ff5c6 !important;
+}
+
+.axv4-market-change.negative {
+  background: rgba(255, 98, 146, 0.14) !important;
+  color: #ff7ea7 !important;
+}
+
+.axv4-market-change.neutral {
+  background: rgba(120, 170, 255, 0.14) !important;
+  color: #99c4ff !important;
+}
+
+.axv4-market-foot {
+  margin-top: 12px !important;
+  padding-top: 10px !important;
+}
+
+/* ---------- FOUNDER PROFILE ---------- */
+.axv4-founder-profile {
+  padding: 18px !important;
+  border-radius: 18px !important;
+  margin: 14px 0 !important;
+}
+
+.axv4-founder-identity {
+  gap: 12px !important;
+  margin: 10px 0 8px !important;
+}
+
+.axv4-founder-logo {
+  width: 58px !important;
+  height: 58px !important;
+  flex-basis: 58px !important;
+  border-radius: 14px !important;
+  padding: 4px !important;
+}
+
+.axv4-founder-info h2 {
+  font-size: clamp(26px, 2.4vw, 40px) !important;
+  margin-bottom: 3px !important;
+}
+
+.axv4-founder-info h3,
+.axv4-founder-info strong {
+  font-size: 13px !important;
+}
+
+.axv4-founder-divider {
+  margin: 14px 0 !important;
+}
+
+.axv4-founder-progress-head h3 {
+  font-size: 13px !important;
+}
+
+.axv4-progress-track {
+  margin: 10px 0 12px !important;
+}
+
+.axv4-founder-missions {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.axv4-founder-profile .axv4-mission {
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  min-height: 86px !important;
+}
+
+.axv4-founder-bottom {
+  margin-top: 10px !important;
+  font-size: 10px !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1200px) {
+  .axv4-market-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .axv4-founder-missions,
+  .axv4-market-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
