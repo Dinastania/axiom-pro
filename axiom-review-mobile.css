@@ -1,0 +1,363 @@
+
+/* ==========================================
+ AXIOM PRO — REVIEW + MOBILE OPTIMIZATION
+ DINATRAN FOUNDER EDITION
+ Scoped styles, no trading logic changes
+ ========================================== */
+
+/* WEEKLY / MONTHLY REVIEW */
+
+#axiom-reviews,
+#axiom-reviews * {
+  box-sizing: border-box;
+}
+
+#axiom-reviews {
+  width: 100%;
+  min-width: 0;
+  margin: 13px 0 18px;
+  padding: 18px;
+
+  border: 1px solid var(--axiom-border, #35695e);
+  border-radius: 16px;
+
+  background: var(--axiom-panel, #112631);
+  color: #eaf8ff;
+}
+
+#axiom-reviews .axr-head,
+#axiom-reviews .axr-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+#axiom-reviews .axr-head {
+  margin-bottom: 12px;
+}
+
+#axiom-reviews .axr-kicker {
+  color: var(--axiom-accent, #66f3c7);
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.2px;
+}
+
+#axiom-reviews h2 {
+  margin: 5px 0 0 !important;
+  color: #edfaff !important;
+  font-size: 20px !important;
+  line-height: 1.2;
+}
+
+#axiom-reviews h2 em {
+  color: var(--axiom-accent, #66f3c7);
+  font-style: normal;
+}
+
+#axiom-reviews button {
+  width: auto !important;
+  min-width: 0;
+  min-height: 34px;
+  margin: 0 !important;
+  padding: 7px 11px !important;
+
+  border: 1px solid var(--axiom-border, #315a61);
+  border-radius: 9px;
+
+  background: rgba(8, 22, 32, .65);
+  color: #d7edf7;
+  font-size: 11px !important;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#axiom-reviews button:hover,
+#axiom-reviews button[aria-pressed="true"] {
+  border-color: var(--axiom-accent, #66f3c7);
+  color: var(--axiom-accent, #66f3c7);
+}
+
+#axiom-reviews button:focus-visible {
+  outline: 2px solid var(--axiom-accent, #66f3c7);
+  outline-offset: 2px;
+}
+
+#axiom-reviews .axr-tabs {
+  display: flex;
+  gap: 5px;
+}
+
+#axiom-reviews .axr-toolbar {
+  justify-content: flex-start;
+  margin-bottom: 13px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--axiom-border, #315a61);
+}
+
+#axiom-reviews #axr-period {
+  flex: 1;
+  min-width: 150px;
+  color: #c6dfec;
+  font-size: 12px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+#axiom-reviews .axr-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 9px;
+}
+
+#axiom-reviews .axr-metric,
+#axiom-reviews .axr-insights > div {
+  min-width: 0;
+  margin: 0;
+  padding: 13px;
+
+  border: 1px solid var(--axiom-border, #315a61);
+  border-radius: 11px;
+
+  background: rgba(6, 19, 29, .48);
+}
+
+#axiom-reviews .axr-metric > span,
+#axiom-reviews .axr-insights > div > span {
+  display: block;
+  margin-bottom: 8px;
+  color: #9bb9c8;
+  font-size: 9px;
+  font-weight: 850;
+  letter-spacing: .6px;
+}
+
+#axiom-reviews .axr-metric > strong {
+  display: block;
+  color: #edfaff;
+  font-size: clamp(17px, 1.8vw, 25px);
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+#axiom-reviews [data-tone="positive"] {
+  color: #5af0b5 !important;
+}
+
+#axiom-reviews [data-tone="negative"] {
+  color: #ff8198 !important;
+}
+
+#axiom-reviews .axr-insights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+  margin-top: 9px;
+}
+
+#axiom-reviews .axr-insights strong {
+  display: block;
+  color: #dcebf5;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+#axiom-reviews .axr-note {
+  margin: 12px 0 0 !important;
+  color: #9dbbcc;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+/* TABLET */
+
+@media (max-width: 980px) {
+  main.container.page {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 12px;
+  }
+
+  main.container.page .app-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  main.container.page .content {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #axiom-reviews .axr-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  main.container.page {
+    padding-inline: 10px;
+  }
+
+  main.container.page .content,
+  main.container.page .content > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .content .cols,
+  #performance,
+  .goal-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .stats {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  .stats > article.stat {
+    min-width: 0;
+    padding: 12px !important;
+  }
+
+  .stats > article.stat strong.number {
+    font-size: 19px !important;
+  }
+
+  /* Trade form stays usable on narrow screens */
+
+  form#tradeForm.entry-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #tradeForm > *,
+  #tradeForm > .half,
+  #tradeForm > .full {
+    grid-column: 1 / -1 !important;
+    min-width: 0;
+  }
+
+  /* Calendar: keep seven days in each row */
+
+  #calendar-panel .calendar {
+    grid-template-columns:
+      repeat(7, minmax(0, 1fr)) !important;
+    gap: 3px !important;
+    min-width: 0;
+  }
+
+  #calendar-panel .calendar > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 10px;
+  }
+
+  #calendar-panel .calendar-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  /* History table: horizontal scroll inside table only */
+
+  .table-wrap {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-wrap table {
+    min-width: 760px;
+    width: max-content;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .toolbar > * {
+    min-width: 0;
+    flex: 1 1 135px;
+  }
+
+  dialog {
+    max-width: calc(100vw - 20px) !important;
+    max-height: 90dvh;
+    overflow-y: auto;
+  }
+
+  #axiom-reviews {
+    padding: 13px;
+    border-radius: 13px;
+  }
+
+  #axiom-reviews .axr-insights {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  #axiom-reviews .axr-metric,
+  #axiom-reviews .axr-insights > div {
+    padding: 11px;
+  }
+
+  #axiom-reviews .axr-metric > strong {
+    font-size: 19px;
+  }
+
+  html[data-axiom-theme] .axv4-market-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+/* SMALL PHONES */
+
+@media (max-width: 520px) {
+  nav.topnav {
+    padding-inline: 10px !important;
+    gap: 7px;
+  }
+
+  nav.topnav > ul:last-child > li:nth-child(1),
+  nav.topnav > ul:last-child > li:nth-child(2) {
+    display: none !important;
+  }
+
+  /* Dashboard and Journal remain in the mobile sidebar. */
+
+  nav.topnav .brand {
+    font-size: 16px;
+  }
+
+  nav.topnav a[role="button"] {
+    padding: 9px 11px !important;
+    font-size: 11px !important;
+    white-space: nowrap;
+  }
+
+  #axiom-reviews .axr-toolbar {
+    gap: 6px;
+  }
+
+  #axiom-reviews #axr-period {
+    min-width: 115px;
+    font-size: 11px;
+  }
+
+  #axiom-reviews .axr-metric > span {
+    font-size: 8px;
+  }
+}
