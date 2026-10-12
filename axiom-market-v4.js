@@ -1,336 +1,470 @@
+
+/*
+ AXIOM PRO ULTIMATE — MARKET PULSE V4.1
+ DINATRAN FOUNDER EDITION
+
+ 3 independent public data sources:
+ - Forex: ExchangeRate-API reference rates
+ - Gold: Gold API public quote
+ - Bitcoin: Binance Spot BTC/USDT
+
+ No API keys.
+ No trading data changes.
+ No stale prices presented as live.
+*/
+
 (() => {
+  "use strict";
+
   const REFRESH_MS = 90000;
-  const STORAGE_KEY = 'axiom_market_pulse_v5';
 
   const ASSETS = [
     {
-      key: 'EURUSD',
-      label: 'EUR/USD',
-      name: 'Euro / US Dollar',
-      type: 'fx',
-      icon: '€',
-      decimals: 4
+      key: "EURUSD",
+      title: "EUR/USD",
+      name: "Euro / US Dollar",
+      icon: "€"
     },
     {
-      key: 'USDJPY',
-      label: 'USD/JPY',
-      name: 'US Dollar / Japanese Yen',
-      type: 'fx',
-      icon: '¥',
-      decimals: 2
+      key: "USDJPY",
+      title: "USD/JPY",
+      name: "US Dollar / Yen",
+      icon: "¥"
     },
     {
-      key: 'GBPUSD',
-      label: 'GBP/USD',
-      name: 'British Pound / US Dollar',
-      type: 'fx',
-      icon: '£',
-      decimals: 4
+      key: "GBPUSD",
+      title: "GBP/USD",
+      name: "Pound / US Dollar",
+      icon: "£"
     },
     {
-      key: 'XAUUSD',
-      label: 'XAU/USD',
-      name: 'Gold Spot',
-      type: 'gold',
-      icon: 'Au',
-      decimals: 2
+      key: "XAUUSD",
+      title: "XAU/USD",
+      name: "Gold · USD / oz",
+      icon: "Au"
     },
     {
-      key: 'BTCUSD',
-      label: 'Crypto/BTC',
-      name: 'Bitcoin',
-      type: 'crypto',
-      icon: '₿',
-      decimals: 2
+      key: "BTCUSDT",
+      title: "Crypto/BTC",
+      name: "BTC / USDT · Binance",
+      icon: "₿"
     }
   ];
 
-  const $ = (selector, root = document) => root.querySelector(selector);
-
-  function formatNumber(value, decimals = 2) {
-    if (value == null || Number.isNaN(value)) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
-      minimumFractionDigits: decimals,
-      maximumFractionDigits: decimals
+  function money(value, digits = 2) {
+    return new Intl.NumberFormat("en-US", {
+      minimumFractionDigits: digits,
+      maximumFractionDigits: digits
     }).format(value);
   }
 
-  function getAsset(key) {
-    return ASSETS.find(item => item.key === key);
+  function validPositive(value) {
+    return Number.isFinite(value) && value > 0;
   }
 
-  function getMountTarget() {
-    return (
-      document.querySelector('.content') ||
-      document.querySelector('main .content') ||
-      document.querySelector('main.page') ||
-      document.querySelector('main')
+  async function fetchJSON(url) {
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 12000);
+
+    try {
+      const response = await fetch(url, {
+        signal: controller.signal,
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error("HTTP " + response.status);
+      }
+
+      return await response.json();
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  async function getForex() {
+    const data = await fetchJSON(
+      "https://open.er-api.com/v6/latest/USD"
     );
+
+    if (data.result !== "success" || !data.rates) {
+      throw new Error("Invalid FX response");
+    }
+
+    const EUR = Number(data.rates.EUR);
+    const JPY = Number(data.rates.JPY);
+    const GBP = Number(data.rates.GBP);
+
+    if (
+      !validPositive(EUR) ||
+      !validPositive(JPY) ||
+      !validPositive(GBP)
+    ) {
+      throw new Error("Missing FX rates");
+    }
+
+    return {
+      EURUSD: 1 / EUR,
+      USDJPY: JPY,
+      GBPUSD: 1 / GBP,
+      sourceTime: data.time_last_update_utc || null
+    };
   }
 
-
-function ensureSection() {
-  let section = document.getElementById(
-    "axiom-market-pulse"
-  );
-
-  if (section) return section;
-
-  const dashboard = document.querySelector(
-    ".axv4-command"
-  );
-
-  if (!dashboard) {
-    console.error(
-      "AXIOM Market: Không tìm thấy Command Dashboard."
+  async function getGold() {
+    const data = await fetchJSON(
+      "https://api.gold-api.com/price/XAU"
     );
-    return null;
+
+    const price = Number(data.price);
+
+    if (!validPositive(price)) {
+      throw new Error("Invalid gold price");
+    }
+
+    return { price };
   }
 
-  section = document.createElement("section");
-  section.id = "axiom-market-pulse";
-  section.className = "axv4-market";
+  async function getBitcoin() {
+    const data = await fetchJSON(
+      "https://data-api.binance.vision/api/v3/ticker/24hr" +
+      "?symbol=BTCUSDT"
+    );
 
-  dashboard.insertAdjacentElement(
-    "afterend",
-    section
-  );
+    const price = Number(data.lastPrice);
+    const change = Number(data.priceChangePercent);
 
-  return section;
-}
+    if (
+      !validPositive(price) ||
+      !Number.isFinite(change)
+    ) {
+      throw new Error("Invalid BTC response");
+    }
 
+    return { price, change };
+  }
 
-  function buildMarkup(section) {
-    section.innerHTML = `
-      <div class="axv4-market-head" style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+  function init() {
+    if (document.getElementById("axiom-market-pulse-ready")) {
+      return;
+    }
+
+    const dashboard = document.querySelector(
+      ".axv4-command"
+    );
+
+    if (!dashboard) return;
+
+    let market = document.querySelector(".axv4-market");
+
+    if (!market) {
+      market = document.createElement("section");
+      market.className = "axv4-market";
+
+      dashboard.insertAdjacentElement(
+        "afterend",
+        market
+      );
+    }
+
+    market.id = "axiom-market-pulse-ready";
+
+    market.setAttribute(
+      "aria-label",
+      "AXIOM Global Market Watch"
+    );
+
+    market.innerHTML = `
+      <div class="axv4-market-head">
+
         <div>
-          <div class="axv4-kicker">✦ AXIOM / GLOBAL MARKET WATCH</div>
-          <h2 class="axv4-market-title" style="margin:4px 0 0 0;">Market Pulse / Pro</h2>
+          <span class="axv4-market-eyebrow">
+            ✦ AXIOM / GLOBAL MARKET WATCH
+          </span>
+
+          <h2 class="axv4-market-title">
+            Market Pulse <span>/ Pro</span>
+          </h2>
         </div>
-        <div id="marketPulseStatus" class="axv4-market-change neutral">Đang tải...</div>
+
+        <span class="axv4-market-status"
+              data-state="loading">
+          ĐANG TẢI
+        </span>
+
       </div>
 
       <div class="axv4-market-grid">
         ${ASSETS.map(asset => `
-          <article class="axv4-market-card" data-asset="${asset.key}">
-            <div class="axv4-market-symbol" style="display:flex;align-items:center;">
-              <div class="axv4-market-icon">${asset.icon}</div>
-              <div style="display:flex;flex-direction:column;">
-                <strong>${asset.label}</strong>
-                <span>${asset.name}</span>
+          <article class="axv4-market-card"
+                   data-asset="${asset.key}">
+
+            <div class="axv4-market-symbol">
+
+              <span class="axv4-market-icon"
+                    aria-hidden="true">
+                ${asset.icon}
+              </span>
+
+              <div class="axv4-market-name">
+                <strong>${asset.title}</strong>
+                <small>${asset.name}</small>
               </div>
+
             </div>
 
-            <div class="axv4-market-price" id="marketPrice_${asset.key}">--</div>
-            <div class="axv4-market-change neutral" id="marketChange_${asset.key}">LIVE</div>
+            <strong class="axv4-market-price">
+              —
+            </strong>
+
+            <span class="axv4-market-change">
+              Chờ dữ liệu
+            </span>
+
           </article>
-        `).join('')}
+        `).join("")}
       </div>
 
-      <div class="axv4-market-foot" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid rgba(68,242,181,.10);">
-        <small id="marketPulseSource" class="muted">Nguồn dữ liệu đang kết nối...</small>
-        <button id="marketPulseRefresh" type="button" class="secondary">↻ Làm mới giá</button>
+      <div class="axv4-market-foot">
+
+        <p class="axv4-market-updated"
+           role="status">
+          Đang kết nối các nguồn dữ liệu...
+        </p>
+
+        <button type="button"
+                class="axv4-market-refresh">
+          ↻ Làm mới
+        </button>
+
       </div>
     `;
-  }
 
-  function setStatus(text, tone = 'neutral') {
-    const el = document.getElementById('marketPulseStatus');
-    if (!el) return;
-    el.className = `axv4-market-change ${tone}`;
-    el.textContent = text;
-  }
+    const status = market.querySelector(
+      ".axv4-market-status"
+    );
 
-  function setPrice(key, value, toneText, tone = 'neutral') {
-    const asset = getAsset(key);
-    const priceEl = document.getElementById(`marketPrice_${key}`);
-    const chipEl = document.getElementById(`marketChange_${key}`);
+    const updated = market.querySelector(
+      ".axv4-market-updated"
+    );
 
-    if (!priceEl || !chipEl || !asset) return;
+    const refresh = market.querySelector(
+      ".axv4-market-refresh"
+    );
 
-    if (value == null || Number.isNaN(value)) {
-      priceEl.textContent = 'N/A';
-    } else {
-      if (key === 'BTCUSD' || key === 'XAUUSD') {
-        priceEl.textContent = '$' + formatNumber(value, asset.decimals);
+    function showPrice(key, price, digits, note, change) {
+      const card = market.querySelector(
+        `[data-asset="${key}"]`
+      );
+
+      if (!card) return;
+
+      const priceElement = card.querySelector(
+        ".axv4-market-price"
+      );
+
+      const changeElement = card.querySelector(
+        ".axv4-market-change"
+      );
+
+      changeElement.className = "axv4-market-change";
+
+      if (!validPositive(price)) {
+        priceElement.textContent = "—";
+        changeElement.textContent = "Không có dữ liệu";
+        return;
+      }
+
+      const formatted = money(price, digits);
+
+      if (key === "XAUUSD") {
+        priceElement.textContent = "$" + formatted;
+      } else if (key === "BTCUSDT") {
+        priceElement.textContent = formatted + " USDT";
       } else {
-        priceEl.textContent = formatNumber(value, asset.decimals);
+        priceElement.textContent = formatted;
       }
-    }
 
-    chipEl.className = `axv4-market-change ${tone}`;
-    chipEl.textContent = toneText;
-  }
+      if (Number.isFinite(change)) {
+        const sign = change > 0 ? "+" : "";
 
-  function saveSnapshot(snapshot) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(snapshot));
-  }
+        changeElement.textContent =
+          sign + change.toFixed(2) + "% / 24h";
 
-  function restoreSnapshot() {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return null;
-      return JSON.parse(raw);
-    } catch (err) {
-      return null;
-    }
-  }
-
-  function applySnapshot(snapshot) {
-    if (!snapshot) return;
-
-    setPrice('EURUSD', snapshot.EURUSD, 'FOREX LIVE', 'neutral');
-    setPrice('USDJPY', snapshot.USDJPY, 'FOREX LIVE', 'neutral');
-    setPrice('GBPUSD', snapshot.GBPUSD, 'FOREX LIVE', 'neutral');
-    setPrice('XAUUSD', snapshot.XAUUSD, snapshot.XAUUSD ? 'GOLD SPOT' : 'N/A', snapshot.XAUUSD ? 'neutral' : 'negative');
-    setPrice('BTCUSD', snapshot.BTCUSD, snapshot.BTC_CHANGE_TEXT || 'CRYPTO LIVE', snapshot.BTC_TONE || 'neutral');
-
-    const source = document.getElementById('marketPulseSource');
-    if (source && snapshot.updatedAtText) {
-      source.textContent = `FX: open.er-api • Gold: Gold feed • BTC: Binance • Cập nhật lúc ${snapshot.updatedAtText}`;
-    }
-  }
-
-  async function fetchForex() {
-    const res = await fetch('https://open.er-api.com/v6/latest/USD', { cache: 'no-store' });
-    if (!res.ok) throw new Error('Không lấy được dữ liệu forex');
-
-    const data = await res.json();
-    const rates = data.rates || {};
-
-    return {
-      EURUSD: rates.EUR ? 1 / rates.EUR : null,
-      USDJPY: rates.JPY ?? null,
-      GBPUSD: rates.GBP ? 1 / rates.GBP : null
-    };
-  }
-
-  async function fetchGold() {
-    const sources = [
-      async () => {
-        const res = await fetch('https://api.gold-api.com/price/XAU', { cache: 'no-store' });
-        if (!res.ok) throw new Error('Gold source 1 failed');
-        const data = await res.json();
-        return Number(data.price);
-      },
-      async () => {
-        const res = await fetch('https://api.metals.live/v1/spot/gold', { cache: 'no-store' });
-        if (!res.ok) throw new Error('Gold source 2 failed');
-        const data = await res.json();
-
-        if (Array.isArray(data)) {
-          if (typeof data[0] === 'number') return Number(data[0]);
-          if (Array.isArray(data[0])) return Number(data[0][1]);
+        if (change > 0) {
+          changeElement.classList.add("up");
+        } else if (change < 0) {
+          changeElement.classList.add("down");
         }
-
-        return null;
+      } else {
+        changeElement.textContent = note;
       }
-    ];
-
-    for (const source of sources) {
-      try {
-        const value = await source();
-        if (value && !Number.isNaN(value)) return value;
-      } catch (err) {}
     }
 
-    return null;
-  }
+    let loading = false;
 
-  async function fetchBTC() {
-    const res = await fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT', { cache: 'no-store' });
-    if (!res.ok) throw new Error('Không lấy được BTC từ Binance');
+    async function refreshAll() {
+      if (loading) return;
 
-    const data = await res.json();
+      loading = true;
+      refresh.disabled = true;
 
-    return {
-      price: Number(data.lastPrice),
-      change: Number(data.priceChangePercent)
-    };
-  }
+      status.dataset.state = "loading";
+      status.textContent = "ĐANG CẬP NHẬT";
 
-  async function refreshMarketPulse() {
-    setStatus('Đang cập nhật...', 'neutral');
-
-    try {
-      const [fx, gold, btc] = await Promise.all([
-        fetchForex(),
-        fetchGold(),
-        fetchBTC()
+      const sources = await Promise.allSettled([
+        getForex(),
+        getGold(),
+        getBitcoin()
       ]);
 
-      const updatedAt = new Date();
-      const timeText = updatedAt.toLocaleTimeString('vi-VN');
+      let sourceCount = 0;
+      const info = [];
 
-      setPrice('EURUSD', fx.EURUSD, 'FOREX LIVE', 'neutral');
-      setPrice('USDJPY', fx.USDJPY, 'FOREX LIVE', 'neutral');
-      setPrice('GBPUSD', fx.GBPUSD, 'FOREX LIVE', 'neutral');
+      // FOREX
+      const fx = sources[0];
 
-      if (gold != null) {
-        setPrice('XAUUSD', gold, 'GOLD SPOT', 'neutral');
+      if (fx.status === "fulfilled") {
+        sourceCount++;
+
+        showPrice(
+          "EURUSD", fx.value.EURUSD, 5,
+          "Tỷ giá tham chiếu"
+        );
+
+        showPrice(
+          "USDJPY", fx.value.USDJPY, 3,
+          "Tỷ giá tham chiếu"
+        );
+
+        showPrice(
+          "GBPUSD", fx.value.GBPUSD, 5,
+          "Tỷ giá tham chiếu"
+        );
+
+        const timestamp = Date.parse(
+          fx.value.sourceTime || ""
+        );
+
+        const date = Number.isFinite(timestamp)
+          ? new Date(timestamp).toLocaleDateString("vi-VN")
+          : "không rõ ngày";
+
+        info.push("FX tham chiếu: " + date);
+
       } else {
-        setPrice('XAUUSD', null, 'N/A', 'negative');
+        ["EURUSD", "USDJPY", "GBPUSD"].forEach(key => {
+          showPrice(key, null);
+        });
+
+        info.push("FX: không có dữ liệu");
+        console.warn("AXIOM FX:", fx.reason);
       }
 
-      const btcTone = btc.change > 0 ? 'positive' : btc.change < 0 ? 'negative' : 'neutral';
-      const btcText =
-        (btc.change > 0 ? '+' : '') +
-        btc.change.toFixed(2) +
-        '% / 24h';
+      // GOLD
+      const gold = sources[1];
 
-      setPrice('BTCUSD', btc.price, btcText, btcTone);
+      if (gold.status === "fulfilled") {
+        sourceCount++;
 
-      const source = document.getElementById('marketPulseSource');
-      if (source) {
-        source.textContent = `FX: open.er-api • Gold: Gold feed • BTC: Binance • Cập nhật lúc ${timeText}`;
+        showPrice(
+          "XAUUSD",
+          gold.value.price,
+          2,
+          "Gold · báo giá công khai"
+        );
+
+        info.push("Gold: đã nhận báo giá");
+
+      } else {
+        showPrice("XAUUSD", null);
+
+        info.push("Gold: không có dữ liệu");
+        console.warn("AXIOM Gold:", gold.reason);
       }
 
-      saveSnapshot({
-        EURUSD: fx.EURUSD,
-        USDJPY: fx.USDJPY,
-        GBPUSD: fx.GBPUSD,
-        XAUUSD: gold,
-        BTCUSD: btc.price,
-        BTC_CHANGE_TEXT: btcText,
-        BTC_TONE: btcTone,
-        updatedAtText: timeText
-      });
+      // BITCOIN
+      const btc = sources[2];
 
-      setStatus('● Đã cập nhật', 'positive');
-    } catch (err) {
-      console.error(err);
-      setStatus('⚠ Lỗi tải dữ liệu', 'negative');
+      if (btc.status === "fulfilled") {
+        sourceCount++;
 
-      const source = document.getElementById('marketPulseSource');
-      if (source) {
-        source.textContent = 'Không tải được dữ liệu mới. Đang dùng snapshot gần nhất nếu có.';
+        showPrice(
+          "BTCUSDT",
+          btc.value.price,
+          2,
+          "",
+          btc.value.change
+        );
+
+        info.push("BTC: Binance Spot");
+
+      } else {
+        showPrice("BTCUSDT", null);
+
+        info.push("BTC: không có dữ liệu");
+        console.warn("AXIOM BTC:", btc.reason);
       }
 
-      const snapshot = restoreSnapshot();
-      if (snapshot) applySnapshot(snapshot);
+      // OVERALL STATUS
+      if (sourceCount === 3) {
+        status.dataset.state = "ok";
+        status.textContent = "3/3 NGUỒN";
+
+      } else if (sourceCount > 0) {
+        status.dataset.state = "partial";
+        status.textContent =
+          sourceCount + "/3 NGUỒN";
+
+      } else {
+        status.dataset.state = "error";
+        status.textContent = "KHÔNG CÓ DỮ LIỆU";
+      }
+
+      const time = new Date()
+        .toLocaleTimeString("vi-VN");
+
+      updated.textContent =
+        info.join(" · ") +
+        " · Truy xuất lúc " + time;
+
+      loading = false;
+      refresh.disabled = false;
     }
+
+    refresh.addEventListener("click", refreshAll);
+
+    setInterval(() => {
+      if (!document.hidden) {
+        refreshAll();
+      }
+    }, REFRESH_MS);
+
+    document.addEventListener(
+      "visibilitychange",
+      () => {
+        if (!document.hidden) {
+          refreshAll();
+        }
+      }
+    );
+
+    refreshAll();
+
+    console.info(
+      "AXIOM Market Pulse V4.1 initialized."
+    );
   }
 
-  function init() {
-    const section = ensureSection();
-    if (!section) return;
-
-    buildMarkup(section);
-
-    const snapshot = restoreSnapshot();
-    if (snapshot) applySnapshot(snapshot);
-
-    const refreshBtn = document.getElementById('marketPulseRefresh');
-    if (refreshBtn) {
-      refreshBtn.addEventListener('click', refreshMarketPulse);
-    }
-
-    refreshMarketPulse();
-    setInterval(refreshMarketPulse, REFRESH_MS);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      init,
+      { once: true }
+    );
   } else {
     init();
   }
