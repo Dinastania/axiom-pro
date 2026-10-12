@@ -978,3 +978,306 @@ a.axv4-tile:hover
     transition: none;
   }
 }
+
+/* =========================================
+   AXIOM VISUAL EVOLUTION 4.0
+   PHASE 1.4 — PREMIUM KPI CARDS
+   DINATRAN FOUNDER EDITION
+   ========================================= */
+
+/* KPI grid */
+
+.stats {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px !important;
+  align-items: stretch;
+  margin-top: 24px;
+  margin-bottom: 28px;
+}
+
+/* KPI card */
+
+.stats > article.stat {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  min-width: 0;
+  min-height: 157px;
+
+  margin: 0 !important;
+  padding: 23px 20px !important;
+
+  border: 1px solid rgba(97, 216, 190, .31) !important;
+  border-radius: 18px !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(72, 221, 189, .13),
+      transparent 60%
+    ),
+    linear-gradient(
+      140deg,
+      #132f37,
+      #101d2d
+    ) !important;
+
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, .18),
+    inset 0 1px rgba(255, 255, 255, .055);
+
+  transition:
+    transform .22s ease,
+    border-color .22s ease,
+    box-shadow .22s ease;
+}
+
+/* Subtle glow line along the top */
+
+.stats > article.stat::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 16px;
+  right: 16px;
+
+  height: 2px;
+  border-radius: 999px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(101, 255, 213, .8),
+    transparent
+  );
+}
+
+/* Hover */
+
+.stats > article.stat:hover {
+  transform: translateY(-4px);
+
+  border-color: rgba(91, 245, 207, .6) !important;
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, .25),
+    0 0 24px rgba(75, 238, 191, .08);
+}
+
+/* KPI label */
+
+.stats > article.stat .kicker {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  margin: 0 0 15px !important;
+
+  color: #a4c7cf !important;
+
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  letter-spacing: 1.1px;
+  line-height: 1.5;
+}
+
+/* Decorative KPI symbols */
+
+.stats > article.stat .kicker::after {
+  content: "↗";
+
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+
+  width: 29px;
+  height: 29px;
+
+  border-radius: 9px;
+  background: rgba(85, 239, 192, .11);
+
+  color: #72f8d1;
+  font-size: 17px;
+}
+
+/* KPI number */
+
+.stats > article.stat strong.number {
+  display: block;
+  width: 100%;
+
+  margin: 0 0 12px !important;
+
+  font-size: clamp(22px, 2.3vw, 33px) !important;
+  font-weight: 950 !important;
+  line-height: 1.2 !important;
+  letter-spacing: -.7px;
+
+  color: #f0faff;
+  font-variant-numeric: tabular-nums;
+
+  overflow-wrap: anywhere;
+}
+
+/* Positive and negative values */
+
+.stats > article.stat strong.positive {
+  color: #67ffd0 !important;
+  text-shadow: 0 0 18px rgba(72, 239, 190, .15);
+}
+
+.stats > article.stat strong.negative {
+  color: #ff829e !important;
+}
+
+/* Supporting text */
+
+.stats > article.stat small {
+  display: block;
+  margin-top: auto;
+
+  font-size: 10px !important;
+  line-height: 1.65 !important;
+
+  color: #94b6c5 !important;
+}
+
+/* WIN RATE — CYAN */
+
+.stats > article.stat:nth-child(2) {
+  border-color: rgba(93, 173, 239, .31) !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(71, 144, 235, .14),
+      transparent 60%
+    ),
+    linear-gradient(140deg, #15283a, #101d30) !important;
+}
+
+.stats > article.stat:nth-child(2)::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #72baff,
+    transparent
+  );
+}
+
+.stats > article.stat:nth-child(2)
+.kicker::after {
+  content: "◎";
+  color: #86caff;
+  background: rgba(97, 178, 255, .11);
+}
+
+/* PROFIT FACTOR — VIOLET */
+
+.stats > article.stat:nth-child(3) {
+  border-color: rgba(173, 141, 237, .3) !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(144, 101, 232, .13),
+      transparent 60%
+    ),
+    linear-gradient(140deg, #20233a, #131a2d) !important;
+}
+
+.stats > article.stat:nth-child(3)::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #bca0ff,
+    transparent
+  );
+}
+
+.stats > article.stat:nth-child(3)
+.kicker::after {
+  content: "◇";
+  color: #c5a8ff;
+  background: rgba(175, 135, 255, .12);
+}
+
+.stats > article.stat:nth-child(3)
+strong.number {
+  color: #ceb5ff;
+}
+
+/* DRAWDOWN — RED */
+
+.stats > article.stat:nth-child(4) {
+  border-color: rgba(234, 111, 149, .3) !important;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(214, 76, 123, .13),
+      transparent 60%
+    ),
+    linear-gradient(140deg, #2a2034, #171c2b) !important;
+}
+
+.stats > article.stat:nth-child(4)::before {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #ff839e,
+    transparent
+  );
+}
+
+.stats > article.stat:nth-child(4)
+.kicker::after {
+  content: "↓";
+  color: #ff91aa;
+  background: rgba(255, 113, 154, .11);
+}
+
+/* Responsive layout */
+
+@media (max-width: 1100px) {
+  .stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .stats {
+    grid-template-columns: 1fr;
+    gap: 12px !important;
+  }
+
+  .stats > article.stat {
+    min-height: 140px;
+    padding: 19px !important;
+  }
+
+  .stats > article.stat strong.number {
+    font-size: 27px !important;
+  }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .stats > article.stat {
+    transition: none !important;
+  }
+
+  .stats > article.stat:hover {
+    transform: none;
+  }
+}
