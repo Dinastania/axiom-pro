@@ -334,25 +334,27 @@ const palettes = {
     }
   `;
 
-#axiom-theme-menu strong {
-  grid-column: 1 / -1;
-}
 
-#axiom-theme-menu button {
-  width: 100%;
-  min-height: 45px;
-  padding: 9px;
-  font-size: 11px;
-}
+    #axiom-theme-menu strong {
+      grid-column: 1 / -1;
+    }
 
-#axiom-theme-menu::-webkit-scrollbar {
-  width: 5px;
-}
+    #axiom-theme-menu button {
+      width: 100%;
+      min-height: 45px;
+      padding: 9px;
+      font-size: 11px;
+    }
 
-#axiom-theme-menu::-webkit-scrollbar-thumb {
-  background: var(--axiom-border);
-  border-radius: 20px;
-}
+    #axiom-theme-menu::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    #axiom-theme-menu::-webkit-scrollbar-thumb {
+      background: var(--axiom-border);
+      border-radius: 20px;
+    }
+  `;
 
   document.head.appendChild(style);
 
