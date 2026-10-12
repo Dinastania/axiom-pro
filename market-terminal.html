@@ -1,0 +1,650 @@
+
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d14">
+<title>AXIOM ULTIMATE — Market Terminal</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+<style>
+:root{
+  color-scheme:dark;
+  --background-color:#080d14;
+  --color:#eaf7f5;
+  --primary:#44f2b5;
+  --primary-hover:#86fbd3;
+  --form-element-background-color:#0b1924;
+  --form-element-border-color:#304b57;
+  --form-element-color:#eaf7f5;
+  --card-background-color:#14232d;
+  --muted-color:#94adb9;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:radial-gradient(
+    ellipse at 85% 0%,#164a3b77,transparent 43%
+  ),#080d14;
+  color:#eaf7f5;
+  font:14px/1.6 Inter,system-ui,sans-serif;
+}
+nav.container-fluid{
+  max-width:none;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:14px 4%;
+  border-bottom:1px solid #294750;
+  background:#0b151e;
+}
+nav ul{margin:0;align-items:center;gap:12px}
+nav a{font-size:12px;text-decoration:none}
+nav a[role=button],button.primary{
+  background:#44f2b5;
+  color:#05271a;
+  border-color:#44f2b5;
+  font-weight:800;
+}
+.brand{
+  color:#f3fffc;
+  font-size:19px;
+  letter-spacing:2px;
+}
+.brand span{color:#44f2b5}
+main.container{
+  max-width:1450px;
+  padding:30px 18px 65px;
+}
+.hero{
+  padding:30px;
+  border:1px solid #377360;
+  border-radius:20px;
+  background:linear-gradient(115deg,#183c32,#102133 78%);
+  margin-bottom:18px;
+}
+.eyebrow{
+  display:block;
+  color:#44f2b5;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+.hero h2{
+  font-size:clamp(30px,4vw,45px);
+  letter-spacing:-1.4px;
+  margin:9px 0;
+}
+.hero h2 em{color:#44f2b5;font-style:normal}
+.hero h3{font-size:13px;color:#adc7ce}
+.hero p{font-size:13px;color:#b0ced0;max-width:760px}
+.hero figure{margin:15px 0 0}
+.hero svg{display:block;width:100%;height:65px}
+.hero figcaption a{font-size:11px;color:#abdfcc}
+.panel{
+  background:linear-gradient(140deg,#14242f,#101923);
+  border:1px solid #2e4954;
+  border-radius:17px;
+  padding:23px;
+  margin-bottom:18px;
+  min-width:0;
+}
+.panel h3{font-size:17px;margin-bottom:16px}
+.controls{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:13px;
+}
+.controls label{font-size:12px;color:#b3cad2}
+.controls input,.controls select{
+  margin:6px 0 0;
+  min-width:0;
+  border:1px solid #304b57!important;
+  background:#0b1924!important;
+  color:#eaf7f5!important;
+  border-radius:9px;
+}
+.actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:17px;
+}
+.actions button,.actions a{
+  margin:0;
+  border-radius:9px;
+  font-size:12px;
+  font-weight:800;
+  padding:11px 15px;
+  text-decoration:none;
+}
+.secondary-btn{
+  background:#1a313b;
+  border:1px solid #385663;
+  color:#eaf7f5;
+}
+.chart-panel{padding:13px}
+.chart-header{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  align-items:center;
+  padding:6px 8px 15px;
+}
+.chart-header strong{font-size:15px}
+.chart-header small{font-size:11px;color:#92aab5}
+.chart-host{
+  position:relative;
+  min-height:550px;
+  background:#081620;
+  border:1px solid #2b4753;
+  border-radius:13px;
+  overflow:hidden;
+}
+.chart-host iframe{
+  display:block;
+  width:100%;
+  height:590px;
+  border:0;
+  background:#0b1721;
+}
+.placeholder{
+  min-height:550px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  padding:25px;
+  text-align:center;
+  background:radial-gradient(
+    circle at center,#12392f,#0a1722 70%
+  );
+}
+.placeholder svg{
+  width:min(500px,100%);
+  height:auto;
+}
+.placeholder strong{font-size:20px}
+.placeholder p{
+  max-width:420px;
+  color:#9ab6bf;
+  font-size:12px;
+}
+.status{
+  border:1px solid #376b59;
+  background:#103027;
+  color:#c6f5df;
+  padding:13px 15px;
+  margin-top:14px;
+  border-radius:11px;
+  font-size:12px;
+}
+.status.warning{
+  border-color:#8a5c4e;
+  background:#382722;
+  color:#ffdbca;
+}
+.layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+}
+.note{
+  color:#9bb1bd;
+  font-size:12px;
+  line-height:1.8;
+}
+.subscribe article{
+  border-radius:16px;
+  border:1px solid #304b55;
+  background:#13242e;
+}
+.subscribe h2{font-size:19px}
+.subscribe h3{font-size:12px;color:#99b4bc}
+.subscribe form{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:10px;
+}
+.subscribe input{margin:0}
+footer.container{
+  border-top:1px solid #2b454f;
+  padding-top:18px;
+  margin-top:25px;
+}
+footer a{color:#c0e3d8}
+[hidden]{display:none!important}
+@media(max-width:850px){
+  .controls{grid-template-columns:repeat(2,1fr)}
+  .layout{grid-template-columns:1fr}
+}
+@media(max-width:550px){
+  main.container{padding:18px 11px}
+  .hero,.panel{padding:18px}
+  .chart-panel{padding:9px}
+  .controls,.subscribe form{grid-template-columns:1fr}
+  .chart-host,.placeholder{min-height:440px}
+  .chart-host iframe{height:470px}
+  nav.container-fluid{flex-wrap:wrap;padding:12px}
+  nav ul{gap:8px}
+  nav a{font-size:10px}
+}
+</style>
+</head>
+<body>
+
+<nav class="container-fluid">
+  <ul>
+    <li>
+      <strong class="brand">AXIOM<span>.</span> PRO</strong>
+    </li>
+  </ul>
+  <ul>
+    <li><a href="./index.html">Dashboard</a></li>
+    <li><a href="./risk-lab.html">Risk Lab</a></li>
+    <li><a href="#terminal" role="button">Terminal</a></li>
+  </ul>
+</nav>
+
+<main class="container">
+  <div class="grid">
+    <section>
+      <div class="hero">
+        <span class="eyebrow">
+          AXIOM ULTIMATE · MARKET ENGINE 07
+        </span>
+        <hgroup>
+          <h2>Read the market.<br>
+            <em>Execute your plan.</em>
+          </h2>
+          <h3>TradingView Market Analysis Terminal</h3>
+        </hgroup>
+        <p>
+          Theo dõi biểu đồ của những thị trường em yêu thích
+          ngay trong AXIOM. Điều chỉnh cặp giao dịch,
+          khung thời gian và giao diện biểu đồ.
+        </p>
+        <figure>
+          <svg viewBox="0 0 700 75"
+               role="img" aria-label="Minh họa biến động thị trường">
+            <path d="M0 60H700"
+                  stroke="#376356" stroke-dasharray="6 8"/>
+            <path d="M5 57L95 48L160 55L240 25L320 35L405 13L480 27L570 10L695 15"
+                  stroke="#44f2b5" stroke-width="4"
+                  fill="none" stroke-linecap="round"/>
+          </svg>
+          <figcaption>
+            <a href="#terminal" target="_blank">
+              Price action. Context. Discipline.
+            </a>
+          </figcaption>
+        </figure>
+      </div>
+
+      <article class="panel" id="terminal">
+        <h3>◎ Chart Workspace Settings</h3>
+
+        <div class="controls">
+          <label>Market / Symbol
+            <select id="symbol">
+              <option value="BINANCE:BTCUSDT">BTC / USDT</option>
+              <option value="BINANCE:ETHUSDT">ETH / USDT</option>
+              <option value="OANDA:XAUUSD">Gold / XAUUSD</option>
+              <option value="FX:EURUSD">EUR / USD</option>
+              <option value="NASDAQ:AAPL">Apple / AAPL</option>
+              <option value="CUSTOM">Custom Symbol</option>
+            </select>
+          </label>
+
+          <label>Timeframe
+            <select id="interval">
+              <option value="5">5 Minutes</option>
+              <option value="15">15 Minutes</option>
+              <option value="60" selected>1 Hour</option>
+              <option value="240">4 Hours</option>
+              <option value="D">1 Day</option>
+              <option value="W">1 Week</option>
+            </select>
+          </label>
+
+          <label>Chart Appearance
+            <select id="theme">
+              <option value="dark">Dark Trading Terminal</option>
+              <option value="light">Light Trading Terminal</option>
+            </select>
+          </label>
+
+          <label id="customWrap" hidden>
+            TradingView Symbol Code
+            <input id="customSymbol"
+                   placeholder="BINANCE:SOLUSDT"
+                   maxlength="60">
+          </label>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="primary" id="loadChart">
+            ◈ LOAD TRADINGVIEW CHART
+          </button>
+
+          <a id="tvLink" class="secondary-btn"
+             href="https://www.tradingview.com/"
+             target="_blank" rel="noopener noreferrer">
+            ↗ Open on TradingView
+          </a>
+
+          <button type="button" class="secondary-btn" id="clearChart">
+            Close Chart
+          </button>
+        </div>
+
+        <p class="note" style="margin-top:14px">
+          Biểu đồ chỉ kết nối với TradingView khi em bấm
+          Load Chart hoặc mở website TradingView trực tiếp.
+          TradingView là dịch vụ bên thứ ba; có thể áp dụng
+          giới hạn dữ liệu, đăng nhập hoặc điều kiện sử dụng.
+        </p>
+      </article>
+
+      <article class="panel chart-panel">
+        <div class="chart-header">
+          <strong>▤ Interactive Market Chart</strong>
+          <small id="activeSymbol">Not connected</small>
+        </div>
+
+        <div class="chart-host" id="chartHost">
+          <div class="placeholder" id="placeholder">
+            <svg viewBox="0 0 500 190" aria-hidden="true">
+              <g stroke="#2e514c" stroke-dasharray="5 7">
+                <path d="M0 35H500M0 90H500M0 145H500"/>
+              </g>
+              <path d="M10 160L70 125L120 140L185 65L250 90L330 43L390 60L475 14"
+                    fill="none" stroke="#44f2b5"
+                    stroke-width="5" stroke-linecap="round"
+                    stroke-linejoin="round"/>
+              <circle cx="475" cy="14" r="7" fill="#44f2b5"/>
+            </svg>
+            <strong>Market Terminal Ready</strong>
+            <p>
+              Chọn biểu đồ và nhấn Load TradingView Chart
+              để bắt đầu phân tích.
+            </p>
+          </div>
+        </div>
+
+        <div class="status" id="status" role="status">
+          Chưa tải dữ liệu bên thứ ba.
+        </div>
+      </article>
+
+      <div class="layout">
+        <article class="panel">
+          <h3>◎ Trading Discipline</h3>
+          <p class="note">
+            Trước khi giao dịch, hãy xem lại Stop Loss,
+            giới hạn rủi ro và kế hoạch Entry.
+          </p>
+          <div class="actions">
+            <a class="secondary-btn" href="./risk-lab.html">
+              Risk Lab
+            </a>
+            <a class="secondary-btn"
+               href="./pre-trade-checklist.html">
+              Pre-Trade Checklist
+            </a>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h3>◇ Your Data Stays Separate</h3>
+          <p class="note">
+            Trang này chỉ lưu tùy chọn symbol, khung thời gian
+            và giao diện biểu đồ trong trình duyệt.
+            Không tự đọc, gửi hoặc sửa dữ liệu giao dịch
+            trong axiom_trades_v1.
+          </p>
+          <p class="note">
+            Khung TradingView được mở trên tên miền khác,
+            tách khỏi dữ liệu localStorage của AXIOM.
+          </p>
+        </article>
+      </div>
+
+      <h3>Trade With Market Context</h3>
+      <p class="note">
+        Biểu đồ phục vụ mục đích quan sát và phân tích.
+        Dữ liệu có thể bị trễ hoặc khác nguồn giá thực tế
+        tại sàn của em. Công cụ không tự đặt lệnh.
+      </p>
+
+      <h3>Before You Trade</h3>
+      <p class="note">
+        So sánh nguồn giá, spread, phí, giờ thị trường
+        và rủi ro trước khi đưa ra quyết định.
+      </p>
+    </section>
+  </div>
+
+  <section aria-label="Subscribe example" class="subscribe">
+    <div class="container">
+      <article>
+        <hgroup>
+          <h2>Stay focused on the process.</h2>
+          <h3>Lời nhắc cá nhân, không có chức năng gửi email.</h3>
+        </hgroup>
+        <form class="grid" id="reminderForm">
+          <input type="text" id="firstname" name="firstname"
+                 placeholder="Tên trader"
+                 aria-label="Tên trader" required>
+          <input type="email" id="email" name="email"
+                 placeholder="Email" aria-label="Email" required>
+          <button type="submit" class="primary">
+            Xác nhận
+          </button>
+        </form>
+        <small id="reminderMessage" class="note"></small>
+      </article>
+    </div>
+  </section>
+
+  <footer class="container">
+    <small>
+      <a href="./index.html">AXIOM Dashboard</a> •
+      <a href="./advanced-analytics.html">Advanced Analytics</a> •
+      <a href="./growth-simulator.html">Growth Simulator</a>
+    </small>
+  </footer>
+</main>
+
+<script>
+'use strict';
+
+const $ = id => document.getElementById(id);
+const PREF_KEY = 'axiom_ultimate_market_prefs_v1';
+
+const allowedIntervals = new Set([
+  '5','15','60','240','D','W'
+]);
+
+function currentSymbol() {
+  const selected = $('symbol').value;
+
+  const raw = selected === 'CUSTOM'
+    ? $('customSymbol').value.trim().toUpperCase()
+    : selected;
+
+  // TradingView's EXCHANGE:SYMBOL format.
+  if (!/^[A-Z0-9_.-]{2,24}:[A-Z0-9_.-]{1,32}$/.test(raw)) {
+    return null;
+  }
+
+  return raw;
+}
+
+function updateCustomField() {
+  $('customWrap').hidden = $('symbol').value !== 'CUSTOM';
+}
+
+function updateLink() {
+  const symbol = currentSymbol();
+  $('tvLink').href = symbol
+    ? 'https://www.tradingview.com/chart/?symbol=' +
+        encodeURIComponent(symbol)
+    : 'https://www.tradingview.com/';
+}
+
+function setStatus(message, warning = false) {
+  $('status').textContent = message;
+  $('status').className = 'status' + (warning ? ' warning' : '');
+}
+
+function savePrefs(symbol) {
+  try {
+    localStorage.setItem(PREF_KEY, JSON.stringify({
+      symbol,
+      interval: $('interval').value,
+      theme: $('theme').value
+    }));
+  } catch (error) {
+    // Browser storage may be unavailable.
+  }
+}
+
+function restorePrefs() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(PREF_KEY));
+    if (!saved || typeof saved !== 'object') return;
+
+    if (allowedIntervals.has(saved.interval)) {
+      $('interval').value = saved.interval;
+    }
+
+    if (saved.theme === 'dark' || saved.theme === 'light') {
+      $('theme').value = saved.theme;
+    }
+
+    if (typeof saved.symbol === 'string' &&
+        /^[A-Z0-9_.-]{2,24}:[A-Z0-9_.-]{1,32}$/.test(saved.symbol)) {
+      const option = [...$('symbol').options]
+        .find(item => item.value === saved.symbol);
+
+      if (option) {
+        $('symbol').value = saved.symbol;
+      } else {
+        $('symbol').value = 'CUSTOM';
+        $('customSymbol').value = saved.symbol;
+      }
+    }
+  } catch (error) {
+    // Ignore invalid or unavailable preferences.
+  }
+}
+
+function loadChart() {
+  const symbol = currentSymbol();
+  const interval = $('interval').value;
+  const theme = $('theme').value;
+
+  if (!symbol || !allowedIntervals.has(interval)) {
+    setStatus(
+      'Symbol chưa hợp lệ. Dùng định dạng EXCHANGE:SYMBOL, ' +
+      'ví dụ BINANCE:BTCUSDT.', true
+    );
+    return;
+  }
+
+  // The embedded chart uses TradingView's own origin.
+  // AXIOM Journal data is not passed to this URL.
+  const params = new URLSearchParams({
+    symbol,
+    interval,
+    theme,
+    style: '1',
+    locale: 'en',
+    timezone: 'Etc/UTC',
+    hidesidetoolbar: '0',
+    symboledit: '1',
+    saveimage: '1',
+    withdateranges: '1',
+    hideideas: '1'
+  });
+
+  const iframe = document.createElement('iframe');
+
+  iframe.title = 'TradingView Chart — ' + symbol;
+  iframe.loading = 'eager';
+  iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+
+  iframe.setAttribute(
+    'sandbox',
+    'allow-scripts allow-same-origin allow-forms ' +
+    'allow-popups allow-popups-to-escape-sandbox'
+  );
+
+  iframe.setAttribute('allow', 'fullscreen');
+
+  iframe.onload = () => {
+    setStatus(
+      'Khung TradingView đã tải phản hồi. Nếu biểu đồ ' +
+      'không hiển thị, hãy dùng Open on TradingView.'
+    );
+  };
+
+  iframe.src =
+    'https://s.tradingview.com/widgetembed/?' +
+    params.toString();
+
+  $('chartHost').replaceChildren(iframe);
+  $('activeSymbol').textContent =
+    symbol + ' · ' + interval + ' · ' + theme;
+
+  savePrefs(symbol);
+  updateLink();
+  setStatus('Đang yêu cầu biểu đồ từ TradingView...');
+}
+
+function clearChart() {
+  $('chartHost').replaceChildren();
+
+  const placeholder = document.createElement('div');
+  placeholder.className = 'placeholder';
+
+  const title = document.createElement('strong');
+  title.textContent = 'Chart Closed';
+
+  const message = document.createElement('p');
+  message.textContent =
+    'Biểu đồ đã đóng. Nhấn Load TradingView Chart để mở lại.';
+
+  placeholder.append(title, message);
+  $('chartHost').appendChild(placeholder);
+
+  $('activeSymbol').textContent = 'Not connected';
+  setStatus('Đã đóng khung biểu đồ.');
+}
+
+$('symbol').addEventListener('change', () => {
+  updateCustomField();
+  updateLink();
+});
+
+$('customSymbol').addEventListener('input', updateLink);
+
+$('loadChart').addEventListener('click', loadChart);
+$('clearChart').addEventListener('click', clearChart);
+
+$('reminderForm').addEventListener('submit', event => {
+  event.preventDefault();
+  $('reminderMessage').textContent =
+    'Lời nhắc chỉ hiển thị trên trang. Không gửi email.';
+});
+
+restorePrefs();
+updateCustomField();
+updateLink();
+</script>
+</body>
+</html>
