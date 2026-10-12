@@ -357,3 +357,94 @@ html[data-axiom-theme] .axn-item {
   background: var(--axiom-bg) !important;
   border-color: var(--axiom-border) !important;
 }
+
+
+/* ======================================
+   AXIOM V4 — REMOVE HUGE MARKET FRAME
+   Keep the 5 compact market cards
+   ====================================== */
+
+/* Xóa toàn bộ hộp lớn bên ngoài */
+html[data-axiom-theme] .axv4-market {
+  display: block !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  margin: 10px 0 14px !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Tiêu đề và trạng thái nằm cùng hàng */
+html[data-axiom-theme] .axv4-market-head {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  gap: 10px !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+
+/* Năm ô giá sát nhau */
+html[data-axiom-theme] .axv4-market-grid {
+  display: grid !important;
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Mỗi ô chỉ cao theo nội dung */
+html[data-axiom-theme] .axv4-market-card {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 12px !important;
+}
+
+/* Dòng nguồn dữ liệu và nút làm mới */
+html[data-axiom-theme] .axv4-market-foot {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 9px 0 0 !important;
+  padding: 8px 0 0 !important;
+}
+
+/* Sửa dòng nguồn dữ liệu đang quá lớn */
+html[data-axiom-theme] .axv4-market-updated {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+}
+
+/* Responsive */
+@media (max-width: 1100px) {
+  html[data-axiom-theme] .axv4-market-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 650px) {
+  html[data-axiom-theme] .axv4-market-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+}
