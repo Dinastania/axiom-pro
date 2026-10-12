@@ -68,31 +68,37 @@
     );
   }
 
-  function ensureSection() {
-    let section = document.getElementById('axiom-market-pulse');
 
-    if (section) return section;
+function ensureSection() {
+  let section = document.getElementById(
+    "axiom-market-pulse"
+  );
 
-    const target = getMountTarget();
-    if (!target) return null;
+  if (section) return section;
 
-    section = document.createElement('section');
-    section.id = 'axiom-market-pulse';
-    section.className = 'axv4-market';
+  const dashboard = document.querySelector(
+    ".axv4-command"
+  );
 
-    const anchor =
-      target.querySelector('.axv4-founder-profile') ||
-      target.querySelector('.stats') ||
-      target.firstElementChild;
-
-    if (anchor) {
-      target.insertBefore(section, anchor);
-    } else {
-      target.appendChild(section);
-    }
-
-    return section;
+  if (!dashboard) {
+    console.error(
+      "AXIOM Market: Không tìm thấy Command Dashboard."
+    );
+    return null;
   }
+
+  section = document.createElement("section");
+  section.id = "axiom-market-pulse";
+  section.className = "axv4-market";
+
+  dashboard.insertAdjacentElement(
+    "afterend",
+    section
+  );
+
+  return section;
+}
+
 
   function buildMarkup(section) {
     section.innerHTML = `
