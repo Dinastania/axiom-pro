@@ -188,3 +188,172 @@ html[data-axiom-theme] .axv4-system-top h2 span {
     padding: 11px !important;
   }
 }
+
+
+/* =========================================
+   AXIOM V4 — THEME HARMONY FIX
+   Connect Visual 4.0 to original theme system
+   Keep compact layout unchanged
+   ========================================= */
+
+/* 1. Main V4 surfaces */
+
+html[data-axiom-theme] .axv4-command,
+html[data-axiom-theme] .axv4-market,
+html[data-axiom-theme] .axv4-founder-profile,
+html[data-axiom-theme] .axv4-system-panel {
+  background:
+    linear-gradient(
+      135deg,
+      var(--axiom-hero),
+      var(--axiom-panel)
+    ) !important;
+
+  border-color: var(--axiom-border) !important;
+}
+
+/* 2. Market Pulse — restore its outer frame */
+
+html[data-axiom-theme] .axv4-market {
+  display: block !important;
+  background: var(--axiom-panel) !important;
+  border: 1px solid var(--axiom-border) !important;
+}
+
+/* 3. Smaller cards keep the same theme */
+
+html[data-axiom-theme] .axv4-market-card,
+html[data-axiom-theme] .axv4-command-tiles .axv4-tile,
+html[data-axiom-theme] .axv4-system-stat,
+html[data-axiom-theme] .axv4-system-links a,
+html[data-axiom-theme] .axv4-founder-mission,
+html[data-axiom-theme] .axv4-founder-profile .axv4-mission {
+  background:
+    color-mix(
+      in srgb,
+      var(--axiom-panel) 80%,
+      var(--axiom-bg)
+    ) !important;
+
+  border-color: var(--axiom-border) !important;
+}
+
+/* 4. Dashboard stats */
+
+html[data-axiom-theme] .stats > article.stat {
+  background:
+    linear-gradient(
+      145deg,
+      var(--axiom-panel),
+      var(--axiom-bg)
+    ) !important;
+
+  border-color: var(--axiom-border) !important;
+}
+
+/* Keep positive/negative PNL colors meaningful */
+
+/* 5. Equity Curve */
+
+html[data-axiom-theme]
+#performance .axv4-equity-panel {
+  background:
+    linear-gradient(
+      145deg,
+      var(--axiom-hero),
+      var(--axiom-panel)
+    ) !important;
+
+  border-color: var(--axiom-border) !important;
+}
+
+html[data-axiom-theme]
+#performance .axv4-equity-panel svg.equity {
+  background: var(--axiom-bg) !important;
+  border-color: var(--axiom-border) !important;
+}
+
+/* 6. Founder sidebar */
+
+html[data-axiom-theme] .sidebar.axiom-sb {
+  background:
+    linear-gradient(
+      180deg,
+      var(--axiom-nav),
+      var(--axiom-bg)
+    ) !important;
+
+  border-color: var(--axiom-border) !important;
+}
+
+html[data-axiom-theme]
+.sidebar.axiom-sb .axiom-founder {
+  background:
+    linear-gradient(
+      135deg,
+      var(--axiom-hero),
+      var(--axiom-panel)
+    ) !important;
+
+  border-color: var(--axiom-border) !important;
+}
+
+html[data-axiom-theme]
+.sidebar.axiom-sb a.side.active {
+  background: var(--axiom-active) !important;
+  border-color: var(--axiom-border) !important;
+}
+
+/* 7. Unified heading accents */
+
+html[data-axiom-theme] :is(
+  .axv4-market-eyebrow,
+  .axv4-market-title span,
+  .axv4-founder-eyebrow,
+  .axv4-founder-info h2,
+  .axv4-founder-mini,
+  .axv4-system-kicker,
+  .axv4-system-top h2 span,
+  .axv4-kicker
+) {
+  color: var(--axiom-accent) !important;
+}
+
+/* 8. Main slogan follows theme */
+
+html[data-axiom-theme]
+.axv4-command-title span {
+  background:
+    linear-gradient(
+      100deg,
+      var(--axiom-accent),
+      var(--primary-hover)
+    ) !important;
+
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+
+/* 9. Selected accents */
+
+html[data-axiom-theme]
+.axv4-founder-progress-head h3,
+html[data-axiom-theme]
+#axv4-mission-percent,
+html[data-axiom-theme]
+.axv4-system-stat strong {
+  color: var(--axiom-accent) !important;
+}
+
+/* 10. Keep the notification center consistent */
+
+html[data-axiom-theme] .axn-panel {
+  background: var(--axiom-panel) !important;
+  border-color: var(--axiom-border) !important;
+}
+
+html[data-axiom-theme] .axn-item {
+  background: var(--axiom-bg) !important;
+  border-color: var(--axiom-border) !important;
+}
