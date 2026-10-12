@@ -197,3 +197,78 @@
     min-width: 36px !important;
   }
 }
+
+/* === AXIOM NOTIFY COMPACT PATCH === */
+
+.axn-panel {
+  width: min(340px, calc(100vw - 18px)) !important;
+  max-height: calc(100dvh - 82px) !important;
+  padding: 12px !important;
+  border-radius: 14px !important;
+}
+
+.axn-head {
+  margin-bottom: 10px !important;
+}
+
+.axn-title {
+  font-size: 16px !important;
+}
+
+.axn-kicker {
+  font-size: 8px !important;
+  letter-spacing: 1.2px !important;
+}
+
+.axn-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+.axn-item {
+  padding: 10px 11px !important;
+  border-radius: 10px !important;
+}
+
+.axn-item-title {
+  margin: 0 0 4px !important;
+  font-size: 11px !important;
+}
+
+.axn-item-message {
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+}
+
+.axn-item-action {
+  margin-top: 8px !important;
+  padding: 6px 9px !important;
+  font-size: 9px !important;
+  border-radius: 7px !important;
+}
+
+.axn-footer {
+  margin-top: 10px !important;
+  padding-top: 10px !important;
+  font-size: 9px !important;
+}
+
+.axn-close {
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 8px !important;
+}
+
+@media (max-width: 600px) {
+  .axn-panel {
+    width: min(320px, calc(100vw - 14px)) !important;
+    padding: 10px !important;
+    right: 8px !important;
+    top: 62px !important;
+  }
+
+  .axn-item {
+    padding: 9px 10px !important;
+  }
+}
