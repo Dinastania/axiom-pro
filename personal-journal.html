@@ -1,0 +1,1514 @@
+
+<!DOCTYPE html>
+<html lang="vi" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#081621">
+  <title>AXIOM Personal Journal / Pro</title>
+  <link rel="icon" href="./favicon.png">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+
+  <style>
+    :root {
+      --aj-bg: #07111b;
+      --aj-card: #102330;
+      --aj-card2: #142d39;
+      --aj-line: #30575e;
+      --aj-mint: #66f4c6;
+      --aj-text: #e7f8ff;
+      --aj-muted: #a3bdcd;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--aj-bg);
+      color: var(--aj-text);
+      min-height: 100dvh;
+    }
+
+    body, input, textarea, select, button {
+      font-family: Inter, system-ui, sans-serif;
+    }
+
+    nav.container-fluid {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: #091722;
+      border-bottom: 1px solid var(--aj-line);
+      padding: 10px max(18px, 3vw);
+    }
+
+    nav ul { align-items: center; margin: 0; }
+    nav li { margin: 0; }
+
+    nav a {
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .aj-brand {
+      color: var(--aj-mint);
+      letter-spacing: 1.5px;
+      font-weight: 900;
+    }
+
+    .aj-nav-btn {
+      background: #12352f;
+      border: 1px solid #367966;
+      color: var(--aj-mint);
+      padding: 8px 13px;
+      border-radius: 10px;
+    }
+
+    main.container {
+      max-width: 1450px;
+      padding-top: 27px;
+      padding-bottom: 36px;
+    }
+
+    .aj-hero {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 21px;
+    }
+
+    .aj-kicker {
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: 1.5px;
+      color: var(--aj-mint);
+    }
+
+    .aj-hero h1 {
+      margin: 6px 0;
+      color: var(--aj-text);
+      font-size: clamp(25px, 4vw, 39px);
+      letter-spacing: -.8px;
+    }
+
+    .aj-hero h1 em {
+      color: var(--aj-mint);
+      font-style: normal;
+    }
+
+    .aj-hero p {
+      color: var(--aj-muted);
+      font-size: 13px;
+      margin: 0;
+    }
+
+    .aj-logo {
+      flex: 0 0 64px;
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      border-radius: 16px;
+      border: 1px solid var(--aj-line);
+      background: #102432;
+      padding: 7px;
+    }
+
+    .aj-layout {
+      display: grid;
+      grid-template-columns: 330px minmax(0, 1fr);
+      align-items: start;
+      gap: 16px;
+    }
+
+    .aj-panel {
+      min-width: 0;
+      margin: 0;
+      padding: 19px;
+      background: var(--aj-card);
+      border: 1px solid var(--aj-line);
+      border-radius: 17px;
+      box-shadow: none;
+    }
+
+    .aj-panel h2 {
+      color: var(--aj-text);
+      font-size: 17px;
+      margin: 0 0 14px;
+    }
+
+    .aj-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .aj-between { justify-content: space-between; }
+
+    .aj-btn {
+      width: auto;
+      margin: 0;
+      padding: 9px 12px;
+      min-height: 36px;
+      border: 1px solid var(--aj-line);
+      border-radius: 9px;
+      background: var(--aj-card2);
+      color: var(--aj-text);
+      font-size: 12px;
+      font-weight: 750;
+      cursor: pointer;
+      line-height: 1.3;
+    }
+
+    .aj-btn:hover,
+    .aj-btn:focus-visible {
+      border-color: var(--aj-mint);
+      color: var(--aj-mint);
+      background: #17393d;
+    }
+
+    .aj-btn-primary {
+      color: #06221b;
+      background: var(--aj-mint);
+      border-color: var(--aj-mint);
+    }
+
+    .aj-btn-primary:hover {
+      background: #9bffdf;
+      color: #06221b;
+    }
+
+    .aj-btn-danger {
+      color: #ff9bb0;
+      border-color: #774453;
+    }
+
+    .aj-actions { margin-bottom: 16px; }
+
+    .aj-field {
+      display: block;
+      color: var(--aj-muted);
+      font-size: 11px;
+      font-weight: 750;
+      margin-bottom: 10px;
+      min-width: 0;
+    }
+
+    .aj-field input,
+    .aj-field select,
+    .aj-field textarea,
+    #aj-query,
+    #aj-media-url {
+      display: block;
+      width: 100%;
+      min-width: 0;
+      margin: 5px 0 0;
+      background: #091b28;
+      color: var(--aj-text);
+      border: 1px solid #315665;
+      border-radius: 9px;
+      font-size: 13px;
+      padding: 10px 12px;
+      box-shadow: none;
+    }
+
+    .aj-field input:focus,
+    .aj-field select:focus,
+    .aj-field textarea:focus,
+    #aj-query:focus,
+    #aj-media-url:focus {
+      border-color: var(--aj-mint);
+      box-shadow: 0 0 0 2px #5ef1bf24;
+    }
+
+    .aj-field textarea {
+      resize: vertical;
+      min-height: 240px;
+      line-height: 1.7;
+    }
+
+    .aj-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .aj-calendar-head {
+      margin: 18px 0 12px;
+    }
+
+    #aj-month {
+      color: var(--aj-text);
+      font-size: 13px;
+    }
+
+    .aj-calendar {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 5px;
+    }
+
+    .aj-weekday {
+      text-align: center;
+      font-size: 10px;
+      color: var(--aj-muted);
+      padding: 5px 0;
+    }
+
+    .aj-day {
+      padding: 0;
+      width: 100%;
+      aspect-ratio: 1;
+      min-width: 0;
+      min-height: 33px;
+      border-radius: 7px;
+      border: 1px solid #284452;
+      background: #0c202e;
+      color: #cfe6ef;
+      font-size: 11px;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .aj-day[data-has="true"]::after {
+      content: "";
+      position: absolute;
+      width: 4px;
+      height: 4px;
+      left: calc(50% - 2px);
+      bottom: 4px;
+      border-radius: 50%;
+      background: var(--aj-mint);
+    }
+
+    .aj-day[data-selected="true"] {
+      border-color: var(--aj-mint);
+      background: #174b3f;
+      color: #baffdf;
+    }
+
+    .aj-day:hover {
+      border-color: var(--aj-mint);
+    }
+
+    .aj-divider {
+      border: 0;
+      border-top: 1px solid var(--aj-line);
+      margin: 17px 0;
+    }
+
+    #aj-entry-list {
+      display: grid;
+      gap: 7px;
+      max-height: 410px;
+      overflow-y: auto;
+    }
+
+    .aj-entry {
+      width: 100%;
+      text-align: left;
+      margin: 0;
+      padding: 11px;
+      border: 1px solid #2c4b59;
+      border-radius: 10px;
+      background: #0c202d;
+      color: var(--aj-text);
+      cursor: pointer;
+    }
+
+    .aj-entry strong,
+    .aj-entry small {
+      display: block;
+      overflow-wrap: anywhere;
+    }
+
+    .aj-entry strong { font-size: 12px; }
+    .aj-entry small {
+      color: var(--aj-muted);
+      margin-top: 5px;
+      font-size: 10px;
+    }
+
+    .aj-entry[data-active="true"] {
+      border-color: var(--aj-mint);
+      background: #133b38;
+    }
+
+    .aj-section-title {
+      display: block;
+      color: var(--aj-mint);
+      font-weight: 850;
+      letter-spacing: 1px;
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
+
+    #aj-status {
+      color: #8fe6c7;
+      font-size: 11px;
+      margin: 0;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    #aj-status[data-error="true"] {
+      color: #ff9cac;
+    }
+
+    .aj-media-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 14px 0 0;
+    }
+
+    .aj-media-card {
+      margin: 0;
+      min-width: 0;
+      padding: 9px;
+      border-radius: 11px;
+      background: #0a1a27;
+      border: 1px solid var(--aj-line);
+    }
+
+    .aj-media-card img,
+    .aj-media-card video,
+    .aj-media-card iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: contain;
+      background: #06111b;
+      border: none;
+      border-radius: 7px;
+    }
+
+    .aj-media-card iframe {
+      aspect-ratio: 16 / 9;
+    }
+
+    .aj-media-card a {
+      display: block;
+      color: #9edacb;
+      font-size: 10px;
+      overflow-wrap: anywhere;
+      margin: 7px 0;
+    }
+
+    .aj-media-card .aj-btn {
+      padding: 6px 10px;
+      min-height: 29px;
+    }
+
+    .aj-info {
+      margin-top: 12px;
+      color: var(--aj-muted);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .aj-backup {
+      margin-top: 16px;
+    }
+
+    .aj-backup p {
+      font-size: 11px;
+      color: var(--aj-muted);
+      margin-bottom: 12px;
+    }
+
+    .aj-backup input[type="file"] {
+      display: none;
+    }
+
+    .aj-empty {
+      color: var(--aj-muted);
+      font-size: 12px;
+      margin: 10px 0;
+    }
+
+    .aj-footer {
+      margin-top: 22px;
+      text-align: center;
+      color: var(--aj-muted);
+      font-size: 11px;
+    }
+
+    @media (max-width: 900px) {
+      .aj-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .aj-panel {
+        padding: 15px;
+      }
+
+      #aj-entry-list {
+        max-height: 240px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      main.container {
+        padding: 16px 11px 25px;
+      }
+
+      nav.container-fluid {
+        padding: 9px 12px;
+      }
+
+      nav li { font-size: 11px; }
+      nav a { font-size: 11px; }
+
+      .aj-hero h1 { font-size: 25px; }
+      .aj-logo { width: 48px; height: 48px; flex-basis: 48px; }
+
+      .aj-form-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+      }
+
+      .aj-media-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .aj-btn {
+        padding: 9px 10px;
+      }
+
+      .aj-field textarea {
+        min-height: 280px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="container-fluid" aria-label="AXIOM Navigation">
+    <ul>
+      <li><strong class="aj-brand">AXIOM. PRO</strong></li>
+    </ul>
+    <ul>
+      <li><a href="./index.html">Dashboard</a></li>
+      <li><a href="./index.html#calendar-panel">PNL</a></li>
+      <li><a href="./index.html" class="aj-nav-btn">← Quay lại</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <header class="aj-hero">
+      <div>
+        <span class="aj-kicker">✦ DINATRAN / PRIVATE MINDSPACE</span>
+        <h1>Personal Journal <em>/ Pro</em></h1>
+        <p>Your trades tell the numbers. Your journal tells the story.</p>
+      </div>
+      <figure style="margin:0">
+        <img class="aj-logo" src="./favicon.png" alt="AXIOM logo">
+        <figcaption style="display:none">
+          <a href="./index.html">AXIOM</a>
+        </figcaption>
+      </figure>
+    </header>
+
+    <div class="aj-layout">
+      <!-- LEFT: SEARCH, CALENDAR, HISTORY -->
+      <section class="aj-panel" aria-label="Nhật ký và tìm kiếm">
+        <h2>My Mindspace</h2>
+
+        <div class="aj-row aj-actions">
+          <button class="aj-btn aj-btn-primary" type="button"
+            id="aj-new-daily">+ Daily Diary</button>
+          <button class="aj-btn" type="button"
+            id="aj-new-note">+ Quick Note</button>
+        </div>
+
+        <label class="aj-field">
+          Tìm ghi chú
+          <input id="aj-query" type="search"
+            placeholder="Tiêu đề, nội dung, hashtag...">
+        </label>
+
+        <label class="aj-field">
+          Lọc loại ghi chú
+          <select id="aj-filter">
+            <option value="all">Tất cả</option>
+            <option value="daily">Daily Diary</option>
+            <option value="note">Quick Notes</option>
+          </select>
+        </label>
+
+        <div class="aj-row aj-between aj-calendar-head">
+          <button class="aj-btn" type="button"
+            id="aj-prev-month" aria-label="Tháng trước">‹</button>
+          <strong id="aj-month">—</strong>
+          <button class="aj-btn" type="button"
+            id="aj-next-month" aria-label="Tháng sau">›</button>
+        </div>
+
+        <div id="aj-calendar" class="aj-calendar"
+          aria-label="Lịch nhật ký"></div>
+
+        <hr class="aj-divider">
+
+        <span class="aj-section-title">YOUR ENTRIES</span>
+        <div id="aj-entry-list"></div>
+      </section>
+
+      <!-- RIGHT: EDITOR -->
+      <section class="aj-panel" aria-label="Trình soạn nhật ký">
+        <div class="aj-row aj-between" style="margin-bottom:14px">
+          <span class="aj-section-title" id="aj-entry-kind"
+            style="margin:0">DAILY DIARY</span>
+          <span style="font-size:11px;color:var(--aj-muted)">
+            🔒 Lưu trong trình duyệt
+          </span>
+        </div>
+
+        <form id="aj-form">
+          <div class="aj-form-grid">
+            <label class="aj-field">
+              Ngày
+              <input id="aj-date" data-field
+                type="date" required>
+            </label>
+
+            <label class="aj-field">
+              Mood Tracker
+              <select id="aj-mood" data-field>
+                <option value="">Chưa chọn</option>
+                <option value="calm">😌 Bình tĩnh</option>
+                <option value="confident">😎 Tự tin</option>
+                <option value="happy">😊 Vui vẻ</option>
+                <option value="fomo">😵 FOMO</option>
+                <option value="stress">😣 Căng thẳng</option>
+                <option value="sad">😔 Buồn</option>
+                <option value="neutral">😐 Bình thường</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="aj-field">
+            Tiêu đề
+            <input id="aj-title" data-field type="text"
+              maxlength="160"
+              placeholder="Hôm nay mình học được điều gì?">
+          </label>
+
+          <label class="aj-field">
+            Nhật ký / Nội dung ghi chú
+            <textarea id="aj-body" data-field
+              placeholder="Viết suy nghĩ, cảm xúc, bài học, ý tưởng trading..."></textarea>
+          </label>
+
+          <label class="aj-field">
+            Tags
+            <input id="aj-tags" data-field type="text"
+              placeholder="discipline, psychology, setup">
+          </label>
+
+          <hr class="aj-divider">
+
+          <span class="aj-section-title">
+            IMAGE & VIDEO ATTACHMENTS
+          </span>
+
+          <label class="aj-field">
+            Dán nhiều URL ảnh/video (mỗi dòng một URL)
+            <textarea id="aj-media-url" rows="3"
+              style="min-height:85px"
+              placeholder="https://example.com/chart.png&#10;https://youtu.be/..."></textarea>
+          </label>
+
+          <div class="aj-row">
+            <select id="aj-media-type" style="width:auto;margin:0">
+              <option value="auto">Tự nhận diện</option>
+              <option value="image">Ảnh</option>
+              <option value="video">Video</option>
+            </select>
+            <button id="aj-add-media" type="button"
+              class="aj-btn">+ Thêm media</button>
+          </div>
+
+          <div id="aj-media-list" class="aj-media-grid"></div>
+
+          <p class="aj-info">
+            Hỗ trợ nhiều liên kết ảnh HTTPS, YouTube,
+            MP4/WebM và liên kết video ngoài.
+            Media không được tải lên máy chủ AXIOM.
+          </p>
+
+          <hr class="aj-divider">
+
+          <div class="aj-row">
+            <button id="aj-save" type="button"
+              class="aj-btn aj-btn-primary">✓ Lưu ngay</button>
+            <button id="aj-delete" type="button"
+              class="aj-btn aj-btn-danger">Xóa ghi chú</button>
+            <p id="aj-status" role="status"
+              aria-live="polite">Sẵn sàng.</p>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <section class="aj-panel aj-backup"
+      aria-label="Journal Backup">
+      <div class="aj-row aj-between">
+        <div>
+          <span class="aj-section-title">PRIVATE BACKUP VAULT</span>
+          <h2 style="margin:0 0 6px">Protect Your Story.</h2>
+          <p style="margin:0">
+            Export JSON toàn bộ nhật ký cá nhân. Import sẽ
+            chỉ thêm ghi chú chưa có, không ghi đè ghi chú hiện tại.
+          </p>
+        </div>
+
+        <div class="aj-row">
+          <button class="aj-btn aj-btn-primary"
+            type="button" id="aj-export">
+            ↓ Backup JSON
+          </button>
+          <button class="aj-btn" type="button"
+            id="aj-import-btn">↑ Restore JSON</button>
+          <input id="aj-import" type="file"
+            accept=".json,application/json">
+        </div>
+      </div>
+    </section>
+
+    <footer class="aj-footer">
+      <small>
+        AXIOM PRO ULTIMATE · MADE BY DINATRAN
+        · <a href="./index.html">Trading Dashboard</a>
+      </small>
+    </footer>
+  </main>
+
+  <script>
+  (() => {
+    "use strict";
+
+    const KEY = "axiom_personal_journal_v1";
+    const APP = "AXIOM_PERSONAL_JOURNAL";
+    const MAX_MEDIA = 100;
+    const $ = id => document.getElementById(id);
+
+    const moodNames = {
+      calm: "😌 Bình tĩnh",
+      confident: "😎 Tự tin",
+      happy: "😊 Vui vẻ",
+      fomo: "😵 FOMO",
+      stress: "😣 Căng thẳng",
+      sad: "😔 Buồn",
+      neutral: "😐 Bình thường"
+    };
+
+    const pad = n => String(n).padStart(2, "0");
+
+    function localDate(date = new Date()) {
+      return [
+        date.getFullYear(),
+        pad(date.getMonth() + 1),
+        pad(date.getDate())
+      ].join("-");
+    }
+
+    function validDate(value) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+        return false;
+      }
+
+      const date = new Date(value + "T12:00:00");
+      return !Number.isNaN(date.getTime()) &&
+        localDate(date) === value;
+    }
+
+    function uid() {
+      return typeof crypto !== "undefined" &&
+        typeof crypto.randomUUID === "function"
+        ? crypto.randomUUID()
+        : "aj-" + Date.now() + "-" +
+          Math.random().toString(36).slice(2);
+    }
+
+    function safeUrl(value) {
+      try {
+        const url = new URL(String(value).trim());
+        return url.protocol === "https:"
+          ? url.href
+          : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function youtubeId(value) {
+      try {
+        const u = new URL(value);
+        const host = u.hostname.toLowerCase();
+
+        let id = "";
+
+        if (host === "youtu.be" ||
+            host === "www.youtu.be") {
+          id = u.pathname.split("/")[1] || "";
+        } else if ([
+          "youtube.com",
+          "www.youtube.com",
+          "m.youtube.com"
+        ].includes(host)) {
+          id = u.searchParams.get("v") ||
+            (u.pathname.match(
+              /^\/(?:shorts|embed)\/([^/]+)/
+            ) || [])[1] || "";
+        }
+
+        return /^[a-zA-Z0-9_-]{11}$/.test(id)
+          ? id
+          : null;
+      } catch {
+        return null;
+      }
+    }
+
+    function guessType(url) {
+      return youtubeId(url) ||
+        /\.(mp4|webm|ogg)$/i.test(
+          new URL(url).pathname
+        )
+        ? "video"
+        : "image";
+    }
+
+    function normalizeEntry(item) {
+      if (!item || typeof item !== "object" ||
+          Array.isArray(item) ||
+          typeof item.id !== "string" ||
+          !item.id ||
+          !["daily", "note"].includes(item.kind) ||
+          !validDate(item.date) ||
+          typeof item.title !== "string" ||
+          typeof item.body !== "string") {
+        return null;
+      }
+
+      const media = Array.isArray(item.media)
+        ? item.media.slice(0, MAX_MEDIA)
+            .map(mediaItem => {
+              if (!mediaItem ||
+                  typeof mediaItem !== "object") {
+                return null;
+              }
+
+              const url = safeUrl(mediaItem.url);
+              if (!url) return null;
+
+              return {
+                id: String(mediaItem.id || uid()),
+                url,
+                type: mediaItem.type === "video"
+                  ? "video" : "image"
+              };
+            }).filter(Boolean)
+        : [];
+
+      return {
+        id: item.id.slice(0, 150),
+        kind: item.kind,
+        date: item.date,
+        title: item.title.slice(0, 160),
+        body: item.body.slice(0, 100000),
+        mood: Object.hasOwn(moodNames, item.mood)
+          ? item.mood : "",
+        tags: String(item.tags || "").slice(0, 1000),
+        media,
+        createdAt: Number(item.createdAt) || Date.now(),
+        updatedAt: Number(item.updatedAt) || Date.now()
+      };
+    }
+
+    let entries = [];
+    let current = null;
+    let dirty = false;
+    let writeBlocked = false;
+    let saveTimer = null;
+
+    const today = localDate();
+    let calendarMonth = new Date(
+      new Date().getFullYear(),
+      new Date().getMonth(), 1
+    );
+
+    function status(message, error = false) {
+      $("aj-status").textContent = message;
+      $("aj-status").dataset.error = String(error);
+    }
+
+    function readStore() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if (!raw) return [];
+
+        const data = JSON.parse(raw);
+
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid journal structure");
+        }
+
+        if (data.some(item => !normalizeEntry(item))) {
+          throw new Error("Invalid journal entry");
+        }
+
+        return data.map(normalizeEntry);
+      } catch (error) {
+        writeBlocked = true;
+        status(
+          "Dữ liệu cũ không đọc được. Đã khóa ghi để tránh mất dữ liệu.",
+          true
+        );
+        console.error("AXIOM Journal:", error);
+        return [];
+      }
+    }
+
+    function commit(next) {
+      if (writeBlocked) {
+        status("Đang khóa ghi: cần kiểm tra dữ liệu cũ.", true);
+        return false;
+      }
+
+      try {
+        localStorage.setItem(KEY, JSON.stringify(next));
+        entries = next;
+        return true;
+      } catch (error) {
+        status(
+          "Không thể lưu! Bộ nhớ trình duyệt có thể đã đầy.",
+          true
+        );
+        console.error("AXIOM Journal save:", error);
+        return false;
+      }
+    }
+
+    function draft(kind, date) {
+      const time = Date.now();
+
+      return {
+        id: kind === "daily"
+          ? "daily:" + date
+          : uid(),
+        kind,
+        date,
+        title: "",
+        body: "",
+        mood: "",
+        tags: "",
+        media: [],
+        createdAt: time,
+        updatedAt: time
+      };
+    }
+
+    function captureFields() {
+      if (!current) return;
+
+      current.title = $("aj-title").value;
+      current.body = $("aj-body").value;
+      current.mood = $("aj-mood").value;
+      current.tags = $("aj-tags").value;
+
+      if (current.kind === "note" &&
+          validDate($("aj-date").value)) {
+        current.date = $("aj-date").value;
+      }
+
+      current.updatedAt = Date.now();
+    }
+
+    function save() {
+      clearTimeout(saveTimer);
+
+      if (!dirty || !current) return true;
+
+      captureFields();
+
+      const next = entries.filter(
+        entry => entry.id !== current.id
+      );
+
+      next.push({
+        ...current,
+        media: current.media.map(item => ({ ...item }))
+      });
+
+      if (!commit(next)) return false;
+
+      dirty = false;
+      status(
+        "✓ Đã lưu lúc " +
+        new Date().toLocaleTimeString("vi-VN")
+      );
+
+      renderList();
+      renderCalendar();
+      return true;
+    }
+
+    function scheduleSave() {
+      if (!current) return;
+      dirty = true;
+      status("Đang tự lưu...");
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(save, 650);
+    }
+
+    function openEntry(entry) {
+      if (!save()) return;
+
+      current = {
+        ...entry,
+        media: entry.media.map(item => ({ ...item }))
+      };
+
+      dirty = false;
+
+      $("aj-date").value = current.date;
+      $("aj-date").disabled = current.kind === "daily";
+      $("aj-title").value = current.title;
+      $("aj-body").value = current.body;
+      $("aj-mood").value = current.mood;
+      $("aj-tags").value = current.tags;
+
+      $("aj-entry-kind").textContent =
+        current.kind === "daily"
+          ? "✦ DAILY DIARY"
+          : "✦ QUICK NOTE";
+
+      status("Sẵn sàng · Auto Save bật");
+      renderMedia();
+      renderList();
+      renderCalendar();
+    }
+
+    function openDaily(date) {
+      const found = entries.find(
+        entry => entry.kind === "daily" &&
+          entry.date === date
+      );
+
+      openEntry(found || draft("daily", date));
+
+      calendarMonth = new Date(
+        Number(date.slice(0, 4)),
+        Number(date.slice(5, 7)) - 1,
+        1
+      );
+
+      renderCalendar();
+    }
+
+    function renderList() {
+      const query = $("aj-query").value
+        .trim().toLowerCase();
+
+      const filter = $("aj-filter").value;
+
+      const list = entries
+        .filter(item =>
+          filter === "all" || item.kind === filter
+        )
+        .filter(item => {
+          const haystack = [
+            item.title,
+            item.body,
+            item.tags,
+            item.date,
+            moodNames[item.mood] || ""
+          ].join(" ").toLowerCase();
+
+          return haystack.includes(query);
+        })
+        .sort((a, b) =>
+          b.updatedAt - a.updatedAt
+        );
+
+      const root = $("aj-entry-list");
+      root.replaceChildren();
+
+      if (!list.length) {
+        const p = document.createElement("p");
+        p.className = "aj-empty";
+        p.textContent = "Chưa có ghi chú phù hợp.";
+        root.appendChild(p);
+        return;
+      }
+
+      list.forEach(item => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "aj-entry";
+
+        button.dataset.active = String(
+          current && current.id === item.id
+        );
+
+        const strong = document.createElement("strong");
+        strong.textContent = item.title ||
+          (item.kind === "daily"
+            ? "Daily Diary · " + item.date
+            : "Quick Note không tiêu đề");
+
+        const small = document.createElement("small");
+        small.textContent =
+          item.date + " · " +
+          (item.kind === "daily" ? "Diary" : "Note") +
+          (item.mood
+            ? " · " + moodNames[item.mood]
+            : "");
+
+        button.append(strong, small);
+        button.addEventListener("click", () => {
+          openEntry(item);
+        });
+
+        root.appendChild(button);
+      });
+    }
+
+    function renderCalendar() {
+      const root = $("aj-calendar");
+      root.replaceChildren();
+
+      const year = calendarMonth.getFullYear();
+      const month = calendarMonth.getMonth();
+
+      $("aj-month").textContent =
+        "Tháng " + (month + 1) + "/" + year;
+
+      ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
+        .forEach(day => {
+          const span = document.createElement("span");
+          span.className = "aj-weekday";
+          span.textContent = day;
+          root.appendChild(span);
+        });
+
+      const firstDay = new Date(year, month, 1);
+      const offset = (firstDay.getDay() + 6) % 7;
+
+      for (let i = 0; i < offset; i++) {
+        root.appendChild(document.createElement("span"));
+      }
+
+      const days = new Date(
+        year, month + 1, 0
+      ).getDate();
+
+      for (let day = 1; day <= days; day++) {
+        const date = localDate(
+          new Date(year, month, day)
+        );
+
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "aj-day";
+        button.textContent = String(day);
+
+        button.dataset.has = String(
+          entries.some(item => item.date === date)
+        );
+
+        button.dataset.selected = String(
+          current && current.date === date
+        );
+
+        button.title = "Mở nhật ký ngày " + date;
+
+        button.addEventListener("click", () => {
+          openDaily(date);
+        });
+
+        root.appendChild(button);
+      }
+    }
+
+    function renderMedia() {
+      const root = $("aj-media-list");
+      root.replaceChildren();
+
+      if (!current) return;
+
+      current.media.forEach(media => {
+        const card = document.createElement("div");
+        card.className = "aj-media-card";
+
+        let preview = null;
+
+        if (media.type === "image") {
+          preview = document.createElement("img");
+          preview.src = media.url;
+          preview.alt = "Ảnh đính kèm";
+          preview.loading = "lazy";
+          preview.referrerPolicy = "no-referrer";
+
+        } else {
+          const id = youtubeId(media.url);
+
+          if (id) {
+            preview = document.createElement("iframe");
+            preview.src =
+              "https://www.youtube-nocookie.com/embed/" + id;
+            preview.title = "YouTube video";
+            preview.loading = "lazy";
+            preview.allow =
+              "accelerometer; autoplay; encrypted-media; " +
+              "gyroscope; picture-in-picture";
+            preview.allowFullscreen = true;
+
+          } else if (
+            /\.(mp4|webm|ogg)$/i.test(
+              new URL(media.url).pathname
+            )
+          ) {
+            preview = document.createElement("video");
+            preview.src = media.url;
+            preview.controls = true;
+            preview.preload = "metadata";
+          }
+        }
+
+        if (preview) {
+          card.appendChild(preview);
+        }
+
+        const link = document.createElement("a");
+        link.href = media.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = media.type === "image"
+          ? "↗ Mở ảnh gốc"
+          : "↗ Mở video gốc";
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "aj-btn aj-btn-danger";
+        remove.textContent = "✕ Xóa media";
+
+        remove.addEventListener("click", () => {
+          current.media = current.media.filter(
+            item => item.id !== media.id
+          );
+
+          renderMedia();
+          scheduleSave();
+        });
+
+        card.append(link, remove);
+        root.appendChild(card);
+      });
+    }
+
+    function addMedia() {
+      if (!current) return;
+
+      const raw = $("aj-media-url").value
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean);
+
+      if (!raw.length) {
+        status("Hãy dán ít nhất một URL.", true);
+        return;
+      }
+
+      const urls = raw.map(safeUrl);
+
+      if (urls.some(url => !url)) {
+        status("Chỉ chấp nhận URL HTTPS hợp lệ.", true);
+        return;
+      }
+
+      if (current.media.length + urls.length > MAX_MEDIA) {
+        status(
+          "Giới hạn " + MAX_MEDIA +
+          " media cho mỗi ghi chú.",
+          true
+        );
+        return;
+      }
+
+      const selectedType = $("aj-media-type").value;
+
+      urls.forEach(url => {
+        current.media.push({
+          id: uid(),
+          url,
+          type: selectedType === "auto"
+            ? guessType(url)
+            : selectedType
+        });
+      });
+
+      $("aj-media-url").value = "";
+      renderMedia();
+      scheduleSave();
+    }
+
+    function deleteCurrent() {
+      if (!current) return;
+
+      if (!confirm(
+        "Xóa ghi chú này? Hành động không thể hoàn tác."
+      )) return;
+
+      clearTimeout(saveTimer);
+
+      const next = entries.filter(
+        entry => entry.id !== current.id
+      );
+
+      if (!commit(next)) return;
+
+      dirty = false;
+      openDaily(today);
+      status("Đã xóa ghi chú.");
+    }
+
+    function exportBackup() {
+      if (!save()) {
+        alert("Có lỗi lưu dữ liệu. Hãy xử lý trước khi backup.");
+        return;
+      }
+
+      const backup = {
+        app: APP,
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        note: "External media URLs only; no image/video files.",
+        entries
+      };
+
+      const blob = new Blob(
+        [JSON.stringify(backup, null, 2)],
+        { type: "application/json" }
+      );
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+
+      a.href = url;
+      a.download =
+        "AXIOM-PERSONAL-JOURNAL-" + localDate() + ".json";
+
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+      status("Đã chuẩn bị file Backup JSON.");
+    }
+
+    async function importBackup(file) {
+      if (!file) return;
+
+      if (file.size > 12 * 1024 * 1024) {
+        alert("File quá lớn (tối đa 12 MB).");
+        return;
+      }
+
+      if (!save()) return;
+
+      try {
+        const parsed = JSON.parse(await file.text());
+
+        if (parsed.app !== APP ||
+            parsed.version !== 1 ||
+            !Array.isArray(parsed.entries) ||
+            parsed.entries.length > 10000) {
+          throw new Error("Sai định dạng backup AXIOM.");
+        }
+
+        const incoming = parsed.entries.map(
+          normalizeEntry
+        );
+
+        if (incoming.some(item => !item)) {
+          throw new Error("Có ghi chú không hợp lệ.");
+        }
+
+        const known = new Set(
+          entries.map(item => item.id)
+        );
+
+        const dailyDates = new Set(
+          entries.filter(item => item.kind === "daily")
+            .map(item => item.date)
+        );
+
+        const additions = [];
+
+        incoming.forEach(item => {
+          if (known.has(item.id)) return;
+
+          // Keep one Daily Diary per day.
+          if (item.kind === "daily") {
+            if (dailyDates.has(item.date)) return;
+            dailyDates.add(item.date);
+          }
+
+          known.add(item.id);
+          additions.push(item);
+        });
+
+        if (!confirm(
+          "Backup có " + incoming.length + " ghi chú.\n" +
+          "Sẽ thêm " + additions.length + " ghi chú mới.\n" +
+          "Ghi chú hiện tại sẽ không bị ghi đè.\n\n" +
+          "Tiếp tục?"
+        )) return;
+
+        if (!commit([...entries, ...additions])) {
+          return;
+        }
+
+        openDaily(today);
+
+        alert(
+          "Restore thành công: " +
+          additions.length + " ghi chú mới."
+        );
+
+        status("Restore thành công.");
+
+      } catch (error) {
+        console.error("AXIOM Import:", error);
+        alert(
+          "Không thể nhập backup: " + error.message
+        );
+      }
+    }
+
+    // -------- EVENTS --------
+
+    $("aj-form").addEventListener(
+      "submit", event => event.preventDefault()
+    );
+
+    $("aj-form").addEventListener("input", event => {
+      if (event.target.matches("[data-field]")) {
+        scheduleSave();
+      }
+    });
+
+    $("aj-form").addEventListener("change", event => {
+      if (event.target.matches("[data-field]")) {
+        scheduleSave();
+      }
+    });
+
+    $("aj-save").addEventListener("click", () => {
+      if (!dirty && current &&
+          !entries.some(item => item.id === current.id)) {
+        dirty = true;
+      }
+
+      save();
+    });
+
+    $("aj-delete").addEventListener(
+      "click", deleteCurrent
+    );
+
+    $("aj-new-daily").addEventListener("click", () => {
+      openDaily(today);
+    });
+
+    $("aj-new-note").addEventListener("click", () => {
+      openEntry(draft("note", today));
+      $("aj-title").focus();
+    });
+
+    $("aj-add-media").addEventListener(
+      "click", addMedia
+    );
+
+    $("aj-query").addEventListener(
+      "input", renderList
+    );
+
+    $("aj-filter").addEventListener(
+      "change", renderList
+    );
+
+    $("aj-prev-month").addEventListener("click", () => {
+      calendarMonth = new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() - 1, 1
+      );
+
+      renderCalendar();
+    });
+
+    $("aj-next-month").addEventListener("click", () => {
+      calendarMonth = new Date(
+        calendarMonth.getFullYear(),
+        calendarMonth.getMonth() + 1, 1
+      );
+
+      renderCalendar();
+    });
+
+    $("aj-export").addEventListener(
+      "click", exportBackup
+    );
+
+    $("aj-import-btn").addEventListener(
+      "click", () => $("aj-import").click()
+    );
+
+    $("aj-import").addEventListener(
+      "change", async event => {
+        await importBackup(event.target.files[0]);
+        event.target.value = "";
+      }
+    );
+
+    document.addEventListener(
+      "visibilitychange", () => {
+        if (document.hidden) save();
+      }
+    );
+
+    window.addEventListener("pagehide", save);
+
+    window.addEventListener("storage", event => {
+      if (event.key !== KEY || dirty) return;
+
+      entries = readStore();
+      renderList();
+      renderCalendar();
+
+      status("Dữ liệu đã thay đổi ở tab khác. Tải lại để đồng bộ trình soạn.");
+    });
+
+    // -------- START --------
+
+    entries = readStore();
+
+    if (!writeBlocked) {
+      openDaily(today);
+    }
+
+    console.info(
+      "AXIOM Personal Journal / Pro initialized."
+    );
+  })();
+  </script>
+</body>
+</html>
