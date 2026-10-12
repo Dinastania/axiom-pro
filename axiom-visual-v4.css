@@ -1503,3 +1503,35 @@ strong.number {
     transition: none !important;
   }
 }
+
+
+/* =========================================
+   AXIOM V4 — EQUITY CURVE FINAL POLISH
+   ========================================= */
+
+/* Không kéo giãn khung biểu đồ */
+#performance .axv4-equity-panel {
+  height: auto !important;
+  min-height: 0 !important;
+  align-self: start !important;
+}
+
+/* Hai cột không bị buộc cao bằng nhau */
+#performance {
+  align-items: start !important;
+}
+
+/* Bỏ biểu tượng mũi tên trang trí bị trùng */
+#performance
+.axv4-equity-panel
+.panel-head h3::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Giữ kích thước biểu đồ hợp lý */
+#performance
+.axv4-equity-panel
+svg.equity {
+  max-width: 100%;
+}
