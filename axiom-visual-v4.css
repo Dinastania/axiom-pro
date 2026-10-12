@@ -1535,3 +1535,304 @@ strong.number {
 svg.equity {
   max-width: 100%;
 }
+
+
+/* =========================================
+ AXIOM V4 — FOUNDER PROFILE 2.0
+========================================= */
+
+.axv4-founder-profile,
+.axv4-founder-profile * {
+  box-sizing: border-box;
+}
+
+.axv4-founder-profile {
+  width: 100%;
+  min-width: 0;
+  margin: 26px 0;
+  padding: clamp(20px, 3vw, 32px);
+
+  border: 1px solid rgba(90, 241, 195, .35);
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      ellipse at 92% 5%,
+      rgba(61, 227, 195, .13),
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse at 4% 100%,
+      rgba(140, 94, 238, .1),
+      transparent 55%
+    ),
+    linear-gradient(135deg, #102b37, #11182d);
+
+  color: #e9f8ff;
+  box-shadow: 0 20px 55px rgba(0, 0, 0, .2);
+}
+
+.axv4-founder-header,
+.axv4-founder-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.axv4-founder-eyebrow,
+.axv4-founder-mini {
+  color: #76f9d0;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.axv4-founder-status {
+  padding: 7px 10px;
+  border: 1px solid rgba(99, 238, 196, .28);
+  border-radius: 999px;
+  color: #86efce;
+  font-size: 9px;
+  font-weight: 800;
+}
+
+.axv4-founder-identity {
+  display: flex;
+  align-items: center;
+  gap: 21px;
+  margin: 27px 0 20px;
+}
+
+.axv4-founder-logo {
+  flex: 0 0 100px;
+  width: 100px;
+  height: 100px;
+  padding: 9px;
+
+  border-radius: 22px;
+  border: 1px solid rgba(99, 240, 213, .4);
+
+  background: linear-gradient(135deg, #154d4b, #202046);
+  box-shadow: 0 0 30px rgba(63, 240, 205, .13);
+}
+
+.axv4-founder-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 15px;
+}
+
+.axv4-founder-info {
+  min-width: 0;
+}
+
+.axv4-founder-info h2 {
+  margin: 0 0 8px !important;
+
+  color: #70fbd3 !important;
+  font-size: clamp(27px, 4vw, 44px) !important;
+  font-weight: 950 !important;
+  line-height: 1.15;
+  letter-spacing: 1px;
+
+  text-shadow: 0 0 22px rgba(87, 245, 199, .2);
+}
+
+.axv4-founder-info p {
+  margin: 0 0 6px !important;
+  color: #ecf9ff !important;
+  font-size: 12px !important;
+  font-weight: 850;
+  letter-spacing: 1.4px;
+}
+
+.axv4-founder-info > span {
+  color: #acc2ff;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.axv4-founder-quote {
+  margin: 0 !important;
+  color: #a8c3d3 !important;
+  font-size: 13px !important;
+  font-style: italic;
+}
+
+.axv4-founder-divider {
+  height: 1px;
+  margin: 25px 0;
+  background: linear-gradient(
+    90deg,
+    rgba(95, 241, 201, .5),
+    transparent
+  );
+}
+
+.axv4-founder-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.axv4-founder-progress-head h3 {
+  margin: 9px 0 0 !important;
+  color: #70f9cf !important;
+  font-size: 26px !important;
+}
+
+.axv4-founder-progress-head h3 small {
+  display: inline-block;
+  margin-left: 10px;
+  color: #9ebbc9;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.axv4-founder-date {
+  color: #aac5d4;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.axv4-progress-track {
+  width: 100%;
+  height: 9px;
+  margin: 19px 0 24px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #2a4656;
+}
+
+#axv4-mission-progress-fill {
+  width: 0%;
+  height: 100%;
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #53f5ba,
+    #51c8ff,
+    #b59aff
+  );
+
+  box-shadow: 0 0 15px rgba(82, 245, 193, .25);
+  transition: width .3s ease;
+}
+
+.axv4-founder-missions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.axv4-founder-profile .axv4-mission {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  min-width: 0;
+
+  padding: 16px;
+  margin: 0;
+
+  border: 1px solid rgba(125, 184, 209, .2);
+  border-radius: 13px;
+
+  background: rgba(10, 30, 45, .64);
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+
+.axv4-founder-profile .axv4-mission:hover {
+  border-color: rgba(96, 238, 199, .45);
+}
+
+.axv4-founder-profile .axv4-mission:has(input:checked) {
+  border-color: rgba(94, 245, 194, .55);
+  background: rgba(48, 150, 117, .14);
+}
+
+.axv4-founder-profile .axv4-mission input {
+  flex: 0 0 auto;
+  width: 17px;
+  height: 17px;
+  margin: 2px 0 0 !important;
+  accent-color: #5df2be;
+  cursor: pointer;
+}
+
+.axv4-founder-profile .axv4-mission span {
+  min-width: 0;
+}
+
+.axv4-founder-profile .axv4-mission strong {
+  display: block;
+  margin-bottom: 7px;
+  color: #effaff;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.axv4-founder-profile .axv4-mission small {
+  display: block;
+  color: #9cbac9;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.axv4-founder-bottom {
+  margin-top: 21px;
+  color: #83c8bd;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+#axv4-mission-percent {
+  color: #75fbd3;
+  font-size: 14px;
+}
+
+@media (max-width: 750px) {
+  .axv4-founder-missions {
+    grid-template-columns: 1fr;
+  }
+
+  .axv4-founder-logo {
+    flex-basis: 75px;
+    width: 75px;
+    height: 75px;
+  }
+
+  .axv4-founder-identity {
+    gap: 13px;
+  }
+}
+
+@media (max-width: 450px) {
+  .axv4-founder-identity {
+    align-items: flex-start;
+  }
+
+  .axv4-founder-info h2 {
+    font-size: 24px !important;
+  }
+
+  .axv4-founder-status {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #axv4-mission-progress-fill,
+  .axv4-founder-profile .axv4-mission {
+    transition: none !important;
+  }
+}
