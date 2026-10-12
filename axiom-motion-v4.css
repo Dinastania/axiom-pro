@@ -1,0 +1,163 @@
+
+/* ==========================================
+   AXIOM PRO ULTIMATE — SIGNATURE MOTION
+   DINATRAN FOUNDER EDITION
+   Visual Evolution 4.0 / Phase 4
+
+   No layout size changes.
+   No trading data changes.
+   ========================================== */
+
+/* 1. AXIOM CORE — GENTLE FLOAT */
+
+@keyframes axm4-core-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.axv4-command button.axv4-core
+.axv4-logo-frame {
+  animation: axm4-core-float 5s
+    ease-in-out infinite;
+}
+
+/* 2. CORE ENERGY INDICATOR */
+
+@keyframes axm4-energy {
+  0%, 100% {
+    opacity: .7;
+    box-shadow: 0 0 7px
+      rgba(100, 255, 211, .45);
+  }
+
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 16px
+      rgba(100, 255, 211, .8);
+  }
+}
+
+.axv4-command .axv4-orbit::after {
+  animation: axm4-energy 3s
+    ease-in-out infinite;
+}
+
+/* 3. COMMAND STATUS DOT */
+
+@keyframes axm4-status {
+  0%, 100% {
+    opacity: .65;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+.axv4-command .axv4-dot {
+  animation: axm4-status 2.6s
+    ease-in-out infinite;
+}
+
+/* 4. MARKET DATA STATUS */
+
+.axv4-market-status[data-state="ok"]::before {
+  animation: axm4-status 2.6s
+    ease-in-out infinite;
+}
+
+/* 5. INTERACTIVE CARDS */
+
+.axv4-command-tiles a.axv4-tile,
+.axv4-market-card,
+.axv4-system-links a {
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease,
+    background-color .2s ease;
+}
+
+/* Keep existing hover movements.
+   Add a subtle focus highlight. */
+
+.axv4-command-tiles a.axv4-tile:focus-visible,
+.axv4-system-links a:focus-visible {
+  outline: 2px solid
+    var(--axiom-accent, #64f5ca);
+  outline-offset: 3px;
+}
+
+/* 6. FOUNDER CHECKLIST */
+
+.axv4-founder-profile .axv4-mission {
+  transition:
+    border-color .2s ease,
+    background-color .2s ease;
+}
+
+.axv4-founder-profile
+.axv4-mission input:focus-visible {
+  outline: 2px solid
+    var(--axiom-accent, #64f5ca);
+  outline-offset: 3px;
+}
+
+/* 7. SYSTEM HUB OPEN ANIMATION */
+
+@keyframes axm4-panel-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.axv4-system-panel:not([hidden]) {
+  animation: axm4-panel-enter
+    .24s ease-out both;
+}
+
+/* 8. NOTIFICATION CENTER */
+
+.axn-panel:not([hidden]) {
+  animation: axm4-panel-enter
+    .18s ease-out both;
+}
+
+/* 9. BUTTON PRESS FEEDBACK */
+
+.axv4-market-refresh:active,
+.axn-item-action:active {
+  transform: translateY(1px);
+}
+
+/* 10. ACCESSIBILITY AND PERFORMANCE */
+
+@media (prefers-reduced-motion: reduce) {
+  .axv4-command button.axv4-core
+  .axv4-logo-frame,
+  .axv4-command .axv4-orbit::after,
+  .axv4-command .axv4-dot,
+  .axv4-market-status[data-state="ok"]::before,
+  .axv4-system-panel:not([hidden]),
+  .axn-panel:not([hidden]) {
+    animation: none !important;
+  }
+
+  .axv4-command-tiles a.axv4-tile,
+  .axv4-market-card,
+  .axv4-system-links a,
+  .axv4-founder-profile .axv4-mission {
+    transition: none !important;
+  }
+}

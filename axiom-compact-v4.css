@@ -1,0 +1,678 @@
+
+/* =========================================
+ AXIOM VISUAL 4.0 — COMPACT LUXURY MODE
+ DINATRAN FOUNDER EDITION
+ ========================================= */
+
+/* 1. MAIN COMMAND DASHBOARD */
+
+.axv4-command {
+  padding: 25px 29px !important;
+  gap: 18px !important;
+  margin: 12px 0 16px !important;
+  border-radius: 18px !important;
+}
+
+.axv4-command-title {
+  font-size: clamp(27px, 3vw, 39px) !important;
+  margin: 11px 0 10px !important;
+  line-height: 1.15 !important;
+}
+
+.axv4-command-subtitle {
+  font-size: 12px !important;
+  line-height: 1.6 !important;
+  margin-bottom: 15px !important;
+}
+
+.axv4-kicker {
+  font-size: 9px !important;
+}
+
+.axv4-tags {
+  gap: 6px !important;
+}
+
+.axv4-tags span {
+  padding: 5px 8px !important;
+  font-size: 8px !important;
+}
+
+/* Smaller AXIOM Core */
+
+.axv4-command .axv4-core,
+.axv4-command button.axv4-core {
+  width: min(100%, 175px) !important;
+}
+
+.axv4-core-caption {
+  font-size: 8px !important;
+}
+
+/* 2. PLAN / EXECUTE / EVOLVE */
+
+.axv4-command-tiles {
+  gap: 10px !important;
+  margin-bottom: 16px !important;
+}
+
+.axv4-command-tiles .axv4-tile {
+  padding: 14px !important;
+  border-radius: 12px !important;
+  min-height: 0 !important;
+}
+
+.axv4-tile-icon {
+  width: 30px !important;
+  height: 30px !important;
+  margin-bottom: 8px !important;
+  font-size: 16px !important;
+}
+
+.axv4-tile h3 {
+  font-size: 12px !important;
+  margin-bottom: 5px !important;
+}
+
+.axv4-tile p {
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+}
+
+.axv4-tile-action {
+  padding-top: 10px !important;
+  font-size: 9px !important;
+}
+
+/* 3. MARKET PULSE */
+
+.axv4-market {
+  padding: 17px !important;
+  margin-bottom: 16px !important;
+  border-radius: 16px !important;
+}
+
+.axv4-market-head {
+  margin-bottom: 12px !important;
+}
+
+.axv4-market-title {
+  font-size: 18px !important;
+}
+
+.axv4-market-grid {
+  gap: 10px !important;
+}
+
+.axv4-market-card {
+  padding: 13px !important;
+  border-radius: 12px !important;
+}
+
+.axv4-market-symbol {
+  margin-bottom: 10px !important;
+}
+
+.axv4-market-icon {
+  flex-basis: 30px !important;
+  width: 30px !important;
+  height: 30px !important;
+  font-size: 18px !important;
+}
+
+.axv4-market-price {
+  font-size: clamp(19px, 2vw, 25px) !important;
+  margin-bottom: 7px !important;
+}
+
+.axv4-market-change {
+  padding: 5px 7px !important;
+  font-size: 10px !important;
+}
+
+.axv4-market-foot {
+  margin-top: 12px !important;
+  padding-top: 10px !important;
+}
+
+/* 4. FOUNDER PROFILE */
+
+.axv4-founder-profile {
+  padding: 21px !important;
+  margin: 16px 0 !important;
+  border-radius: 17px !important;
+}
+
+.axv4-founder-identity {
+  margin: 17px 0 12px !important;
+  gap: 13px !important;
+}
+
+.axv4-founder-logo {
+  flex-basis: 66px !important;
+  width: 66px !important;
+  height: 66px !important;
+  padding: 5px !important;
+  border-radius: 15px !important;
+}
+
+.axv4-founder-info h2 {
+  font-size: clamp(23px, 3vw, 31px) !important;
+}
+
+.axv4-founder-divider {
+  margin: 16px 0 !important;
+}
+
+.axv4-founder-progress-head h3 {
+  font-size: 21px !important;
+}
+
+.axv4-progress-track {
+  margin: 12px 0 15px !important;
+}
+
+.axv4-founder-missions {
+  gap: 9px !important;
+}
+
+.axv4-founder-profile .axv4-mission {
+  padding: 11px !important;
+}
+
+.axv4-founder-bottom {
+  margin-top: 13px !important;
+}
+
+/* 5. SYSTEM HUB */
+
+.axv4-system-panel {
+  padding: 21px !important;
+  margin-bottom: 16px !important;
+  border-radius: 17px !important;
+}
+
+.axv4-system-top h2 {
+  font-size: clamp(21px, 2.7vw, 27px) !important;
+}
+
+.axv4-system-stats {
+  margin-top: 15px !important;
+  gap: 10px !important;
+}
+
+.axv4-system-stat {
+  padding: 13px !important;
+}
+
+.axv4-system-stat strong {
+  font-size: 22px !important;
+}
+
+.axv4-system-divider {
+  margin: 15px 0 !important;
+}
+
+.axv4-system-links {
+  gap: 9px !important;
+}
+
+.axv4-system-links a {
+  padding: 12px !important;
+  gap: 5px !important;
+}
+
+.axv4-system-footer {
+  margin-top: 14px !important;
+}
+
+/* 6. PREMIUM KPI CARDS */
+
+.stats {
+  gap: 10px !important;
+  margin: 16px 0 19px !important;
+}
+
+.stats > article.stat {
+  min-height: 108px !important;
+  padding: 15px !important;
+  border-radius: 13px !important;
+}
+
+.stats > article.stat .kicker {
+  margin-bottom: 9px !important;
+  font-size: 9px !important;
+}
+
+.stats > article.stat .kicker::after {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.stats > article.stat strong.number {
+  font-size: clamp(19px, 2vw, 26px) !important;
+  margin-bottom: 7px !important;
+}
+
+.stats > article.stat small {
+  font-size: 9px !important;
+}
+
+/* 7. EQUITY CURVE */
+
+#performance .axv4-equity-panel {
+  padding: 18px !important;
+  border-radius: 17px !important;
+  min-height: 0 !important;
+  height: auto !important;
+  align-self: start !important;
+}
+
+#performance .axv4-equity-panel .panel-head {
+  margin-bottom: 13px !important;
+  padding-bottom: 11px !important;
+}
+
+#performance .axv4-equity-panel .panel-head h3 {
+  font-size: 18px !important;
+}
+
+#performance .axv4-equity-panel svg.equity {
+  min-height: 0 !important;
+  aspect-ratio: 760 / 260;
+  padding: 7px !important;
+}
+
+#performance {
+  align-items: start !important;
+}
+
+/* 8. RESPONSIVE */
+
+@media (max-width: 900px) {
+  .axv4-command {
+    grid-template-columns: 1fr !important;
+    padding: 19px !important;
+  }
+
+  .axv4-command .axv4-core,
+  .axv4-command button.axv4-core {
+    width: 135px !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .axv4-command-title {
+    font-size: 27px !important;
+  }
+
+  .axv4-command-tiles,
+  .axv4-market-grid,
+  .axv4-founder-missions,
+  .axv4-system-links {
+    grid-template-columns: 1fr !important;
+  }
+
+  .axv4-system-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  .axv4-market,
+  .axv4-system-panel,
+  .axv4-founder-profile {
+    padding: 15px !important;
+  }
+}
+
+
+/* =========================================
+   AXIOM V4 — SMALLER / CLEANER CARDS
+   ========================================= */
+
+/* ---------- MARKET PULSE ---------- */
+.axv4-market {
+  padding: 16px !important;
+  border-radius: 18px !important;
+  margin: 14px 0 !important;
+}
+
+.axv4-market-head {
+  margin-bottom: 12px !important;
+}
+
+.axv4-market-title {
+  font-size: 16px !important;
+}
+
+.axv4-market-grid {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+  margin-top: 10px !important;
+}
+
+.axv4-market-card {
+  padding: 12px !important;
+  border-radius: 14px !important;
+  min-height: 120px !important;
+}
+
+.axv4-market-symbol {
+  margin-bottom: 10px !important;
+  gap: 10px !important;
+}
+
+.axv4-market-symbol strong {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+.axv4-market-symbol span {
+  font-size: 10px !important;
+  opacity: .82 !important;
+}
+
+.axv4-market-icon {
+  width: 34px !important;
+  height: 34px !important;
+  flex-basis: 34px !important;
+  border-radius: 10px !important;
+  font-size: 14px !important;
+}
+
+.axv4-market-price {
+  font-size: clamp(18px, 1.6vw, 26px) !important;
+  line-height: 1.1 !important;
+  margin-bottom: 8px !important;
+}
+
+.axv4-market-change {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 4px 8px !important;
+  border-radius: 999px !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+}
+
+.axv4-market-change.positive {
+  background: rgba(68, 242, 181, 0.14) !important;
+  color: #4ff5c6 !important;
+}
+
+.axv4-market-change.negative {
+  background: rgba(255, 98, 146, 0.14) !important;
+  color: #ff7ea7 !important;
+}
+
+.axv4-market-change.neutral {
+  background: rgba(120, 170, 255, 0.14) !important;
+  color: #99c4ff !important;
+}
+
+.axv4-market-foot {
+  margin-top: 12px !important;
+  padding-top: 10px !important;
+}
+
+/* ---------- FOUNDER PROFILE ---------- */
+.axv4-founder-profile {
+  padding: 18px !important;
+  border-radius: 18px !important;
+  margin: 14px 0 !important;
+}
+
+.axv4-founder-identity {
+  gap: 12px !important;
+  margin: 10px 0 8px !important;
+}
+
+.axv4-founder-logo {
+  width: 58px !important;
+  height: 58px !important;
+  flex-basis: 58px !important;
+  border-radius: 14px !important;
+  padding: 4px !important;
+}
+
+.axv4-founder-info h2 {
+  font-size: clamp(26px, 2.4vw, 40px) !important;
+  margin-bottom: 3px !important;
+}
+
+.axv4-founder-info h3,
+.axv4-founder-info strong {
+  font-size: 13px !important;
+}
+
+.axv4-founder-divider {
+  margin: 14px 0 !important;
+}
+
+.axv4-founder-progress-head h3 {
+  font-size: 13px !important;
+}
+
+.axv4-progress-track {
+  margin: 10px 0 12px !important;
+}
+
+.axv4-founder-missions {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.axv4-founder-profile .axv4-mission {
+  padding: 10px 12px !important;
+  border-radius: 14px !important;
+  min-height: 86px !important;
+}
+
+.axv4-founder-bottom {
+  margin-top: 10px !important;
+  font-size: 10px !important;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 1200px) {
+  .axv4-market-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .axv4-founder-missions,
+  .axv4-market-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+
+
+/* ==========================================
+   AXIOM V4 — ACTUAL COMPACT FIX
+   MARKET + FOUNDER
+   ========================================== */
+
+/* 1. BỎ KHUNG FOUNDER CŨ BỌC BÊN NGOÀI */
+
+.axiom-creator:has(.axv4-founder-profile) {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 10px 0 !important;
+  padding: 0 !important;
+
+  background: none !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Ẩn tên và tiêu đề bị lặp ở khung ngoài */
+
+.axiom-creator:has(.axv4-founder-profile)
+> .axiom-creator-label,
+
+.axiom-creator:has(.axv4-founder-profile)
+> .axiom-creator-name,
+
+.axiom-creator:has(.axv4-founder-profile)
+> .axiom-creator-caption {
+  display: none !important;
+}
+
+/* 2. FOUNDER PROFILE: NHỎ GỌN THẬT */
+
+.axv4-founder-profile {
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+
+  margin: 8px 0 14px !important;
+  padding: 13px 16px !important;
+  border-radius: 13px !important;
+}
+
+.axv4-founder-header {
+  margin-bottom: 4px !important;
+}
+
+.axv4-founder-identity {
+  margin: 8px 0 !important;
+  gap: 10px !important;
+}
+
+.axv4-founder-logo {
+  flex: 0 0 46px !important;
+  width: 46px !important;
+  height: 46px !important;
+  padding: 3px !important;
+}
+
+.axv4-founder-info h2 {
+  font-size: 23px !important;
+  margin: 0 0 3px !important;
+}
+
+.axv4-founder-info p,
+.axv4-founder-info > span {
+  font-size: 10px !important;
+  margin: 0 !important;
+}
+
+.axv4-founder-quote {
+  font-size: 11px !important;
+}
+
+.axv4-founder-divider {
+  margin: 10px 0 !important;
+}
+
+.axv4-founder-progress-head h3 {
+  font-size: 18px !important;
+  margin-top: 4px !important;
+}
+
+.axv4-progress-track {
+  margin: 8px 0 10px !important;
+  height: 6px !important;
+}
+
+.axv4-founder-missions {
+  gap: 7px !important;
+}
+
+.axv4-founder-profile .axv4-mission {
+  min-height: 0 !important;
+  padding: 9px !important;
+}
+
+.axv4-founder-bottom {
+  margin-top: 9px !important;
+}
+
+/* 3. MARKET PULSE: LOẠI BỎ KHOẢNG TRỐNG */
+
+.axv4-market {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+
+  margin: 10px 0 14px !important;
+  padding: 13px 15px !important;
+  border-radius: 14px !important;
+}
+
+.axv4-market-head {
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+}
+
+.axv4-market-grid {
+  display: grid !important;
+  grid-template-columns:
+    repeat(5, minmax(0, 1fr)) !important;
+
+  gap: 8px !important;
+  margin: 0 !important;
+}
+
+.axv4-market-card {
+  min-height: 0 !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 10px !important;
+  border-radius: 10px !important;
+}
+
+.axv4-market-symbol {
+  margin: 0 0 7px !important;
+}
+
+.axv4-market-icon {
+  flex: 0 0 27px !important;
+  width: 27px !important;
+  height: 27px !important;
+  font-size: 15px !important;
+}
+
+.axv4-market-price {
+  margin: 0 0 7px !important;
+  font-size: clamp(16px, 1.5vw, 22px) !important;
+}
+
+.axv4-market-foot {
+  margin: 10px 0 0 !important;
+  padding: 8px 0 0 !important;
+}
+
+/* 4. MÀN HÌNH NHỎ */
+
+@media (max-width: 1100px) {
+  .axv4-market-grid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 700px) {
+  .axv4-market-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .axv4-founder-missions {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 440px) {
+  .axv4-market-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
