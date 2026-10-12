@@ -272,3 +272,134 @@
     padding: 9px 10px !important;
   }
 }
+
+/* =========================================
+   AXIOM NOTIFICATION — LAYOUT FIX
+   Small dropdown, no stretched spacing
+   ========================================= */
+
+/* Ép popup vừa đúng nội dung */
+body > #axn-panel.axn-panel {
+  position: fixed !important;
+
+  top: 65px !important;
+  right: 12px !important;
+  bottom: auto !important;
+  left: auto !important;
+
+  display: block !important;
+
+  width: min(330px, calc(100vw - 24px)) !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: min(450px, calc(100dvh - 80px)) !important;
+
+  margin: 0 !important;
+  padding: 12px !important;
+
+  border-radius: 13px !important;
+
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+
+  justify-content: flex-start !important;
+  align-items: initial !important;
+  align-content: start !important;
+
+  grid-template-rows: none !important;
+  flex: none !important;
+}
+
+/* Giữ chức năng đóng/mở của JavaScript */
+body > #axn-panel.axn-panel[hidden] {
+  display: none !important;
+}
+
+/* Header nằm sát thông báo đầu tiên */
+body > #axn-panel .axn-head {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+
+  height: auto !important;
+  min-height: 0 !important;
+  margin: 0 0 10px !important;
+  padding: 0 !important;
+
+  flex: none !important;
+}
+
+/* QUAN TRỌNG: không chia đều chiều cao */
+body > #axn-panel .axn-list {
+  display: flex !important;
+  flex-direction: column !important;
+
+  justify-content: flex-start !important;
+  align-items: stretch !important;
+  align-content: start !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+
+  flex: none !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 8px !important;
+}
+
+/* Mỗi thông báo chỉ cao bằng nội dung */
+body > #axn-panel .axn-item {
+  display: block !important;
+
+  position: static !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+
+  flex: 0 0 auto !important;
+  align-self: stretch !important;
+
+  margin: 0 !important;
+  padding: 11px 12px !important;
+
+  border-radius: 10px !important;
+}
+
+/* Chữ dễ đọc, không quá bé */
+body > #axn-panel .axn-title {
+  margin: 4px 0 0 !important;
+  font-size: 16px !important;
+}
+
+body > #axn-panel .axn-item-title {
+  margin: 0 0 5px !important;
+  font-size: 12px !important;
+}
+
+body > #axn-panel .axn-item-message {
+  margin: 0 !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+}
+
+body > #axn-panel .axn-item-action {
+  margin: 9px 0 0 !important;
+  padding: 7px 10px !important;
+  font-size: 10px !important;
+}
+
+/* Footer cũng không được kéo giãn */
+body > #axn-panel .axn-footer {
+  height: auto !important;
+  min-height: 0 !important;
+
+  margin: 10px 0 0 !important;
+  padding-top: 10px !important;
+
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+}
