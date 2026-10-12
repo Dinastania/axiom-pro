@@ -440,6 +440,326 @@ a.axv4-tile:hover
 @media (prefers-reduced-motion: reduce) {
   .axv4-command-tiles a.axv4-tile,
   .axv4-tile-action {
+
+     
+/* ========================================
+ AXIOM VISUAL 4.0 — INTERACTIVE CORE HUB
+======================================== */
+
+/* Convert logo container into a button */
+
+.axv4-command button.axv4-core {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  position: relative;
+
+  width: min(100%, 260px);
+  height: auto;
+  aspect-ratio: 1;
+  min-width: 0;
+  margin: auto !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 50%;
+  box-shadow: none !important;
+  color: #75f9d3 !important;
+
+  cursor: pointer;
+  font-family: inherit;
+  text-align: center;
+  text-transform: none;
+
+  transition: transform .25s ease;
+}
+
+.axv4-command button.axv4-core:hover {
+  transform: scale(1.04);
+}
+
+.axv4-command button.axv4-core:focus-visible {
+  outline: 2px solid #66ffd2 !important;
+  outline-offset: 6px;
+}
+
+.axv4-command button.axv4-core
+.axv4-logo-frame {
+  display: grid;
+  place-items: center;
+}
+
+.axv4-command button.axv4-core
+.axv4-orbit {
+  transition: transform .5s ease;
+}
+
+.axv4-command button.axv4-core:hover
+.axv4-orbit {
+  transform: rotate(15deg);
+}
+
+.axv4-command button.axv4-core
+.axv4-core-caption small {
+  display: block;
+  margin-top: 7px;
+
+  color: #73ffd2;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+
+/* Hub panel */
+
+.axv4-system-panel {
+  position: relative;
+  overflow: hidden;
+
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 25px;
+  padding: clamp(20px, 3vw, 30px);
+
+  border: 1px solid rgba(98, 242, 207, .4);
+  border-radius: 22px;
+
+  background:
+    radial-gradient(
+      ellipse at 100% 0%,
+      rgba(57, 222, 193, .12),
+      transparent 57%
+    ),
+    linear-gradient(135deg, #112a36, #101a30);
+
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, .22),
+    0 0 28px rgba(69, 235, 194, .06);
+}
+
+.axv4-system-panel[hidden] {
+  display: none !important;
+}
+
+.axv4-system-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.axv4-system-kicker {
+  color: #77fbd2;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.axv4-system-top h2 {
+  margin: 13px 0 8px !important;
+  color: #f1faff !important;
+  font-size: clamp(22px, 3vw, 30px) !important;
+  line-height: 1.2;
+}
+
+.axv4-system-top h2 span {
+  color: #70f9d2;
+}
+
+.axv4-system-top p {
+  margin: 0 !important;
+  color: #a9c4d4;
+  font-size: 12px;
+}
+
+.axv4-system-close {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0 !important;
+  margin: 0 !important;
+
+  border-radius: 10px;
+  border: 1px solid rgba(116, 186, 207, .28);
+  background: #173043;
+  color: #d3e9f1;
+
+  cursor: pointer;
+}
+
+.axv4-system-close:hover {
+  background: #22485a;
+  border-color: #62ebc3;
+}
+
+.axv4-system-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.axv4-system-stat {
+  min-width: 0;
+  padding: 18px;
+
+  border-radius: 14px;
+  border: 1px solid rgba(113, 186, 206, .24);
+  background: rgba(8, 24, 39, .6);
+}
+
+.axv4-system-stat > span {
+  display: block;
+  margin-bottom: 11px;
+
+  color: #9dbecf;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1px;
+}
+
+.axv4-system-stat strong {
+  display: block;
+
+  color: #70f8cb;
+  font-size: clamp(20px, 2.7vw, 27px);
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+
+.axv4-system-stat small {
+  display: block;
+  margin-top: 7px;
+
+  color: #88a9bc;
+  font-size: 10px;
+}
+
+.axv4-system-divider {
+  height: 1px;
+  margin: 24px 0 20px;
+
+  background: linear-gradient(
+    90deg,
+    rgba(100, 243, 208, .4),
+    transparent
+  );
+}
+
+.axv4-system-links-title {
+  margin-bottom: 12px;
+
+  color: #83ead4;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.5px;
+}
+
+.axv4-system-links {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.axv4-system-links a {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+
+  padding: 16px;
+
+  border-radius: 13px;
+  border: 1px solid rgba(103, 180, 207, .22);
+  background: #15293b;
+
+  text-decoration: none !important;
+
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    background .2s ease;
+}
+
+.axv4-system-links a:hover {
+  transform: translateY(-3px);
+  border-color: rgba(98, 246, 202, .6);
+  background: #1b3748;
+}
+
+.axv4-system-links a:focus-visible,
+.axv4-system-close:focus-visible {
+  outline: 2px solid #6af9d3;
+  outline-offset: 3px;
+}
+
+.axv4-system-links a > span {
+  color: #70f8d0;
+  font-size: 22px;
+}
+
+.axv4-system-links a strong {
+  color: #f0faff;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.axv4-system-links a small {
+  color: #a5c1d2;
+  font-size: 10px;
+}
+
+.axv4-system-links a em {
+  margin-top: 6px;
+  color: #77f8d3;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.axv4-system-footer {
+  margin: 24px 0 0 !important;
+  color: #96b8c7;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.axv4-system-footer span {
+  color: #6bffd2;
+  margin: 0 7px;
+}
+
+/* Mobile */
+
+@media (max-width: 700px) {
+  .axv4-system-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .axv4-system-links {
+    grid-template-columns: 1fr;
+  }
+
+  .axv4-system-panel {
+    padding: 20px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .axv4-command button.axv4-core,
+  .axv4-command button.axv4-core .axv4-orbit,
+  .axv4-system-links a {
+    transition: none !important;
+  }
+}
+
     transition: none !important;
   }
 }
