@@ -573,6 +573,23 @@
         }
       }
 
+/* MOBILE SIDEBAR VISIBILITY FIX */
+
+@media (max-width: 980px) {
+  body > aside.sidebar.axiom-sb {
+    display: block !important;
+    position: fixed !important;
+    z-index: 1001 !important;
+  }
+
+  body.axiom-sidebar-open
+  > aside.sidebar.axiom-sb {
+    visibility: visible !important;
+    transform: translateX(0) !important;
+    opacity: 1 !important;
+  }
+}
+
       @media (prefers-reduced-motion: reduce) {
         .sidebar.axiom-sb *,
         .axiom-sidebar-fab,
@@ -1168,6 +1185,55 @@
 
     sidebar.prepend(mobileClose);
     document.body.append(mobileToggle, backdrop);
+    
+/* AXIOM MOBILE DRAWER — FIX STACKING CONTEXT */
+
+// Remember the sidebar's original desktop position.
+const sidebarAnchor = document.createComment(
+  "AXIOM sidebar desktop position"
+);
+
+sidebar.after(sidebarAnchor);
+
+const mobileViewport = window.matchMedia(
+  "(max-width: 980px)"
+);
+
+function syncSidebarLocation() {
+  if (mobileViewport.matches) {
+    // Place the sidebar beside the backdrop in <body>.
+    // This avoids clipping and nested stacking contexts.
+    if (sidebar.parentElement !== document.body) {
+      document.body.appendChild(sidebar);
+    }
+  } else {
+    // Return sidebar to its original desktop grid.
+    if (sidebar.parentElement === document.body) {
+      sidebarAnchor.before(sidebar);
+    }
+
+    document.body.classList.remove(
+      "axiom-sidebar-open"
+    );
+
+    mobileToggle.setAttribute(
+      "aria-expanded",
+      "false"
+    );
+  }
+}
+
+syncSidebarLocation();
+
+if (mobileViewport.addEventListener) {
+  mobileViewport.addEventListener(
+    "change",
+    syncSidebarLocation
+  );
+} else {
+  mobileViewport.addListener(syncSidebarLocation);
+}
+
 
     function setMobileMenu(open) {
       document.body.classList.toggle(
