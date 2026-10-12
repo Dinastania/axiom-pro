@@ -805,15 +805,29 @@
                 return null;
               }
 
-              const url = safeUrl(mediaItem.url);
-              if (!url) return null;
+              
+if (mediaItem.local === true) {
+  if (typeof mediaItem.id !== "string" ||
+      !mediaItem.id) return null;
 
-              return {
-                id: String(mediaItem.id || uid()),
-                url,
-                type: mediaItem.type === "video"
-                  ? "video" : "image"
-              };
+  return {
+    id: mediaItem.id,
+    url: "",
+    local: true,
+    name: String(mediaItem.name || "Tệp từ máy").slice(0, 200),
+    type: mediaItem.type === "video" ? "video" : "image"
+  };
+}
+
+const url = safeUrl(mediaItem.url);
+if (!url) return null;
+
+return {
+  id: String(mediaItem.id || uid()),
+  url,
+  type: mediaItem.type === "video" ? "video" : "image"
+};
+
             }).filter(Boolean)
         : [];
 
@@ -1138,9 +1152,17 @@
       }
     }
 
-    function renderMedia() {
-      const root = $("aj-media-list");
-      root.replaceChildren();
+   
+function renderMedia() {
+  const root = $("aj-media-list");
+
+  // Giải phóng các URL xem trước cũ
+  window.AXJMedia?.releasePreviews();
+
+  root.replaceChildren();
+
+  if (!current) return;
+
 
       if (!current) return;
 
@@ -1150,15 +1172,22 @@
 
         let preview = null;
 
-        if (media.type === "image") {
-          preview = document.createElement("img");
-          preview.src = media.url;
-          preview.alt = "Ảnh đính kèm";
-          preview.loading = "lazy";
-          preview.referrerPolicy = "no-referrer";
+       
+if (media.local) {
+  preview = document.createElement(
+    media.type === "video" ? "video" : "img"
+  );
 
-        } else {
-          const id = youtubeId(media.url);
+  if (media.type === "video") {
+    preview.controls = true;
+    preview.preload = "metadata";
+  } else {
+    preview.alt = media.name || "Ảnh đính kèm";
+  }
+
+  window.AXJMedia?.loadPreview(media, preview);
+
+} else if (media.type === "image") {
 
           if (id) {
             preview = document.createElement("iframe");
@@ -1188,12 +1217,22 @@
         }
 
         const link = document.createElement("a");
-        link.href = media.url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = media.type === "image"
-          ? "↗ Mở ảnh gốc"
-          : "↗ Mở video gốc";
+
+if (media.local) {
+  // Ảnh/video được chọn từ máy tính
+  link.textContent = "📁 " + (media.name || "Tệp từ máy");
+
+} else {
+  // Ảnh/video từ URL bên ngoài
+  link.href = media.url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = media.type === "image"
+    ? "↗ Mở ảnh gốc"
+    : "↗ Mở video gốc";
+}
+
+
 
         const remove = document.createElement("button");
         remove.type = "button";
@@ -1464,20 +1503,46 @@
       renderCalendar();
     });
 
-    $("aj-export").addEventListener(
-      "click", exportBackup
-    );
+    
+$("aj-export").addEventListener("click", () => {
+  if (!window.AXJMedia) {
+    alert("Chưa tải được module Local Media.");
+    return;
+  }
+
+  window.AXJMedia.exportZip();
+});
+
 
     $("aj-import-btn").addEventListener(
       "click", () => $("aj-import").click()
     );
 
-    $("aj-import").addEventListener(
-      "change", async event => {
-        await importBackup(event.target.files[0]);
-        event.target.value = "";
-      }
-    );
+    
+$("aj-import").addEventListener("change", async event => {
+  const file = event.target.files[0];
+
+  try {
+    if (!file) return;
+
+    if (file.name.toLowerCase().endsWith(".json")) {
+      await importBackup(file);
+
+    } else if (
+      file.name.toLowerCase().endsWith(".zip") &&
+      window.AXJMedia
+    ) {
+      await window.AXJMedia.importZip(file);
+
+    } else {
+      alert("Hãy chọn file .zip hoặc .json hợp lệ.");
+    }
+
+  } finally {
+    event.target.value = "";
+  }
+});
+
 
     document.addEventListener(
       "visibilitychange", () => {
@@ -1499,6 +1564,21 @@
 
     // -------- START --------
 
+/* AXIOM LOCAL MEDIA — JOURNAL BRIDGE */
+
+window.AXJBridge = {
+  getCurrent: () => current,
+  getEntries: () => entries,
+  save,
+  commit,
+  scheduleSave,
+  renderMedia,
+  normalizeEntry,
+  uid,
+  localDate,
+  status
+};
+
     entries = readStore();
 
     if (!writeBlocked) {
@@ -1510,5 +1590,19 @@
     );
   })();
   </script>
+  
+    console.info(
+      "AXIOM Personal Journal / Pro initialized."
+    );
+  })();
+  </script>
+
+  <!-- AXIOM LOCAL MEDIA + ZIP BACKUP -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+  <script src="./axiom-journal-local-media.js?v=1"></script>
+
+</body>
+</html>
+
 </body>
 </html>
