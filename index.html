@@ -739,12 +739,38 @@
             Your performance, your process.</small></footer>
       </div>
     </div>
-    <dialog id="dayDialog">
-      <div class="dialog-head">
-        <h3 id="dayHeading">PNL theo ngày</h3><button id="closeDay" type="button">✕</button>
-      </div>
-      <div id="dayDetails"></div>
-    </dialog>
+    <dialog id="dayDialog" aria-labelledby="dayHeading">
+
+  <div class="dialog-head axiom-day-header">
+
+    <div class="axiom-day-heading-group">
+      <span class="axiom-day-eyebrow">
+        ◈ AXIOM / DAILY PERFORMANCE
+      </span>
+
+      <h3 id="dayHeading">PNL theo ngày</h3>
+
+      <span class="axiom-day-subtitle">
+        Your daily trading performance
+      </span>
+    </div>
+
+    <button
+      id="closeDay"
+      type="button"
+      aria-label="Đóng chi tiết PNL"
+    >✕</button>
+
+  </div>
+
+  <div id="dayDetails"></div>
+
+  <div class="axiom-day-footer">
+    <span>AXIOM PRO ULTIMATE</span>
+    <span>DINATRAN · FOUNDER EDITION</span>
+  </div>
+
+</dialog>
     <dialog id="tradeDialog">
       <div class="dialog-head">
         <h3 id="tradeHeading">Trade detail</h3><button id="closeTrade" type="button">✕</button>
