@@ -526,6 +526,71 @@
   }
 }
 
+/* AXIOM DAILY INSPECTOR — LAYOUT CORRECTION */
+
+/* Giới hạn chiều ngang desktop */
+@media (min-width: 621px) {
+  #dayDialog[open] {
+    width: min(440px, calc(100vw - 32px)) !important;
+    max-width: 440px !important;
+    max-inline-size: 440px !important;
+  }
+}
+
+/* Buộc các khối nội dung xếp dọc, cách nhau đúng 12px */
+#dayDialog #dayDetails {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  min-height: 0 !important;
+}
+
+/* Loại bỏ margin gây khoảng trống */
+#dayDialog #dayDetails > * {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-block: 0 !important;
+}
+
+/* Card PNL */
+#dayDialog .adi-pnl-card {
+  margin: 0 !important;
+  padding: 15px 17px !important;
+}
+
+/* Ba ô thống kê */
+#dayDialog .adi-stats {
+  margin: 0 !important;
+  gap: 8px !important;
+}
+
+#dayDialog .adi-stat {
+  padding: 10px 5px !important;
+}
+
+/* Danh sách giao dịch */
+#dayDialog .adi-activity {
+  margin: 0 !important;
+}
+
+#dayDialog .adi-trade {
+  margin: 0 0 8px !important;
+  padding: 12px !important;
+}
+
+/* Không để tiêu đề hoặc thông báo tạo thêm khoảng cách */
+#dayDialog .adi-section-head,
+#dayDialog .adi-empty {
+  margin-top: 0 !important;
+}
+
+#dayDialog .adi-net {
+  font-size: 30px !important;
+  margin: 8px 0 3px !important;
+}
+
 </style>
 
 
