@@ -471,8 +471,61 @@
   #dayDialog .adi-label {
     font-size: 9px;
     letter-spacing: .4px;
+ 
+/* AXIOM DAILY INSPECTOR — COMPACT REFINEMENT */
+
+/* Khử khoảng cách mặc định của section/article */
+#dayDialog .adi-pnl-card,
+#dayDialog .adi-activity {
+  margin: 0 !important;
+  margin-block: 0 !important;
+}
+
+#dayDialog .adi-stats {
+  margin: 10px 0 14px !important;
+}
+
+#dayDialog .adi-trade {
+  margin: 0 0 8px !important;
+  padding: 12px !important;
+}
+
+/* Thu gọn các thành phần */
+#dayDialog .dialog-head {
+  padding: 16px 20px 14px !important;
+}
+
+#dayDialog #dayDetails {
+  padding: 15px 20px 18px !important;
+}
+
+#dayDialog .adi-pnl-card {
+  padding: 15px 17px !important;
+}
+
+#dayDialog .adi-stat {
+  padding: 10px 6px !important;
+}
+
+#dayDialog .adi-net {
+  margin: 8px 0 4px !important;
+  font-size: 32px !important;
+}
+
+#dayDialog .axiom-day-footer {
+  padding: 10px 20px !important;
+}
+
+/* Desktop: thu chiều rộng còn 480px */
+@media (min-width: 621px) {
+  #dayDialog[open] {
+    width: min(480px, calc(100vw - 32px)) !important;
+    max-width: 480px !important;
+    max-inline-size: 480px !important;
+    max-height: 82dvh !important;
   }
 }
+
 </style>
 
 
