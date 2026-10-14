@@ -74,3 +74,184 @@
     letter-spacing: 1px;
   }
 }
+
+/* ===============================
+   AXIOM CALENDAR — AESTHETIC DAY CELLS
+================================== */
+
+.calendar .day {
+  position: relative;
+  overflow: hidden;
+  min-height: 86px;
+  padding: 10px 10px 8px;
+  border-radius: 14px;
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+
+.calendar .day:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+}
+
+.calendar .day.has-trade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at top right, rgba(68, 242, 181, 0.10), transparent 38%),
+    linear-gradient(180deg, rgba(255,255,255,0.015), transparent);
+}
+
+.calendar .day.is-profit {
+  background:
+    linear-gradient(180deg, rgba(68, 242, 181, 0.14), rgba(68, 242, 181, 0.06)),
+    #13283a;
+  border-color: rgba(68, 242, 181, 0.34);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.calendar .day.is-loss {
+  background:
+    linear-gradient(180deg, rgba(255, 98, 138, 0.16), rgba(255, 98, 138, 0.06)),
+    #1a2635;
+  border-color: rgba(255, 98, 138, 0.30);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+}
+
+.calendar .day.is-flat {
+  background:
+    linear-gradient(180deg, rgba(123, 145, 166, 0.12), rgba(123, 145, 166, 0.05)),
+    #162533;
+  border-color: rgba(123, 145, 166, 0.22);
+}
+
+.calendar .day-result {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-end;
+  z-index: 2;
+}
+
+.calendar .day-pnl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  line-height: 1;
+  background: rgba(7, 16, 26, 0.55);
+  border: 1px solid rgba(255,255,255,0.06);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
+  backdrop-filter: blur(6px);
+}
+
+.calendar .day.is-profit .day-pnl {
+  color: #6df3c9;
+  background: rgba(13, 45, 39, 0.70);
+  border-color: rgba(68, 242, 181, 0.24);
+}
+
+.calendar .day.is-loss .day-pnl {
+  color: #ff7f9d;
+  background: rgba(54, 19, 30, 0.72);
+  border-color: rgba(255, 98, 138, 0.24);
+}
+
+.calendar .day.is-flat .day-pnl {
+  color: #bdd3de;
+  background: rgba(30, 42, 55, 0.70);
+  border-color: rgba(160, 180, 200, 0.20);
+}
+
+.calendar .day-meta {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  padding: 4px 8px 5px;
+  border-radius: 10px;
+  background: rgba(6, 15, 24, 0.36);
+  border: 1px solid rgba(255,255,255,0.04);
+  backdrop-filter: blur(8px);
+}
+
+.calendar .day-count {
+  font-size: 10px;
+  font-weight: 700;
+  color: #d9e8ef;
+  line-height: 1.1;
+  letter-spacing: 0.02em;
+}
+
+.calendar .day-wl {
+  font-size: 9px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8fb8c7;
+}
+
+.calendar .day.is-profit .day-wl {
+  color: #72e8c3;
+}
+
+.calendar .day.is-loss .day-wl {
+  color: #ff9ab1;
+}
+
+.calendar .day.is-flat .day-wl {
+  color: #a9bfca;
+}
+
+/* giữ số ngày không bị đè */
+.calendar .day > span:first-child,
+.calendar .day > div:first-child,
+.calendar .day > strong:first-child {
+  position: relative;
+  z-index: 2;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .calendar .day {
+    min-height: 74px;
+    padding: 8px 8px 7px;
+  }
+
+  .calendar .day-result {
+    left: 8px;
+    right: 8px;
+    bottom: 6px;
+    gap: 3px;
+  }
+
+  .calendar .day-pnl {
+    font-size: 11px;
+    padding: 2px 7px;
+  }
+
+  .calendar .day-meta {
+    padding: 3px 6px 4px;
+    border-radius: 8px;
+  }
+
+  .calendar .day-count {
+    font-size: 8px;
+  }
+
+  .calendar .day-wl {
+    font-size: 8px;
+  }
+}
