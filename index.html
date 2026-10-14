@@ -591,6 +591,274 @@
   margin: 8px 0 3px !important;
 }
 
+/* ==========================================
+   AXIOM — TRADE INSPECTOR V1
+   Only affects #tradeDialog
+========================================== */
+
+#tradeDialog[open] {
+  display: block !important;
+  position: fixed !important;
+  inset: 0 !important;
+  margin: auto !important;
+
+  box-sizing: border-box !important;
+  width: min(460px, calc(100vw - 28px)) !important;
+  max-width: 460px !important;
+  max-inline-size: 460px !important;
+  min-width: 0 !important;
+
+  height: fit-content !important;
+  min-height: 0 !important;
+  max-height: 82dvh !important;
+
+  padding: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+
+  border: 1px solid #356d60 !important;
+  border-radius: 18px !important;
+  background: #0e1b27 !important;
+  color: #eaf5f7 !important;
+
+  box-shadow: 0 28px 85px #000b !important;
+}
+
+#tradeDialog:not([open]) {
+  display: none !important;
+}
+
+#tradeDialog::backdrop {
+  background: #020910dd;
+  backdrop-filter: blur(8px);
+}
+
+/* Header */
+
+#tradeDialog .dialog-head {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+
+  padding: 17px 20px !important;
+  margin: 0 !important;
+
+  border-bottom: 1px solid #29434d;
+}
+
+#tradeDialog #tradeHeading {
+  margin: 0 !important;
+  color: #edf8f8 !important;
+  font-size: 18px !important;
+  line-height: 1.3 !important;
+  text-align: left !important;
+  overflow-wrap: anywhere;
+}
+
+#tradeDialog #closeTrade {
+  display: grid !important;
+  place-items: center !important;
+  flex: 0 0 36px !important;
+
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: #1c303c !important;
+  color: #e1eff1 !important;
+  border: 1px solid #365560 !important;
+  border-radius: 10px !important;
+}
+
+/* Main content */
+
+#tradeDialog #tradeDetails {
+  display: block !important;
+  width: 100% !important;
+  min-height: 0 !important;
+
+  padding: 17px 20px 20px !important;
+  margin: 0 !important;
+}
+
+#tradeDialog .tx-report {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+#tradeDialog .tx-summary,
+#tradeDialog .tx-field,
+#tradeDialog .tx-notes,
+#tradeDialog .tx-media {
+  margin: 0 !important;
+}
+
+#tradeDialog .tx-label {
+  display: block;
+  color: #93adba;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* Result card */
+
+#tradeDialog .tx-summary {
+  padding: 17px;
+  background: #142b33;
+  border: 1px solid #34515b;
+  border-radius: 13px;
+}
+
+#tradeDialog .tx-summary.profit {
+  background: linear-gradient(135deg, #12382f, #112830);
+  border-color: #377e66;
+}
+
+#tradeDialog .tx-summary.loss {
+  background: linear-gradient(135deg, #39232e, #1b2935);
+  border-color: #8a5060;
+}
+
+#tradeDialog .tx-summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+#tradeDialog .tx-status {
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .5px;
+}
+
+#tradeDialog .tx-summary.profit .tx-status,
+#tradeDialog .tx-summary.profit .tx-pnl {
+  color: #5aedbd;
+}
+
+#tradeDialog .tx-summary.loss .tx-status,
+#tradeDialog .tx-summary.loss .tx-pnl {
+  color: #ff8ea2;
+}
+
+#tradeDialog .tx-summary.neutral .tx-status,
+#tradeDialog .tx-summary.neutral .tx-pnl {
+  color: #e7f4f5;
+}
+
+#tradeDialog .tx-pnl {
+  display: block;
+  margin: 10px 0 4px;
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+
+#tradeDialog .tx-subtitle {
+  color: #a1b7c0;
+  font-size: 11px;
+}
+
+/* 2-column trade data */
+
+#tradeDialog .tx-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+}
+
+#tradeDialog .tx-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  padding: 12px;
+  background: #162936;
+  border: 1px solid #2b4652;
+  border-radius: 10px;
+}
+
+#tradeDialog .tx-value {
+  color: #eaf6f7;
+  font-size: 13px;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Notes and screenshot */
+
+#tradeDialog .tx-notes,
+#tradeDialog .tx-media {
+  padding: 13px;
+  background: #142733;
+  border: 1px solid #2c4650;
+  border-radius: 11px;
+}
+
+#tradeDialog .tx-notes-title {
+  display: block;
+  margin-bottom: 7px;
+  color: #b9e3d7;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: .5px;
+}
+
+#tradeDialog .tx-notes-body {
+  margin: 0 !important;
+  color: #a9c0c9;
+  font-size: 12px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+#tradeDialog .tx-media img {
+  display: block;
+  width: 100%;
+  max-height: 280px;
+  margin-top: 8px;
+  object-fit: contain;
+  border-radius: 9px;
+}
+
+/* Mobile */
+
+@media (max-width: 620px) {
+  #tradeDialog[open] {
+    inset: auto 0 0 0 !important;
+    margin: 0 !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    max-inline-size: 100vw !important;
+    max-height: 88dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+  }
+
+  #tradeDialog .dialog-head {
+    padding: 15px 17px !important;
+  }
+
+  #tradeDialog #tradeDetails {
+    padding: 15px 17px 20px !important;
+  }
+
+  #tradeDialog .tx-pnl {
+    font-size: 29px;
+  }
+}
+
 </style>
 
 
