@@ -54,7 +54,7 @@ function showDay(date, item) {
   body.replaceChildren();
 
   // 01 — Main PNL card
-  const hero = make('section', 'adi-pnl-card ' + tone);
+  const hero = make('div', 'adi-pnl-card ' + tone);
 
   const heroTop = make('div', 'adi-pnl-top');
   heroTop.append(
@@ -94,7 +94,7 @@ function showDay(date, item) {
   body.appendChild(stats);
 
   // 03 — Trade activity
-  const section = make('section', 'adi-activity');
+ const section = make('div', 'adi-activity');
 
   const heading = make('div', 'adi-section-head');
   heading.append(
@@ -120,7 +120,7 @@ function showDay(date, item) {
     items.forEach((trade, index) => {
       const pnl = num(trade.pnl);
       const card = make(
-        'article',
+        '',
         'adi-trade ' +
         (pnl > 0 ? 'profit' : pnl < 0 ? 'loss' : 'neutral')
       );
