@@ -35,7 +35,7 @@ function drawCalendar(t){let map=daily(t),y=month.getFullYear(),m=month.getMonth
 
   const count = document.createElement('span');
   count.className = 'day-count';
-  count.textContent = `${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}`;
+  count.textContent = `${trades.length} ${trades.length === 1 ? 'trade' : 'trades'} • ${wins}W-${losses}L${breakeven ? `-${breakeven}BE` : ''}`;
 
   const wl = document.createElement('span');
   wl.className = 'day-wl';
