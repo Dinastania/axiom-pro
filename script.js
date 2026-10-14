@@ -176,8 +176,137 @@ function showDay(date, item) {
 function drawStrategies(t){let groups=new Map();t.forEach(x=>{let name=String(x.strategy||x.setup||'Không đặt tên').trim()||'Không đặt tên',v=groups.get(name)||{pnl:0,count:0};v.pnl+=num(x.pnl);v.count++;groups.set(name,v)});let items=[...groups.entries()].sort((a,b)=>b[1].pnl-a[1].pnl).slice(0,6),root=$('strategyRows');root.replaceChildren();if(!items.length){root.appendChild(element('p','Chưa có giao dịch.','muted'));$('strategyInsight').textContent='Nhập lệnh và tên chiến lược để xem phân tích.';return}let max=Math.max(1,...items.map(x=>Math.abs(x[1].pnl)));items.forEach(([name,v])=>{let row=element('div','','strategy-line'),track=element('div','','track'),fill=document.createElement('i');fill.style.width=Math.max(2,Math.abs(v.pnl)/max*100)+'%';fill.style.background=v.pnl>=0?'#44f2b5':'#ff718d';track.appendChild(fill);let label=element('span',name+' ('+v.count+')');label.title=name;row.append(label,track,element('strong',money(v.pnl),v.pnl>=0?'positive':'negative'));root.appendChild(row)});$('strategyInsight').textContent=items[0][1].pnl>0?'Setup dẫn đầu: '+items[0][0]+' · '+money(items[0][1].pnl)+' trên '+items[0][1].count+' lệnh.':'Chưa có setup tạo PNL dương.'}
 function drawGoals(t){let prefix=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),monthly=t.filter(x=>x.date.startsWith(prefix)),sum=monthly.reduce((s,x)=>s+num(x.pnl),0),target=Math.max(1,num(goals.target)),limit=Math.max(1,num(goals.limit)),progress=Math.max(0,sum/target*100),bad=Object.values(daily(monthly)).filter(x=>x.pnl<=-limit);$('goalPercent').textContent=progress.toFixed(1)+'%';$('goalBar').style.width=Math.min(100,progress)+'%';$('monthNet').textContent=money(sum);$('monthNet').className=sum>=0?'positive':'negative';$('goalAmount').textContent='/ '+money(target);$('riskNotice').textContent=bad.length?'⚠ '+bad.length+' ngày có PNL chạm/vượt giới hạn lỗ '+money(limit)+' trong tháng.':'✓ Chưa có ngày nào chạm giới hạn lỗ '+money(limit)+' trong tháng.'}
 function drawTable(t){let q=$('search').value.toLowerCase().trim(),side=$('sideFilter').value,out=$('resultFilter').value,mon=$('monthFilter').value,items=t.filter(x=>(x.symbol+' '+(x.strategy||x.setup||'')+' '+(x.notes||'')).toLowerCase().includes(q)&&(side==='all'||x.side===side)&&(out==='all'||out==='win'&&num(x.pnl)>0||out==='loss'&&num(x.pnl)<0||out==='flat'&&num(x.pnl)===0)&&(!mon||x.date.startsWith(mon))).sort((a,b)=>sortDate(b,a)),root=$('tradeRows');root.replaceChildren();$('filterCount').textContent=items.length+' entries';$('emptyState').style.display=items.length?'none':'block';items.forEach(x=>{let row=document.createElement('tr'),r=getR(x);[x.date,x.symbol,x.side,x.strategy||x.setup||'—',x.entry+' → '+x.exit,money(x.pnl),r===null?'—':r.toFixed(2)+'R',x.mood||'—',x.notes||'—'].forEach((v,i)=>{let cell=element('td',v,i===5?(num(x.pnl)>=0?'positive':'negative'):i===8?'note-cell':'');if(i===8)cell.title=String(v);row.appendChild(cell)});let actions=document.createElement('td'),view=element('button','View'),del=element('button','×');view.type=del.type='button';view.addEventListener('click',()=>showTrade(x));del.disabled=demo;del.addEventListener('click',()=>{if(!confirm('Xóa giao dịch '+x.symbol+'?'))return;let old=trades;trades=trades.filter(v=>v.id!==x.id);if(!save())trades=old;else toast('Đã xóa giao dịch')});actions.append(view,' ',del);row.appendChild(actions);root.appendChild(row)})}
-function showTrade(x){$('tradeHeading').textContent=x.symbol+' · '+x.side;let root=$('tradeDetails');root.replaceChildren();root.appendChild(element('h2',money(x.pnl),num(x.pnl)>=0?'positive':'negative'));[['Ngày',x.date],['Chiến lược',x.strategy||x.setup||'—'],['Entry → Exit',x.entry+' → '+x.exit],['SL',x.sl??'—'],['TP',x.tp??'—'],['Planned R:R',plannedRR(x)===null?'—':plannedRR(x).toFixed(2)+':1'],['Realized R',getR(x)===null?'—':getR(x).toFixed(2)+'R'],['Ghi chú',x.notes||'—']].forEach(([k,v])=>root.appendChild(element('p',k+': '+v)));if(typeof x.image==='string'&&x.image.startsWith('data:image/jpeg;base64,')){let img=document.createElement('img');img.src=x.image;img.alt='Ảnh chụp lệnh '+x.symbol;root.appendChild(img)}$('tradeDialog').showModal()}
-function liveRisk(){let val=id=>$(id).value,ratio=plannedRR({entry:val('entryPrice'),sl:val('sl'),tp:val('tp'),side:val('side')}),risk=num(val('risk'));$('rrPreview').textContent=ratio===null?'—':ratio.toFixed(2)+':1';$('rPreview').textContent=risk>0&&val('pnl')!==''?(num(val('pnl'))/risk).toFixed(2)+'R':'—'}
+
+function showTrade(x) {
+  const root = $('tradeDetails');
+  const pnl = num(x.pnl);
+  const rr = plannedRR(x);
+  const realizedR = getR(x);
+
+  const tone = pnl > 0 ? 'profit'
+    : pnl < 0 ? 'loss'
+    : 'neutral';
+
+  const signedMoney = value =>
+    num(value) > 0 ? '+' + money(value) : money(value);
+
+  // Keep the existing dialog and close button.
+  $('tradeHeading').textContent =
+    (x.symbol || 'TRADE') + ' · ' + (x.side || '—');
+
+  root.replaceChildren();
+
+  const report = document.createElement('div');
+  report.className = 'tx-report';
+
+  // PNL hero
+  const hero = document.createElement('div');
+  hero.className = 'tx-summary ' + tone;
+
+  const heroHead = document.createElement('div');
+  heroHead.className = 'tx-summary-head';
+
+  const status = pnl > 0 ? 'WIN TRADE'
+    : pnl < 0 ? 'LOSS TRADE'
+    : 'BREAKEVEN';
+
+  heroHead.append(
+    element('span', 'REALIZED PNL', 'tx-label'),
+    element('span', status, 'tx-status')
+  );
+
+  hero.append(
+    heroHead,
+    element('strong', signedMoney(pnl), 'tx-pnl'),
+    element(
+      'span',
+      'Realized R: ' +
+        (realizedR === null
+          ? '—'
+          : realizedR.toFixed(2) + 'R'),
+      'tx-subtitle'
+    )
+  );
+
+  report.appendChild(hero);
+
+  // Detail grid
+  const grid = document.createElement('div');
+  grid.className = 'tx-grid';
+
+  const fields = [
+    ['DATE', x.date || '—'],
+    ['STRATEGY', x.strategy || x.setup || '—'],
+    ['ENTRY PRICE', x.entry ?? '—'],
+    ['EXIT PRICE', x.exit ?? '—'],
+    ['STOP LOSS', x.sl ?? '—'],
+    ['TAKE PROFIT', x.tp ?? '—'],
+    [
+      'PLANNED R:R',
+      rr === null ? '—' : rr.toFixed(2) + ' : 1'
+    ],
+    [
+      'REALIZED R',
+      realizedR === null
+        ? '—'
+        : realizedR.toFixed(2) + 'R'
+    ]
+  ];
+
+  fields.forEach(([label, value]) => {
+    const field = document.createElement('div');
+    field.className = 'tx-field';
+
+    field.append(
+      element('span', label, 'tx-label'),
+      element('strong', value, 'tx-value')
+    );
+
+    grid.appendChild(field);
+  });
+
+  report.appendChild(grid);
+
+  // Notes
+  const notes = document.createElement('div');
+  notes.className = 'tx-notes';
+
+  notes.append(
+    element('strong', '✎ TRADE NOTES', 'tx-notes-title'),
+    element(
+      'p',
+      x.notes || 'Chưa có ghi chú cho giao dịch này.',
+      'tx-notes-body'
+    )
+  );
+
+  report.appendChild(notes);
+
+  // Preserve existing screenshot support.
+  if (
+    typeof x.image === 'string' &&
+    x.image.startsWith('data:image/jpeg;base64,')
+  ) {
+    const media = document.createElement('div');
+    media.className = 'tx-media';
+
+    media.appendChild(
+      element('strong', 'TRADE SCREENSHOT', 'tx-notes-title')
+    );
+
+    const img = document.createElement('img');
+    img.src = x.image;
+    img.alt = 'Ảnh giao dịch ' + (x.symbol || '');
+    img.loading = 'lazy';
+
+    media.appendChild(img);
+    report.appendChild(media);
+  }
+
+  root.appendChild(report);
+  $('tradeDialog').showModal();
+}
+
 function compress(file){return new Promise((resolve,reject)=>{if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>8*1024*1024){reject(Error('Chọn ảnh JPG/PNG/WebP dưới 8 MB.'));return}let reader=new FileReader();reader.onerror=()=>reject(Error('Không đọc được ảnh'));reader.onload=()=>{let img=new Image();img.onerror=()=>reject(Error('Ảnh không hợp lệ'));img.onload=()=>{let scale=Math.min(1,850/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);let result=canvas.toDataURL('image/jpeg',.62);result.length>600000?reject(Error('Ảnh vẫn quá lớn sau nén.')):resolve(result)};img.src=String(reader.result)};reader.readAsDataURL(file)})}
 $('screenshot').addEventListener('change',async e=>{pendingImage='';$('imagePreview').hidden=true;let file=e.target.files?.[0];if(!file)return;try{pendingImage=await compress(file);$('imagePreview').src=pendingImage;$('imagePreview').hidden=false}catch(err){toast(err.message);e.target.value=''}});
 $('tradeForm').addEventListener('submit',e=>{e.preventDefault();let val=id=>$(id).value.trim(),x={id:Date.now()+Math.random(),date:val('date'),symbol:val('symbol').toUpperCase(),side:val('side'),strategy:val('strategy'),entry:Number(val('entryPrice')),exit:Number(val('exitPrice')),sl:val('sl')?Number(val('sl')):null,tp:val('tp')?Number(val('tp')):null,qty:Number(val('qty')),risk:val('risk')?Number(val('risk')):null,pnl:Number(val('pnl')),mood:val('mood'),notes:val('notes'),image:pendingImage};if(!x.date||!x.symbol||!(x.qty>0)||!Number.isFinite(x.pnl)||!Number.isFinite(x.entry)||!Number.isFinite(x.exit)){toast('Thông tin giao dịch chưa hợp lệ.');return}let old=trades;trades=[...trades,x];if(save()){$('tradeForm').reset();$('date').value=new Date().toLocaleDateString('en-CA');pendingImage='';$('imagePreview').hidden=true;liveRisk();toast('✓ Đã lưu lệnh '+x.symbol)}else trades=old});
