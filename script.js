@@ -307,6 +307,28 @@ function showTrade(x) {
   $('tradeDialog').showModal();
 }
 
+/* AXIOM — Restore Risk Preview Function */
+function liveRisk() {
+  const val = id => $(id).value;
+
+  const ratio = plannedRR({
+    entry: val('entryPrice'),
+    sl: val('sl'),
+    tp: val('tp'),
+    side: val('side')
+  });
+
+  const risk = num(val('risk'));
+
+  $('rrPreview').textContent =
+    ratio === null ? '—' : ratio.toFixed(2) + ':1';
+
+  $('rPreview').textContent =
+    risk > 0 && val('pnl') !== ''
+      ? (num(val('pnl')) / risk).toFixed(2) + 'R'
+      : '—';
+}
+
 function compress(file){return new Promise((resolve,reject)=>{if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>8*1024*1024){reject(Error('Chọn ảnh JPG/PNG/WebP dưới 8 MB.'));return}let reader=new FileReader();reader.onerror=()=>reject(Error('Không đọc được ảnh'));reader.onload=()=>{let img=new Image();img.onerror=()=>reject(Error('Ảnh không hợp lệ'));img.onload=()=>{let scale=Math.min(1,850/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);let result=canvas.toDataURL('image/jpeg',.62);result.length>600000?reject(Error('Ảnh vẫn quá lớn sau nén.')):resolve(result)};img.src=String(reader.result)};reader.readAsDataURL(file)})}
 $('screenshot').addEventListener('change',async e=>{pendingImage='';$('imagePreview').hidden=true;let file=e.target.files?.[0];if(!file)return;try{pendingImage=await compress(file);$('imagePreview').src=pendingImage;$('imagePreview').hidden=false}catch(err){toast(err.message);e.target.value=''}});
 $('tradeForm').addEventListener('submit',e=>{e.preventDefault();let val=id=>$(id).value.trim(),x={id:Date.now()+Math.random(),date:val('date'),symbol:val('symbol').toUpperCase(),side:val('side'),strategy:val('strategy'),entry:Number(val('entryPrice')),exit:Number(val('exitPrice')),sl:val('sl')?Number(val('sl')):null,tp:val('tp')?Number(val('tp')):null,qty:Number(val('qty')),risk:val('risk')?Number(val('risk')):null,pnl:Number(val('pnl')),mood:val('mood'),notes:val('notes'),image:pendingImage};if(!x.date||!x.symbol||!(x.qty>0)||!Number.isFinite(x.pnl)||!Number.isFinite(x.entry)||!Number.isFinite(x.exit)){toast('Thông tin giao dịch chưa hợp lệ.');return}let old=trades;trades=[...trades,x];if(save()){$('tradeForm').reset();$('date').value=new Date().toLocaleDateString('en-CA');pendingImage='';$('imagePreview').hidden=true;liveRisk();toast('✓ Đã lưu lệnh '+x.symbol)}else trades=old});
