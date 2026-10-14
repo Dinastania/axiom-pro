@@ -120,7 +120,7 @@ function showDay(date, item) {
     items.forEach((trade, index) => {
       const pnl = num(trade.pnl);
       const card = make(
-        '',
+        'div',
         'adi-trade ' +
         (pnl > 0 ? 'profit' : pnl < 0 ? 'loss' : 'neutral')
       );
