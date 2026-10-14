@@ -13,7 +13,166 @@ function daily(t){let map={};t.forEach(x=>{if(!map[x.date])map[x.date]={pnl:0,it
 function render(){let t=current(),wins=t.filter(x=>num(x.pnl)>0),losses=t.filter(x=>num(x.pnl)<0),gw=wins.reduce((s,x)=>s+num(x.pnl),0),gl=-losses.reduce((s,x)=>s+num(x.pnl),0),net=gw-gl,rate=t.length?wins.length/t.length*100:0,curve=[0],total=0,peak=0,dd=0,streak=0;[...t].sort(sortDate).forEach(x=>{total+=num(x.pnl);curve.push(total);peak=Math.max(peak,total);dd=Math.max(dd,peak-total);streak=num(x.pnl)>0?streak+1:0});$('demoBanner').hidden=!demo;$('demoBtn').textContent=demo?'← Dữ liệu cá nhân':'Xem dữ liệu mẫu';$('totalPnl').textContent=money(net);$('totalPnl').className='number '+(net>=0?'positive':'negative');$('winRate').textContent=rate.toFixed(1)+'%';$('winText').textContent=wins.length+' wins · '+losses.length+' losses';$('profitFactor').textContent=gl?(gw/gl).toFixed(2):(gw?'∞':'—');$('drawdown').textContent=money(-dd);$('avgWin').textContent=money(wins.length?gw/wins.length:0);$('avgLoss').textContent=money(losses.length?-gl/losses.length:0);$('expectancy').textContent=money(t.length?net/t.length:0);$('streak').textContent=streak;$('winMeter').style.width=rate+'%';$('meterText').textContent=rate.toFixed(1)+'% winning trades';$('tradeCount').textContent=t.length+' trades';drawChart(curve,net);drawCalendar(t);drawStrategies(t);drawGoals(t);drawTable(t)}
 function drawChart(values,net){let min=Math.min(0,...values),max=Math.max(0,...values),span=max-min||1,points=values.map((v,i)=>[28+i*694/Math.max(values.length-1,1),227-(v-min)/span*184]);$('chartGrid').replaceChildren();[45,90,135,180,230].forEach(y=>{let l=document.createElementNS('http://www.w3.org/2000/svg','line');Object.entries({x1:0,x2:760,y1:y,y2:y,stroke:'#2b404c','stroke-dasharray':'4 6'}).forEach(([k,v])=>l.setAttribute(k,v));$('chartGrid').appendChild(l)});let path=points.map((p,i)=>(i?'L':'M')+p[0]+','+p[1]).join(' '),last=points[points.length-1];$('eqLine').setAttribute('d',path);$('eqLine').setAttribute('stroke',net>=0?'#44f2b5':'#ff718d');$('eqArea').setAttribute('d',path+' L'+last[0]+',250 L28,250 Z');$('eqDot').setAttribute('cx',last[0]);$('eqDot').setAttribute('cy',last[1]);$('eqDot').setAttribute('fill',net>=0?'#44f2b5':'#ff718d')}
 function drawCalendar(t){let map=daily(t),y=month.getFullYear(),m=month.getMonth(),root=$('calendarGrid');root.replaceChildren();$('monthTitle').textContent=month.toLocaleDateString('vi-VN',{month:'long',year:'numeric'});['T2','T3','T4','T5','T6','T7','CN'].forEach(s=>root.appendChild(element('div',s,'dow')));for(let i=0,n=(new Date(y,m,1).getDay()+6)%7;i<n;i++)root.appendChild(element('div','','day empty'));let max=new Date(y,m+1,0).getDate();for(let d=1;d<=max;d++){let key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),item=map[key],value=item?.pnl||0,b=document.createElement('button');b.type='button';b.className='day'+(value>0?' good':value<0?' bad':'');b.appendChild(element('span',d));if(item)b.appendChild(element('strong',(value>0?'+':'')+Math.round(value)));b.title=key+' · '+money(value);b.addEventListener('click',()=>showDay(key,item));root.appendChild(b)}}
-function showDay(date,item){$('dayHeading').textContent='PNL ngày '+date;let body=$('dayDetails');body.replaceChildren();body.appendChild(element('h2',money(item?.pnl||0),item?.pnl<0?'negative':'positive'));body.appendChild(element('p',item?item.items.length+' giao dịch đã đóng':'Ngày này chưa có giao dịch.','muted'));if(item)item.items.forEach(x=>body.appendChild(element('p',x.symbol+' · '+x.side+' · '+money(x.pnl),num(x.pnl)>=0?'positive':'negative')));$('dayDialog').showModal()}
+
+function showDay(date, item) {
+  const dialog = $('dayDialog');
+  const body = $('dayDetails');
+  const items = Array.isArray(item?.items) ? item.items : [];
+  const net = num(item?.pnl);
+  const wins = items.filter(t => num(t.pnl) > 0).length;
+  const losses = items.filter(t => num(t.pnl) < 0).length;
+
+  const status = !items.length
+    ? 'NO TRADES'
+    : net > 0 ? 'PROFIT DAY'
+    : net < 0 ? 'LOSS DAY'
+    : 'BREAKEVEN';
+
+  const tone = !items.length || net === 0
+    ? 'neutral' : net > 0 ? 'profit' : 'loss';
+
+  const signedMoney = value =>
+    num(value) > 0 ? '+' + money(value) : money(value);
+
+  const make = (tag, cls, text) => {
+    const node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text !== undefined) node.textContent = String(text);
+    return node;
+  };
+
+  const [year, month, day] = date.split('-').map(Number);
+  const dayLabel = new Date(year, month - 1, day)
+    .toLocaleDateString('vi-VN', {
+      weekday: 'long',
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+
+  $('dayHeading').textContent = dayLabel;
+  body.replaceChildren();
+
+  // 01 — Main PNL card
+  const hero = make('section', 'adi-pnl-card ' + tone);
+
+  const heroTop = make('div', 'adi-pnl-top');
+  heroTop.append(
+    make('span', 'adi-label', 'NET REALIZED PNL'),
+    make('span', 'adi-status', status)
+  );
+
+  hero.append(
+    heroTop,
+    make('strong', 'adi-net', signedMoney(net)),
+    make(
+      'span',
+      'adi-pnl-caption',
+      !items.length
+        ? 'Chưa ghi nhận giao dịch trong ngày'
+        : items.length + ' giao dịch đã đóng'
+    )
+  );
+  body.appendChild(hero);
+
+  // 02 — Performance summary
+  const stats = make('div', 'adi-stats');
+
+  [
+    ['TOTAL TRADES', items.length, ''],
+    ['WINNING', wins, 'is-profit'],
+    ['LOSING', losses, 'is-loss']
+  ].forEach(([label, value, cls]) => {
+    const card = make('div', 'adi-stat');
+    card.append(
+      make('span', 'adi-label', label),
+      make('strong', cls, String(value).padStart(2, '0'))
+    );
+    stats.appendChild(card);
+  });
+
+  body.appendChild(stats);
+
+  // 03 — Trade activity
+  const section = make('section', 'adi-activity');
+
+  const heading = make('div', 'adi-section-head');
+  heading.append(
+    make('h4', '', 'TRADE ACTIVITY'),
+    make('span', '', items.length + ' closed trade' +
+      (items.length === 1 ? '' : 's'))
+  );
+  section.appendChild(heading);
+
+  if (!items.length) {
+    const empty = make('div', 'adi-empty');
+    empty.append(
+      make('div', 'adi-empty-icon', '◇'),
+      make('strong', '', 'No trading activity'),
+      make(
+        'p',
+        '',
+        'Chưa có giao dịch nào được ghi nhận vào ngày này.'
+      )
+    );
+    section.appendChild(empty);
+  } else {
+    items.forEach((trade, index) => {
+      const pnl = num(trade.pnl);
+      const card = make(
+        'article',
+        'adi-trade ' +
+        (pnl > 0 ? 'profit' : pnl < 0 ? 'loss' : 'neutral')
+      );
+
+      const top = make('div', 'adi-trade-top');
+      const identity = make('div', 'adi-trade-identity');
+
+      identity.append(
+        make('strong', 'adi-symbol', trade.symbol || 'UNKNOWN'),
+        make(
+          'span',
+          'adi-strategy',
+          trade.strategy || trade.setup || 'Trading position'
+        )
+      );
+
+      const side = make(
+        'span',
+        'adi-side ' + (trade.side === 'SHORT' ? 'short' : 'long'),
+        trade.side === 'SHORT' ? 'SHORT ↘' : 'LONG ↗'
+      );
+
+      top.append(identity, side);
+
+      const bottom = make('div', 'adi-trade-bottom');
+      const result = make('div', 'adi-trade-result');
+
+      result.append(
+        make('span', '', 'REALIZED PNL'),
+        make('strong', '', signedMoney(pnl))
+      );
+
+      const view = make('button', 'adi-view', 'View ↗');
+      view.type = 'button';
+      view.setAttribute(
+        'aria-label',
+        'Xem giao dịch ' + (trade.symbol || index + 1)
+      );
+
+      // Reuse the existing trade detail system.
+      view.addEventListener('click', () => showTrade(trade));
+
+      bottom.append(result, view);
+      card.append(top, bottom);
+      section.appendChild(card);
+    });
+  }
+
+  body.appendChild(section);
+  dialog.showModal();
+}
+
 function drawStrategies(t){let groups=new Map();t.forEach(x=>{let name=String(x.strategy||x.setup||'Không đặt tên').trim()||'Không đặt tên',v=groups.get(name)||{pnl:0,count:0};v.pnl+=num(x.pnl);v.count++;groups.set(name,v)});let items=[...groups.entries()].sort((a,b)=>b[1].pnl-a[1].pnl).slice(0,6),root=$('strategyRows');root.replaceChildren();if(!items.length){root.appendChild(element('p','Chưa có giao dịch.','muted'));$('strategyInsight').textContent='Nhập lệnh và tên chiến lược để xem phân tích.';return}let max=Math.max(1,...items.map(x=>Math.abs(x[1].pnl)));items.forEach(([name,v])=>{let row=element('div','','strategy-line'),track=element('div','','track'),fill=document.createElement('i');fill.style.width=Math.max(2,Math.abs(v.pnl)/max*100)+'%';fill.style.background=v.pnl>=0?'#44f2b5':'#ff718d';track.appendChild(fill);let label=element('span',name+' ('+v.count+')');label.title=name;row.append(label,track,element('strong',money(v.pnl),v.pnl>=0?'positive':'negative'));root.appendChild(row)});$('strategyInsight').textContent=items[0][1].pnl>0?'Setup dẫn đầu: '+items[0][0]+' · '+money(items[0][1].pnl)+' trên '+items[0][1].count+' lệnh.':'Chưa có setup tạo PNL dương.'}
 function drawGoals(t){let prefix=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0'),monthly=t.filter(x=>x.date.startsWith(prefix)),sum=monthly.reduce((s,x)=>s+num(x.pnl),0),target=Math.max(1,num(goals.target)),limit=Math.max(1,num(goals.limit)),progress=Math.max(0,sum/target*100),bad=Object.values(daily(monthly)).filter(x=>x.pnl<=-limit);$('goalPercent').textContent=progress.toFixed(1)+'%';$('goalBar').style.width=Math.min(100,progress)+'%';$('monthNet').textContent=money(sum);$('monthNet').className=sum>=0?'positive':'negative';$('goalAmount').textContent='/ '+money(target);$('riskNotice').textContent=bad.length?'⚠ '+bad.length+' ngày có PNL chạm/vượt giới hạn lỗ '+money(limit)+' trong tháng.':'✓ Chưa có ngày nào chạm giới hạn lỗ '+money(limit)+' trong tháng.'}
 function drawTable(t){let q=$('search').value.toLowerCase().trim(),side=$('sideFilter').value,out=$('resultFilter').value,mon=$('monthFilter').value,items=t.filter(x=>(x.symbol+' '+(x.strategy||x.setup||'')+' '+(x.notes||'')).toLowerCase().includes(q)&&(side==='all'||x.side===side)&&(out==='all'||out==='win'&&num(x.pnl)>0||out==='loss'&&num(x.pnl)<0||out==='flat'&&num(x.pnl)===0)&&(!mon||x.date.startsWith(mon))).sort((a,b)=>sortDate(b,a)),root=$('tradeRows');root.replaceChildren();$('filterCount').textContent=items.length+' entries';$('emptyState').style.display=items.length?'none':'block';items.forEach(x=>{let row=document.createElement('tr'),r=getR(x);[x.date,x.symbol,x.side,x.strategy||x.setup||'—',x.entry+' → '+x.exit,money(x.pnl),r===null?'—':r.toFixed(2)+'R',x.mood||'—',x.notes||'—'].forEach((v,i)=>{let cell=element('td',v,i===5?(num(x.pnl)>=0?'positive':'negative'):i===8?'note-cell':'');if(i===8)cell.title=String(v);row.appendChild(cell)});let actions=document.createElement('td'),view=element('button','View'),del=element('button','×');view.type=del.type='button';view.addEventListener('click',()=>showTrade(x));del.disabled=demo;del.addEventListener('click',()=>{if(!confirm('Xóa giao dịch '+x.symbol+'?'))return;let old=trades;trades=trades.filter(v=>v.id!==x.id);if(!save())trades=old;else toast('Đã xóa giao dịch')});actions.append(view,' ',del);row.appendChild(actions);root.appendChild(row)})}
