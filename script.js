@@ -12,7 +12,39 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(trades));demo=false;
 function daily(t){let map={};t.forEach(x=>{if(!map[x.date])map[x.date]={pnl:0,items:[]};map[x.date].pnl+=num(x.pnl);map[x.date].items.push(x)});return map}
 function render(){let t=current(),wins=t.filter(x=>num(x.pnl)>0),losses=t.filter(x=>num(x.pnl)<0),gw=wins.reduce((s,x)=>s+num(x.pnl),0),gl=-losses.reduce((s,x)=>s+num(x.pnl),0),net=gw-gl,rate=t.length?wins.length/t.length*100:0,curve=[0],total=0,peak=0,dd=0,streak=0;[...t].sort(sortDate).forEach(x=>{total+=num(x.pnl);curve.push(total);peak=Math.max(peak,total);dd=Math.max(dd,peak-total);streak=num(x.pnl)>0?streak+1:0});$('demoBanner').hidden=!demo;$('demoBtn').textContent=demo?'← Dữ liệu cá nhân':'Xem dữ liệu mẫu';$('totalPnl').textContent=money(net);$('totalPnl').className='number '+(net>=0?'positive':'negative');$('winRate').textContent=rate.toFixed(1)+'%';$('winText').textContent=wins.length+' wins · '+losses.length+' losses';$('profitFactor').textContent=gl?(gw/gl).toFixed(2):(gw?'∞':'—');$('drawdown').textContent=money(-dd);$('avgWin').textContent=money(wins.length?gw/wins.length:0);$('avgLoss').textContent=money(losses.length?-gl/losses.length:0);$('expectancy').textContent=money(t.length?net/t.length:0);$('streak').textContent=streak;$('winMeter').style.width=rate+'%';$('meterText').textContent=rate.toFixed(1)+'% winning trades';$('tradeCount').textContent=t.length+' trades';drawChart(curve,net);drawCalendar(t);drawStrategies(t);drawGoals(t);drawTable(t)}
 function drawChart(values,net){let min=Math.min(0,...values),max=Math.max(0,...values),span=max-min||1,points=values.map((v,i)=>[28+i*694/Math.max(values.length-1,1),227-(v-min)/span*184]);$('chartGrid').replaceChildren();[45,90,135,180,230].forEach(y=>{let l=document.createElementNS('http://www.w3.org/2000/svg','line');Object.entries({x1:0,x2:760,y1:y,y2:y,stroke:'#2b404c','stroke-dasharray':'4 6'}).forEach(([k,v])=>l.setAttribute(k,v));$('chartGrid').appendChild(l)});let path=points.map((p,i)=>(i?'L':'M')+p[0]+','+p[1]).join(' '),last=points[points.length-1];$('eqLine').setAttribute('d',path);$('eqLine').setAttribute('stroke',net>=0?'#44f2b5':'#ff718d');$('eqArea').setAttribute('d',path+' L'+last[0]+',250 L28,250 Z');$('eqDot').setAttribute('cx',last[0]);$('eqDot').setAttribute('cy',last[1]);$('eqDot').setAttribute('fill',net>=0?'#44f2b5':'#ff718d')}
-function drawCalendar(t){let map=daily(t),y=month.getFullYear(),m=month.getMonth(),root=$('calendarGrid');root.replaceChildren();$('monthTitle').textContent=month.toLocaleDateString('vi-VN',{month:'long',year:'numeric'});['T2','T3','T4','T5','T6','T7','CN'].forEach(s=>root.appendChild(element('div',s,'dow')));for(let i=0,n=(new Date(y,m,1).getDay()+6)%7;i<n;i++)root.appendChild(element('div','','day empty'));let max=new Date(y,m+1,0).getDate();for(let d=1;d<=max;d++){let key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),item=map[key],value=item?.pnl||0,b=document.createElement('button');b.type='button';b.className='day'+(value>0?' good':value<0?' bad':'');b.appendChild(element('span',d));if(item)b.appendChild(element('strong',(value>0?'+':'')+Math.round(value)));b.title=key+' · '+money(value);b.addEventListener('click',()=>showDay(key,item));root.appendChild(b)}}
+function drawCalendar(t){let map=daily(t),y=month.getFullYear(),m=month.getMonth(),root=$('calendarGrid');root.replaceChildren();$('monthTitle').textContent=month.toLocaleDateString('vi-VN',{month:'long',year:'numeric'});['T2','T3','T4','T5','T6','T7','CN'].forEach(s=>root.appendChild(element('div',s,'dow')));for(let i=0,n=(new Date(y,m,1).getDay()+6)%7;i<n;i++)root.appendChild(element('div','','day empty'));let max=new Date(y,m+1,0).getDate();for(let d=1;d<=max;d++){let key=y+'-'+String(m+1).padStart(2,'0')+'-'+String(d).padStart(2,'0'),item=map[key],value=item?.pnl||0,b=document.createElement('button');b.type='button';b.className='day'+(value>0?' good':value<0?' bad':'');b.appendChild(element('span',d));if (item) {
+  const trades = item.items || [];
+  const wins = trades.filter(t => num(t.pnl) > 0).length;
+  const losses = trades.filter(t => num(t.pnl) < 0).length;
+  const breakeven = trades.length - wins - losses;
+
+  b.classList.add('has-trade');
+  b.classList.toggle('is-profit', value > 0);
+  b.classList.toggle('is-loss', value < 0);
+  b.classList.toggle('is-flat', value === 0);
+
+  const result = document.createElement('div');
+  result.className = 'day-result';
+
+  const pnl = document.createElement('strong');
+  pnl.className = 'day-pnl';
+  pnl.textContent = `${value > 0 ? '+' : ''}${Math.round(value)}`;
+
+  const meta = document.createElement('div');
+  meta.className = 'day-meta';
+
+  const count = document.createElement('span');
+  count.className = 'day-count';
+  count.textContent = `${trades.length} ${trades.length === 1 ? 'trade' : 'trades'}`;
+
+  const wl = document.createElement('span');
+  wl.className = 'day-wl';
+  wl.textContent = `${wins}W-${losses}L${breakeven ? `-${breakeven}BE` : ''}`;
+
+  meta.append(count, wl);
+  result.append(pnl, meta);
+  b.appendChild(result);
+}b.title=key+' · '+money(value);b.addEventListener('click',()=>showDay(key,item));root.appendChild(b)}}
 
 function showDay(date, item) {
   const dialog = $('dayDialog');
